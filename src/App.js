@@ -19,7 +19,7 @@ import RegisterSuccess from "./Pages/RegisterSuccess";
 
 function App() {
   const location = useLocation();
-
+  //
   return (
     <>
       {location.pathname === "/login" ||
