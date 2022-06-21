@@ -5,7 +5,9 @@ import Dropdown from "./Dropdown";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLogin } = useSelector((state) => state.user);
+  const { username, isLogin, verified, email } = useSelector(
+    (state) => state.user
+  );
   const [dropdown, setDropdown] = useState(false);
 
   return (

@@ -16,6 +16,7 @@ import Footer from "./Component/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RegisterSuccess from "./Pages/RegisterSuccess";
+import Verification from "./Pages/Verification";
 
 function App() {
   const location = useLocation();
@@ -41,6 +42,7 @@ function App() {
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/prescription" element={<Prescription />} />
         <Route path="/myaccount" element={<Profile />} />
+        <Route path="/verification/:token" element={<Verification />} />
       </Routes>
       {location.pathname === "/login" ||
       location.pathname === "/register" ? null : (

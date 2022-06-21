@@ -1,6 +1,9 @@
 const INITIAL_STATE = {
   isLogin: false,
   username: "",
+  email: "",
+  verified: "",
+  cart: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
