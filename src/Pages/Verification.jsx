@@ -23,7 +23,7 @@ function Verification() {
       setLoading(true);
       let res = await axios.get(`${API_URL}/auth/verification`, {
         headers: {
-          authorization: `${token}?verif`,
+          authorization: `${token} verif`,
         },
       });
       dispatch({ type: "LOGIN", payload: res.data });
