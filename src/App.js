@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes, useLocation } from "react-router-dom";
+import SignUp from "./Pages/SignUp";
+import LogIn from "./Pages/LogIn";
+import Home from "./Pages/Home";
+import Products from "./Pages/Products";
+import ProductDetail from "./Pages/ProductDetail";
+import Checkout from "./Pages/Checkout";
+import Address from "./Pages/Address";
+import Cart from "./Pages/Cart";
+import Confirmation from "./Pages/Confirmation";
+import Prescription from "./Pages/Prescription";
+import Profile from "./Pages/Profile";
+import Navbar from "./Component/Navbar";
+import Footer from "./Component/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import RegisterSuccess from "./Pages/RegisterSuccess";
 
 function App() {
+  const location = useLocation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {location.pathname === "/login" ||
+      location.pathname === "/register" ? null : (
+        <Navbar />
+      )}
+
+      <Routes>
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/registered" element={<RegisterSuccess />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:product_id" element={<ProductDetail />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/address" element={<Address />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/prescription" element={<Prescription />} />
+        <Route path="/myaccount" element={<Profile />} />
+      </Routes>
+      {location.pathname === "/login" ||
+      location.pathname === "/register" ? null : (
+        <Footer />
+      )}
+      <ToastContainer
+        pauseOnFocusLoss={false}
+        autoClose={1000}
+        hideProgressBar={true}
+      />
+    </>
   );
 }
 
