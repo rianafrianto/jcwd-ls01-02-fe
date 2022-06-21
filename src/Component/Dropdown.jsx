@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 function Dropdown({ dropdown, setDropdown }) {
   const navigate = useNavigate();
@@ -30,8 +31,9 @@ function Dropdown({ dropdown, setDropdown }) {
           className="border border-red-700 px-5 py-2 flex items-center justify-center hover:bg-red-700"
           onClick={() => {
             setDropdown(false);
+            Cookies.remove("token");
             dispatch({ type: "LOGOUT" });
-            localStorage.removeItem("user");
+            navigate("/");
           }}
         >
           Logout
