@@ -15,7 +15,6 @@ function AuthProvider({ children }) {
     try {
       let token = Cookies.get("token");
       setLoading(true);
-      console.log(token);
       if (token) {
         let res = await axios.get(`${API_URL}/auth/keep-login`, {
           headers: {
@@ -26,6 +25,7 @@ function AuthProvider({ children }) {
       }
     } catch (error) {
       console.log(error);
+      Cookies.remove("token");
     } finally {
       setLoading(false);
     }

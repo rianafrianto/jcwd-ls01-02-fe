@@ -2,16 +2,38 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import axios from "axios";
+import API_URL from "../Helpers/API_URL";
+import { toast } from "react-toastify";
 
 function Profile() {
   const navigate = useNavigate();
+
+  const { id, username, email } = useSelector((state) => state.user);
   const { isLogin } = useSelector((state) => state.user);
   let [tab, setTab] = useState(1);
+  const [loadingEmail, setLoadingEmail] = useState(false);
 
   useEffect(() => {
     if (!isLogin) navigate("/home");
     // eslint-disable-next-line
   }, [isLogin]);
+
+  const sendEmail = async () => {
+    try {
+      setLoadingEmail(true);
+      await axios.post(`${API_URL}/auth/email-verification`, {
+        id,
+        username,
+        email,
+      });
+      toast.success("Email sent!");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingEmail(false);
+    }
+  };
 
   return (
     <div className="h-full w-full bg-green-200 flex justify-center">
@@ -58,7 +80,18 @@ function Profile() {
           </button>
         </div>
         <div className="w-full h-[550px] bg-white">
-          {tab === 1 && <>Profile</>}
+          {tab === 1 && (
+            <div className="w-full h-full flex flex-col items-center gap-y-5">
+              Profile
+              <button
+                disabled={loadingEmail}
+                className="border border-1 border-green-600 hover:bg-green-600 disabled:bg-gray-500"
+                onClick={sendEmail}
+              >
+                Send Email Verification
+              </button>
+            </div>
+          )}
 
           {tab === 2 && <> Proses Pemesanan</>}
 
