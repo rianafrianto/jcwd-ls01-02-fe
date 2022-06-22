@@ -50,7 +50,7 @@ function LogIn() {
             onClick={loginFunction}
             disabled={username === ""}
           >
-            LOG IN
+            LOG IN FOR USER
           </button>
         </div>
       </div>
