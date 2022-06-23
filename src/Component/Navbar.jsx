@@ -63,7 +63,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonText="Masuk"
-                className="outline-primary text-primary"
+                className="outline-primary text-primary text-xs"
                 onClick={() => navigate("/login")}
               />
             </li>
@@ -71,7 +71,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonText="Daftar"
-                className="bg-primary text-white"
+                className="bg-primary text-white text-xs"
                 onClick={() => navigate("/register")}
               />
             </li>
