@@ -1,6 +1,6 @@
 import React from "react";
 
-function AllOrder() {
+function Orders() {
   return (
     <div className="bg-red-500 h-full w-full flex">
       <div className="bg-green-400 w-full h-full pt-16 pl-64">
@@ -88,4 +88,4 @@ function AllOrder() {
   );
 }
 
-export default AllOrder;
+export default Orders;

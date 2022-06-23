@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddMedicineModal from "../components/AddMedicineModal";
 
-function Product() {
+function Products() {
   const [addMedicineModal, setAddMedicineModal] = useState(false);
   return (
     <>
@@ -52,4 +52,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default Products;
