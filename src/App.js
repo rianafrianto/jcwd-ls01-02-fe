@@ -41,8 +41,8 @@ function App() {
       location.pathname === "/register" ? null : (
         <Navbar />
       )}
-      {location.pathname === "/loginadmin" ? null : <NavbarAdmin />}
-      {location.pathname === "/loginadmin" ? null : <LeftbarAdmin />}
+      {/* {location.pathname === "/loginadmin" ? null : <NavbarAdmin />}
+      {location.pathname === "/loginadmin" ? null : <LeftbarAdmin />} */}
 
       <Routes>
         <Route path="/register" element={<SignUp />} />
