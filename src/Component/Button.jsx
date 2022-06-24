@@ -1,6 +1,6 @@
 import React from "react";
 
-function Button({ className, onClick, type, disabled, buttonText }) {
+function Button({ className, onClick, type, disabled, buttonContent }) {
   return (
     <button
       type={type}
@@ -8,7 +8,7 @@ function Button({ className, onClick, type, disabled, buttonText }) {
       className={`button-general ${className}`}
       onClick={onClick}
     >
-      {buttonText}
+      {buttonContent}
     </button>
   );
 }

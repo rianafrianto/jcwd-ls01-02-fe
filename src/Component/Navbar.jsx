@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Dropdown from "./Dropdown";
+import Dropdown from "./DropdownProfile";
 import Button from "./Button";
 
 function Navbar() {
@@ -62,7 +62,7 @@ function Navbar() {
             <li className="w-1/2 h-full">
               <Button
                 type="button"
-                buttonText="Masuk"
+                buttonContent="Masuk"
                 className="outline-primary text-primary text-xs"
                 onClick={() => navigate("/login")}
               />
@@ -70,7 +70,7 @@ function Navbar() {
             <li className="w-1/2 h-full">
               <Button
                 type="button"
-                buttonText="Daftar"
+                buttonContent="Daftar"
                 className="bg-primary text-white text-xs"
                 onClick={() => navigate("/register")}
               />
