@@ -8,7 +8,7 @@ html {
 
 @layer components {
   .button-general {
-    @apply w-full h-11 outline rounded-lg outline-1 flex justify-center items-center;
+    @apply w-full h-11 rounded-lg outline outline-1 flex justify-center items-center;
   }
   .field-input {
     @apply w-full h-11 px-5 outline outline-1 outline-neutral-gray rounded-lg;

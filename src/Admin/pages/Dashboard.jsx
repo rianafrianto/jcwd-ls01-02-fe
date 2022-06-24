@@ -2,9 +2,9 @@ import React from "react";
 
 function Dashboard() {
   return (
-    <div className="bg-red-500 h-full w-full justify-center flex">
-      <div className="bg-green-400 w-screen pt-16 pl-64">
-        <div className="py-8 px-12">
+    <div className="bg-red-500 h-screen w-full justify-center flex">
+      <div className="bg-green-400 h-full w-screen pt-16 pl-64">
+        <div className="py-8 px-12 h-full w-full">
           <div className="mb-8">
             <div className="border w-full mb-4">
               <div className="border w-56">Analisis Produk Toko</div>

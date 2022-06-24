@@ -15,10 +15,10 @@ import Navbar from "./Component/Navbar";
 import Footer from "./Component/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import RegisterSuccess from "./Pages/RegisterSuccess";
 import Verification from "./Pages/Verification";
 
 import Admin from "./Pages/Admin";
+import Unverified from "./Pages/Unverified";
 
 function App() {
   const location = useLocation();
@@ -26,12 +26,19 @@ function App() {
   return (
     <>
       {location.pathname === "/login" ||
-      location.pathname === "/register" ? null : (
+      location.pathname === "/register" ||
+      location.pathname === "/unverified" ||
+      location.pathname === "/admin" ||
+      location.pathname === "/admin/" ||
+      location.pathname === "/admin/dashboard" ||
+      location.pathname === "/admin/products" ||
+      location.pathname === "/admin/orders/*" ||
+      location.pathname === "/admin/report" ||
+      location.pathname === "/admin/sales" ? null : (
         <Navbar />
       )}
       <Routes>
         <Route path="/register" element={<SignUp />} />
-        <Route path="/registered" element={<RegisterSuccess />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -44,11 +51,19 @@ function App() {
         <Route path="/prescription" element={<Prescription />} />
         <Route path="/myaccount" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
+        <Route path="/unverified" element={<Unverified />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />
       </Routes>
       {location.pathname === "/login" ||
-      location.pathname === "/register" ? null : (
+      location.pathname === "/register" ||
+      location.pathname === "/unverified" ||
+      location.pathname === "/admin" ||
+      location.pathname === "/admin/dashboard" ||
+      location.pathname === "/admin/products" ||
+      location.pathname === "/admin/orders/*" ||
+      location.pathname === "/admin/report" ||
+      location.pathname === "/admin/sales" ? null : (
         <Footer />
       )}
       <ToastContainer

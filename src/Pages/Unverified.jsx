@@ -1,7 +1,7 @@
 import React from "react";
 
-function RegisterSuccess() {
+function Unverified() {
   return <div>Register success!</div>;
 }
 
-export default RegisterSuccess;
+export default Unverified;

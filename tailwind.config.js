@@ -9,6 +9,7 @@ module.exports = {
         secondary: "#213360",
         neutral: "#222222",
         "neutral-gray": "#CCCCCC",
+        facebook: "#527BCB",
       },
     },
   },
