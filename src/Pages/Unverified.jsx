@@ -1,7 +1,109 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import Button from "../Component/Button";
+import API_URL from "../Helpers/API_URL";
 
 function Unverified() {
-  return <div>Register success!</div>;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { username, id, email, verified } = useSelector((state) => state.user);
+  const [loadingEmail, setLoadingEmail] = useState(false);
+
+  const sendEmail = async () => {
+    try {
+      setLoadingEmail(true);
+      await axios.post(`${API_URL}/auth/email-verification`, {
+        id,
+        username,
+        email,
+      });
+      toast.success("Email sent!");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingEmail(false);
+    }
+  };
+
+  const changeAccount = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    if (verified) navigate(-1);
+  }, []);
+
+  return (
+    <div className="w-screen h-screen flex bg-white">
+      <div className="w-1/2 h-full flex justify-center items-center relative">
+        <i
+          className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
+          onClick={() => navigate("/home")}
+        >
+          Logo
+        </i>
+      </div>
+      <div className="w-1/2 h-full border flex shadow-xl">
+        <div className="bg-white h-5/6 w-5/6 m-auto flex flex-col items-center justify-center gap-y-5 py-10 container">
+          <div className="w-full min-h-min text-2xl font-bold">
+            Verifikasi akun mu dulu yuk!
+          </div>
+          <div className="w-full min-h-min">
+            <p className="">
+              Coba cek email kamu, kayanya ada email verifikasi yang sudah kita
+              kirim deh!
+            </p>
+          </div>
+          <div className="border border-t-0 border-neutral-gray w-full " />
+          <div className="w-full flex gap-x-5">
+            <div className="w-full flex flex-col gap-y-2">
+              <p className="text-center">
+                Tidak merasa menerima email?
+                <br />
+                Coba cek Spam atau klik tombol di bawah untuk mengirimkan ulang
+                email verifikasi kamu!
+              </p>
+              <Button
+                disabled={loadingEmail}
+                buttonContent={
+                  loadingEmail ? "Sedang Mengirim ..." : "Kirim Ulang Email"
+                }
+                className="text-white bg-primary hover:bg-primary-dark disabled:bg-gray-600"
+                onClick={sendEmail}
+              />
+            </div>
+            <div className="h-full relative flex justify-center items-center">
+              <div className="border border-l-0 border-neutral-gray h-full absolute" />
+              <div className="py-5 leading-none z-10 min-h-min bg-white">
+                atau
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-2">
+              <p className="text-center">
+                Salah akun?
+                <br />
+                Coba kamu ganti dengan akun yang lain dengan menekan tombol di
+                bawah
+              </p>
+              <Button
+                buttonContent="Ganti Akun"
+                className="text-primary"
+                onClick={changeAccount}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Unverified;

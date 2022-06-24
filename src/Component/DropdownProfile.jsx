@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
-function Dropdown({ dropdown, setDropdown }) {
+function DropdownProfile({ dropdown, setDropdown }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
@@ -43,4 +43,4 @@ function Dropdown({ dropdown, setDropdown }) {
   );
 }
 
-export default Dropdown;
+export default DropdownProfile;

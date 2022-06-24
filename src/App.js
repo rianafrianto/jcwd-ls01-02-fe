@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Home from "./Pages/Home";
@@ -54,6 +54,7 @@ function App() {
         <Route path="/unverified" element={<Unverified />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {location.pathname === "/login" ||
       location.pathname === "/register" ||

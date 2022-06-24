@@ -66,7 +66,7 @@ function SignUp() {
       Cookies.set("token", res.headers["x-token-access"]);
       toast.success(`welcome ${values.username}`);
       setTimeout(() => {
-        navigate("/home");
+        navigate("/unverified");
       }, 1000);
     } catch (error) {
       dispatch({
@@ -80,7 +80,7 @@ function SignUp() {
   };
   return (
     <div className="w-screen h-screen flex bg-white">
-      <div className="w-1/2 h-full border border-black flex justify-center items-center relative">
+      <div className="w-1/2 h-full flex justify-center items-center relative">
         <i
           className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
           onClick={() => navigate("/home")}
@@ -89,7 +89,7 @@ function SignUp() {
         </i>
         <img src={signupImage} alt="" className="" />
       </div>
-      <div className="w-1/2 h-full border flex border-black">
+      <div className="w-1/2 h-full border flex shadow-xl">
         <div className="bg-white h-5/6 w-5/6 m-auto flex flex-col items-center justify-center gap-y-5 py-10 container">
           <div className="w-full min-h-min text-2xl font-bold">
             Mari Kita Mulai Ya
@@ -108,24 +108,34 @@ function SignUp() {
           <div className="w-full min-h-min flex flex-col gap-y-5">
             <div className="w-full h-1/2">
               <div className="w-full h-11 flex items-center gap-x-4">
-                <button
+                <Button
                   type="button"
                   className="button-general outline-neutral-gray relative gap-x-3"
-                >
-                  <img src={googleIcon} alt="" className="h-5 aspect-square" />{" "}
-                  Daftar dengan Google
-                </button>
-                <button
+                  buttonContent={
+                    <>
+                      <img
+                        src={googleIcon}
+                        alt=""
+                        className="h-5 aspect-square"
+                      />{" "}
+                      Daftar dengan Google
+                    </>
+                  }
+                />
+                <Button
                   type="button"
                   className="button-general bg-facebook text-white relative gap-x-3"
-                >
-                  <img
-                    src={facebookIcon}
-                    alt=""
-                    className="h-5 aspect-square"
-                  />{" "}
-                  Daftar dengan Facebook
-                </button>
+                  buttonContent={
+                    <>
+                      <img
+                        src={facebookIcon}
+                        alt=""
+                        className="h-5 aspect-square"
+                      />{" "}
+                      Daftar dengan Facebook
+                    </>
+                  }
+                />
               </div>
             </div>
             <div className="w-full h-full relative flex justify-center items-center">
@@ -279,7 +289,7 @@ function SignUp() {
                   </div>
                   <Button
                     type="submit"
-                    buttonText={isSubmitting ? "Loading.." : "Sign Up"}
+                    buttonContent={isSubmitting ? "Loading.." : "Sign Up"}
                     disabled={!isValid || isSubmitting}
                     className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5 hover:bg-dark-primary"
                   />
