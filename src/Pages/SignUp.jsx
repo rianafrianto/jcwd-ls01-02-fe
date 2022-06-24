@@ -64,7 +64,10 @@ function SignUp() {
       console.log(res.data);
       dispatch({ type: "LOGIN", payload: res.data });
       Cookies.set("token", res.headers["x-token-access"]);
-      toast.success(`welcome ${values.username}`);
+      toast.success(`welcome ${values.username}`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
       setTimeout(() => {
         navigate("/unverified");
       }, 1000);
@@ -87,7 +90,11 @@ function SignUp() {
         >
           Logo
         </i>
-        <img src={signupImage} alt="" className="" />
+        <img
+          src={signupImage}
+          alt=""
+          className="h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       </div>
       <div className="w-1/2 h-full border flex shadow-xl">
         <div className="bg-white h-5/6 w-5/6 m-auto flex flex-col items-center justify-center gap-y-5 py-10 container">

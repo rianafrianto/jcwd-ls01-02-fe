@@ -28,14 +28,8 @@ function App() {
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
-      location.pathname === "/verification/*" ||
-      location.pathname === "/admin" ||
-      location.pathname === "/admin/" ||
-      location.pathname === "/admin/dashboard" ||
-      location.pathname === "/admin/products" ||
-      location.pathname === "/admin/orders/*" ||
-      location.pathname === "/admin/report" ||
-      location.pathname === "/admin/sales" ? null : (
+      location.pathname.match("/verification/") ||
+      location.pathname.match("/admin") ? null : (
         <Navbar />
       )}
       <Routes>
@@ -60,17 +54,13 @@ function App() {
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
-      location.pathname === "/admin" ||
-      location.pathname === "/admin/dashboard" ||
-      location.pathname === "/admin/products" ||
-      location.pathname === "/admin/orders/*" ||
-      location.pathname === "/admin/report" ||
-      location.pathname === "/admin/sales" ? null : (
+      location.pathname.match("/verification/") ||
+      location.pathname.match("/admin") ? null : (
         <Footer />
       )}
       <ToastContainer
         pauseOnFocusLoss={false}
-        autoClose={1000}
+        autoClose={3000}
         hideProgressBar={true}
       />
     </>

@@ -44,13 +44,12 @@ function LogIn() {
       // console.log(res.data);
       Cookies.set("token", res.headers["x-token-access"]);
       dispatch({ type: "LOGIN", payload: res.data });
-      toast.success(`welcome back ${values.personId}`, {
+      toast.success(`welcome back ${res.data.username}`, {
         theme: "colored",
-        position: "top-center",
-        style: { backgroundColor: "#3A7D44" },
+        style: { backgroundColor: "#009B90" },
       });
       setTimeout(() => {
-        navigate("/home");
+        res.data.verified ? navigate("/home") : navigate("/unverified");
         // res.data.verified ? navigate("/home") : navigate("/verification");
         // toast.success(`Welcome back, ${res.data.personId}!`, {
         //   theme: "colored",
