@@ -59,6 +59,7 @@ function SignUp() {
       setChanged(false);
       dispatch({ type: "LOADING" });
       let res = await axios.post(`${API_URL}/auth/register`, values);
+      console.log(res.data);
       dispatch({ type: "LOGIN", payload: res.data });
       Cookies.set("token", res.headers["x-token-access"]);
       toast.success(`welcome ${values.username}`);
