@@ -28,6 +28,7 @@ function App() {
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
+      location.pathname === "/verification/*" ||
       location.pathname === "/admin" ||
       location.pathname === "/admin/" ||
       location.pathname === "/admin/dashboard" ||
