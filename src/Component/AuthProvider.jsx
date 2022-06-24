@@ -21,7 +21,6 @@ function AuthProvider({ children }) {
             authorization: token,
           },
         });
-        // console.log(res.data);
         dispatch({ type: "LOGIN", payload: res.data });
       }
     } catch (error) {

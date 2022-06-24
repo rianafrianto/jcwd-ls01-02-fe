@@ -8,7 +8,7 @@ function Dropdown({ dropdown, setDropdown }) {
   const dispatch = useDispatch();
   return (
     <div
-      className="h-full w-screen top-0 absolute "
+      className="h-full w-full top-0 absolute "
       onClick={(e) => {
         setDropdown(false);
         console.log("bg close");

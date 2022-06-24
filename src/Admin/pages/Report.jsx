@@ -1,6 +1,6 @@
 import React from "react";
 
-function Kas() {
+function Report() {
   return (
     <div className="bg-red-500 h-full w-full flex">
       <div className="bg-green-400 w-full h-full pt-16 pl-64">
@@ -35,4 +35,4 @@ function Kas() {
   );
 }
 
-export default Kas;
+export default Report;
