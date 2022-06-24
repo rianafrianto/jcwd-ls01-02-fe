@@ -260,7 +260,7 @@ function SignUp() {
                     type="submit"
                     buttonText={isSubmitting ? "Loading.." : "Sign Up"}
                     disabled={!isValid || isSubmitting}
-                    className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5"
+                    className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5 hover:bg-dark-primary"
                   />
                 </Form>
               );
