@@ -85,7 +85,7 @@ function SignUp() {
     <div className="w-screen h-screen flex bg-white">
       <div className="w-1/2 h-full flex justify-center items-center relative">
         <i
-          className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
+          className="w-1/6 min-h-min border border-neutral-gray border-1 z-10 hover:bg-white cursor-pointer absolute left-10 top-10"
           onClick={() => navigate("/home")}
         >
           Logo
@@ -96,7 +96,7 @@ function SignUp() {
           className="h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </div>
-      <div className="w-1/2 h-full border flex shadow-xl">
+      <div className="w-1/2 h-full border flex shadow-2xl">
         <div className="bg-white h-5/6 w-5/6 m-auto flex flex-col items-center justify-center gap-y-5 py-10 container">
           <div className="w-full min-h-min text-2xl font-bold">
             Mari Kita Mulai Ya
