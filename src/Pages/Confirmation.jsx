@@ -22,7 +22,7 @@ function Confirmation() {
           setPaymentProofModal={setPaymentProofModal}
         />
       )}
-      <div className="h-full w-screen bg-green-200 flex justify-center">
+      <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
         <div className="container h-full flex flex-col px-80 py-16 gap-y-10">
           <div>Menunggu Pembayaran</div>
           <div className="w-full h-28 bg-white px-10">Batas waktu</div>

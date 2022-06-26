@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "./DropdownProfile";
 import Button from "./Button";
 import searchIcon from "../Assets/search-icon.png";
+import Cookies from "js-cookie";
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { username, isLogin, verified, email } = useSelector(
     (state) => state.user
   );
   const [dropdown, setDropdown] = useState(false);
 
   return (
-    <div className="bg-white w-full h-20 flex justify-center items-center">
+    <div className="bg-white w-full h-20 flex justify-center items-center fixed z-10 shadow-lg">
       {dropdown && <Dropdown dropdown={dropdown} setDropdown={setDropdown} />}
       <div className="container h-full flex justify-between items-center px-20 gap-x-6 lg:gap-x-16">
         <div className="w-5/6 h-11 flex items-center gap-x-9">
@@ -46,21 +48,47 @@ function Navbar() {
                 Cart
               </button>
             </li>
-            <li className="w-full h-full">
+            <li className="w-full h-full dropdown">
               <button
+                tabIndex="0"
                 className="w-full h-11 border border-white hover:bg-white"
                 onClick={() => {}}
               >
                 Notif
               </button>
             </li>
-            <li className="hidden lg:block w-full h-full">
+            <li className="hidden lg:block w-full h-full dropdown dropdown-end">
               <button
-                className="w-full h-11 border border-white hover:bg-white"
-                onClick={() => setDropdown(true)}
+                className="btn rounded-btn btn-ghost border-primary hover:bg-primary"
+                // onClick={() => setDropdown(true)}
               >
                 {username}
               </button>
+              <div
+                tabIndex="0"
+                className="menu dropdown-content p-2 shadow bg-white rounded-box w-52 mt-4 z-60 flex-col gap-y-2"
+              >
+                <button
+                  className="border border-primary px-5 py-2 flex items-center justify-center hover:bg-primary rounded-lg duration-300"
+                  onClick={() => {
+                    setDropdown(false);
+                    navigate("/myaccount");
+                  }}
+                >
+                  My Account
+                </button>
+                <button
+                  className="border border-red-700 px-5 py-2 flex items-center justify-center hover:bg-red-700 rounded-lg duration-300"
+                  onClick={() => {
+                    setDropdown(false);
+                    Cookies.remove("token");
+                    dispatch({ type: "LOGOUT" });
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
             </li>
           </ul>
         ) : (

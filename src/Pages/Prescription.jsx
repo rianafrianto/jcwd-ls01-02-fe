@@ -14,7 +14,7 @@ function Prescription() {
 
   if (uploadSuccess) {
     return (
-      <div className="h-full w-screen bg-green-200 flex justify-center items-center">
+      <div className="h-full w-screen bg-green-200 flex justify-center items-center pt-20">
         <div className="container h-[500px] w-[400px] flex flex-col justify-between items-center bg-white py-10">
           BERHASIL!!!
           <button

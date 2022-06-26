@@ -15,6 +15,7 @@ import signupImage from "../Assets/signup-image.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import facebookIcon from "../Assets/facebook-icon.png";
 import googleIcon from "../Assets/google-icon.png";
+import FormikControl from "../Component/Formik/FormikControl";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -158,97 +159,78 @@ function SignUp() {
             onSubmit={onSubmit}
           >
             {(formik) => {
-              const {
-                handleChange,
-                errors,
-                touched,
-                isSubmitting,
-                isValid,
-                values,
-                dirty,
-                handleBlur,
-              } = formik;
+              const { handleChange, isSubmitting, isValid, handleBlur } =
+                formik;
 
               return (
                 <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
+                  {/* Username */}
                   <div className="w-full relative flex flex-col justify-between gap-y-2">
-                    {/* Username */}
-                    <label htmlFor="username">Username</label>
-                    <input
+                    <FormikControl
+                      control="INPUT"
+                      label="Username"
                       name="username"
                       placeholder="JohnDoe"
                       onChange={(e) => {
                         setChanged(true);
-
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`field-input pl-14`}
+                      className=""
                     />
                     <img
                       src={profileIcon}
                       alt=""
                       className="h-5 w-5 absolute left-5 top-11"
                     />
-                    {errors.username && touched.username ? (
-                      <div className="absolute text-red-600 -bottom-6">
-                        {errors.username}
-                      </div>
-                    ) : null}
-                    {message[0] && !changed ? (
+                    {message[0] && !changed && (
                       <div className="absolute text-red-600 -bottom-6">
                         {message[0]}
                       </div>
-                    ) : null}
+                    )}
                   </div>
 
                   {/* Email */}
                   <div className="w-full relative flex flex-col justify-between gap-y-2">
-                    <label htmlFor="email">Email</label>
-                    <input
+                    <FormikControl
+                      control="INPUT"
+                      label="Email"
                       name="email"
                       placeholder="JohnDoe@gmail.com"
                       onChange={(e) => {
                         setChanged(true);
-
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`field-input pl-14`}
+                      className=""
                     />
                     <img
                       src={emailIcon}
                       alt=""
                       className="h-5 w-5 absolute left-5 top-11"
                     />
-                    {errors.email && touched.email ? (
-                      <div className="absolute text-red-600 -bottom-6">
-                        {errors.email}
-                      </div>
-                    ) : null}
-                    {message[1] && !changed ? (
+                    {message[1] && !changed && (
                       <div className="absolute text-red-600 -bottom-6">
                         {message[1]}
                       </div>
-                    ) : null}
+                    )}
                   </div>
 
                   {/* Password */}
                   <div className="w-full relative flex flex-col justify-between gap-y-2">
-                    <label htmlFor="">Password</label>
-                    <input
+                    <FormikControl
+                      control="INPUT"
+                      label="Password"
                       name="password"
-                      placeholder="***************"
+                      placeholder="********"
                       onChange={(e) => {
-                        setChanged(true);
-
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
-                      type={visible ? "text" : "password"}
-                      className={`field-input pl-14`}
+                      type="text"
+                      className=""
                     />
                     <button
                       type="button"
@@ -266,14 +248,6 @@ function SignUp() {
                       alt=""
                       className="h-5 w-5 absolute left-5 top-11"
                     />
-                    {errors.password && touched.password ? (
-                      <div className="absolute text-red-600 -bottom-6">
-                        {errors.password}
-                      </div>
-                    ) : null}
-                    {true ? (
-                      <div className="absolute text-red-600 -bottom-6"></div>
-                    ) : null}
                   </div>
 
                   {/* T&C */}
@@ -298,7 +272,9 @@ function SignUp() {
                     type="submit"
                     buttonContent={isSubmitting ? "Loading.." : "Sign Up"}
                     disabled={!isValid || isSubmitting}
-                    className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5 hover:bg-dark-primary"
+                    className={`btn bg-primary text-white disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5 hover:bg-primary-dark ${
+                      isSubmitting && "loading"
+                    }`}
                   />
                 </Form>
               );

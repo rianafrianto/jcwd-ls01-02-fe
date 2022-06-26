@@ -133,7 +133,7 @@ function Verification() {
                     disabled={loadingEmail}
                     buttonContent={"Ke Beranda"}
                     className="text-white bg-primary hover:bg-primary-dark disabled:bg-gray-600"
-                    onClick={sendEmail}
+                    onClick={() => navigate("/")}
                   />
                 </div>
               </div>
