@@ -19,9 +19,11 @@ import Verification from "./Pages/Verification";
 
 import Admin from "./Pages/Admin";
 import Unverified from "./Pages/Unverified";
+import { useSelector } from "react-redux";
 
 function App() {
   const location = useLocation();
+  const { isLogin } = useSelector((state) => state.user);
   //
   return (
     <>
@@ -33,7 +35,7 @@ function App() {
         <Navbar />
       )}
       <Routes>
-        <Route path="/register" element={<SignUp />} />
+        <Route path="/register" element={isLogin ? <Home /> : <SignUp />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />

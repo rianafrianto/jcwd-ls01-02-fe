@@ -42,13 +42,13 @@ function CarouselSlider(props) {
           initialSlide: 2,
         },
       },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+      //   {
+      //     breakpoint: 640,
+      //     settings: {
+      //       slidesToShow: 1,
+      //       slidesToScroll: 1,
+      //     },
+      //   },
     ],
   };
   return (

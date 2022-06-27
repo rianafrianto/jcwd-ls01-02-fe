@@ -45,6 +45,11 @@ function Unverified() {
   return (
     <div className="w-screen h-screen flex bg-white">
       <div className="w-1/2 h-full flex justify-center items-center relative">
+        <img
+          src={signupImage}
+          alt=""
+          className="h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
         <i
           className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
           onClick={() => navigate("/home")}
@@ -93,7 +98,7 @@ function Unverified() {
                 atau
               </div>
             </div>
-            <div className="w-full flex flex-col gap-y-2">
+            <div className="w-full flex flex-col gap-y-2 justify-between">
               <p className="text-center text-sm">
                 Salah akun?
                 <br />

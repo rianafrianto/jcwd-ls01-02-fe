@@ -229,7 +229,7 @@ function SignUp() {
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
-                      type="text"
+                      type={visible ? "text" : "password"}
                       className=""
                     />
                     <button

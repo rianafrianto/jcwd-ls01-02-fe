@@ -7,6 +7,7 @@ import API_URL from "../Helpers/API_URL";
 import Button from "../Component/Button";
 import signupImage from "../Assets/signup-image.png";
 import successImage from "../Assets/success-image.png";
+import Cookies from "js-cookie";
 
 function Verification() {
   const navigate = useNavigate();
@@ -63,6 +64,12 @@ function Verification() {
     verifying();
     // eslint-disable-next-line
   }, []);
+
+  const changeAccount = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    navigate("/login");
+  };
 
   return (
     <div className="w-screen h-screen flex bg-white">
@@ -178,7 +185,11 @@ function Verification() {
                     Coba kamu ganti dengan akun yang lain dengan menekan tombol
                     di bawah
                   </p>
-                  <Button buttonContent="Ganti Akun" className="text-primary" />
+                  <Button
+                    buttonContent="Ganti Akun"
+                    className="text-primary"
+                    onClick={changeAccount}
+                  />
                 </div>
               </div>
             </>
