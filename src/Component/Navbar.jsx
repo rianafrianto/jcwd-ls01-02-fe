@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Dropdown from "./DropdownProfile";
 import Button from "./Button";
+import searchIcon from "../Assets/search-icon.png";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -22,11 +23,16 @@ function Navbar() {
           >
             Logo
           </i>
-          <div className="w-full h-full">
+          <div className="w-full h-full relative">
             <input
               type="text"
               placeholder="Cari Obat, Suplemen, Vitamin, Produk Kesehatan"
               className="w-full h-full px-5 outline outline-neutral-gray outline-1 rounded-lg overflow-hidden focus:outline focus:outline-1 focus:outline-primary :"
+            />
+            <img
+              src={searchIcon}
+              alt=""
+              className="h-6 aspect-square absolute right-6 top-2"
             />
           </div>
         </div>
