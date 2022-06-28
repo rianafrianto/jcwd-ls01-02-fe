@@ -16,6 +16,7 @@ import Footer from "./Component/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verification from "./Pages/Verification";
+import ResetPassword from "./Pages/ResetPassword";
 
 import Admin from "./Pages/Admin";
 import Unverified from "./Pages/Unverified";
@@ -31,7 +32,8 @@ function App() {
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
       location.pathname.match("/verification/") ||
-      location.pathname.match("/admin") ? null : (
+      location.pathname.match("/admin") ||
+      location.pathname.match("/reset-password/") ? null : (
         <Navbar />
       )}
       <Routes>
@@ -52,6 +54,7 @@ function App() {
         <Route path="/myaccount" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
         <Route path="/unverified" element={<Unverified />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />
         <Route path="*" element={<Navigate to="/" />} />
@@ -60,7 +63,8 @@ function App() {
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
       location.pathname.match("/verification/") ||
-      location.pathname.match("/admin") ? null : (
+      location.pathname.match("/admin") ||
+      location.pathname.match("/reset-password/") ? null : (
         <Footer />
       )}
       <ToastContainer
