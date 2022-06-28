@@ -5,7 +5,7 @@ function PrevArrow(props) {
   const { onClick } = props;
   return (
     <button
-      className="h-10 aspect-square rounded-full shadow-xl absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white z-10 hover:bg-white flex justify-center items-center"
+      className="btn btn-circle h-10 aspect-square absolute z-10 top-1/3 -left-5 shadow-lg bg-white border-white hover:bg-white hover:border-white"
       onClick={onClick}
     >
       <img src={lArrow} alt="" className="h-8" />

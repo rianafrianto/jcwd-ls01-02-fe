@@ -31,6 +31,7 @@ function App() {
     toast.dismiss(noConnectionToast);
     toast.success("You are back online!", {
       theme: "colored",
+      style: { backgroundColor: "#009B90" },
     });
   };
 
@@ -38,6 +39,7 @@ function App() {
     noConnectionToast = toast.error(
       "Where are you? Please check your internet connection!",
       {
+        className: "bg-red-500",
         theme: "colored",
         autoClose: false,
         closeButton: false,
