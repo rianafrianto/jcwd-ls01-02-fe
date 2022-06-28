@@ -13,17 +13,40 @@ import Prescription from "./Pages/Prescription";
 import Profile from "./Pages/Profile";
 import Navbar from "./Component/Navbar";
 import Footer from "./Component/Footer";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verification from "./Pages/Verification";
 
 import Admin from "./Pages/Admin";
 import Unverified from "./Pages/Unverified";
 import { useSelector } from "react-redux";
+import { useRef, useState } from "react";
 
 function App() {
   const location = useLocation();
   const { isLogin } = useSelector((state) => state.user);
+  let noConnectionToast = useRef(null);
+  const statusOnline = () => {
+    toast.dismiss(noConnectionToast);
+    toast.success("You are back online!", {
+      theme: "colored",
+    });
+  };
+
+  const statusOffline = () => {
+    noConnectionToast = toast.error(
+      "Where are you? Please check your internet connection!",
+      {
+        theme: "colored",
+        autoClose: false,
+        closeButton: false,
+        closeOnClick: false,
+        draggable: false,
+      }
+    );
+  };
+  window.addEventListener("offline", statusOffline);
+  window.addEventListener("online", statusOnline);
   //
   return (
     <>
@@ -67,6 +90,7 @@ function App() {
         pauseOnFocusLoss={false}
         autoClose={3000}
         hideProgressBar={true}
+        newestOnTop={true}
       />
     </>
   );
