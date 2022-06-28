@@ -12,7 +12,7 @@ function Address() {
   }, [isLogin]);
 
   return (
-    <div className="h-full w-screen bg-green-200 flex justify-center">
+    <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
       <div className="container h-full flex flex-col px-96 py-24 gap-y-16">
         <div>Alamat Pengiriman</div>
         <div className="w-full  h-screen bg-white flex">Input Field</div>

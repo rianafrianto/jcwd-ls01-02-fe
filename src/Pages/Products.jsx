@@ -34,7 +34,7 @@ function Products() {
     );
   };
   return (
-    <>
+    <div className="h-full w-full pt-20">
       <div className="h-10 w-60 border border-green-800 fixed flex bottom-20 left-1/2 -translate-x-1/2 z-50 rounded-lg overflow-hidden">
         <button className="h-full w-1/2 bg-green-600">sort</button>
         <button className="h-full w-1/2 bg-green-600">filter</button>
@@ -62,7 +62,7 @@ function Products() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -6,7 +6,7 @@ function Card() {
   return (
     <div
       className="h-60 lg:h-80 w-full border border-green-600 hover:bg-green-600 cursor-pointer"
-      onClick={() => navigate("/products/1")}
+      onClick={() => navigate("/products/obat/1")}
     >
       Card
     </div>

@@ -35,71 +35,79 @@ function Profile() {
     }
   };
 
+  const tabPrint = (tab) => {
+    switch (tab) {
+      case "PROFIL":
+        return (
+          <div className="w-full h-full flex flex-col items-center gap-y-5">
+            Profile
+            <button
+              disabled={loadingEmail}
+              className="border border-1 border-green-600 hover:bg-green-600 disabled:bg-gray-500"
+              onClick={sendEmail}
+            >
+              Send Email Verification
+            </button>
+          </div>
+        );
+      case "PROSES":
+        return <> Proses Pemesanan</>;
+      case "METODE":
+        return <>Metode Pembayaran</>;
+      case "ALAMAT":
+        return <>Alamat Pengiriman</>;
+      case "FAVORITE":
+        return <>Favorite</>;
+      case "pesan":
+        return <>Pesan Bantuan</>;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="h-full w-full bg-green-200 flex justify-center">
+    <div className="h-full w-full bg-green-200 flex justify-center pt-20">
       <div className="container h-full flex px-24 py-14 gap-x-11">
         <div className="w-80 bg-white flex flex-col px-10">
-          <button className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600">
-            Jane Doe
-          </button>
+          <div className="w-full h-20 flex items-center">{username}</div>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(1)}
+            onClick={() => setTab("PROFIL")}
           >
             Profil
           </button>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(2)}
+            onClick={() => setTab("PROSES")}
           >
             Proses Pemesanan
           </button>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(3)}
+            onClick={() => setTab("METODE")}
           >
             Metode Pembayaran
           </button>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(4)}
+            onClick={() => setTab("ALAMAT")}
           >
             Alamat Pengiriman
           </button>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(5)}
+            onClick={() => setTab("FAVORITE")}
           >
             Favorite
           </button>
           <button
             className="w-full h-20 flex items-center border border-1 border-green-600 hover:bg-green-600"
-            onClick={() => setTab(6)}
+            onClick={() => setTab("PESAN")}
           >
             Pesan Bantuan
           </button>
         </div>
-        <div className="w-full h-[550px] bg-white">
-          {tab === 1 && (
-            <div className="w-full h-full flex flex-col items-center gap-y-5">
-              Profile
-              <button
-                disabled={loadingEmail}
-                className="border border-1 border-green-600 hover:bg-green-600 disabled:bg-gray-500"
-                onClick={sendEmail}
-              >
-                Send Email Verification
-              </button>
-            </div>
-          )}
-
-          {tab === 2 && <> Proses Pemesanan</>}
-
-          {tab === 3 && <>Metode Pembayaran</>}
-          {tab === 4 && <>Alamat Pengiriman</>}
-          {tab === 5 && <>Favorite</>}
-          {tab === 6 && <>Pesan Bantuan</>}
-        </div>
+        <div className="w-full h-[550px] bg-white">{tabPrint(tab)}</div>
       </div>
     </div>
   );

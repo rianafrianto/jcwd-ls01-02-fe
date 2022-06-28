@@ -7,7 +7,7 @@ function ProductDetail() {
   const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state.user);
   return (
-    <div className="h-full w-screen bg-green-200 flex justify-center">
+    <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
       <div className="container h-full flex flex-col px-24 py-11">
         Products/1
         <div className="w-full mt-9 border border-white grid grid-cols-1 lg:grid-cols-2 gap-x-32">
