@@ -45,7 +45,7 @@ function LogIn() {
     password: Yup.string().required("Password is required!"),
   });
 
-  const onSubmit = async (values, setSubmitting) => {
+  const onSubmit = async (values, onSubmit) => {
     try {
       let res = await axios.post(`${API_URL}/auth/login`, {
         username: values.personId,
@@ -68,7 +68,7 @@ function LogIn() {
         payload: error.response.data.message || "Network Error",
       });
     } finally {
-      setSubmitting(false);
+      onSubmit.setSubmitting(false);
     }
   };
 
@@ -216,9 +216,7 @@ function LogIn() {
                       type="submit"
                       buttonText={isSubmitting ? "Loading.." : "Log In"}
                       disabled={!isValid || isSubmitting}
-                      className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5 ${
-                        isSubmitting && "loading"
-                      }`}
+                      className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5"
                     />
                     <div className="w-full min-h-min flex flex-col gap-y-5">
                       <div className="w-full h-full relative flex justify-center items-center">
