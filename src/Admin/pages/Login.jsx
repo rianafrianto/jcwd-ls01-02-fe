@@ -7,7 +7,6 @@ import API_URL from "../../Helpers/API_URL";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Form, Formik } from "formik";
-// import LoginImage from "../../Assets/login-image.png";
 import Googleicon from "../../Assets/google-icon.png";
 
 function Login() {
