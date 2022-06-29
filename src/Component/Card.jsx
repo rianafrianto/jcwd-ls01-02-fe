@@ -47,7 +47,7 @@ function Card({ data }) {
         </div>
       </div>
       <button
-        className="btn  w-full py-1 normal-case border-2 font-bold border-primary hover:border-primary text-primary group-hover:bg-primary/20"
+        className="btn  w-full py-1 normal-case border-2 font-bold bg-white border-primary hover:border-primary text-primary group-hover:bg-primary/20"
         onClick={(e) => e.stopPropagation()}
       >
         Keranjang
