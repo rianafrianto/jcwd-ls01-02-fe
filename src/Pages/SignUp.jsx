@@ -49,10 +49,10 @@ function SignUp() {
       .required("Email wajib diisi"),
     password: Yup.string()
       .min(8, "Password terlalu pendek - minimum 8 karakter")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+-=])[A-Za-z\d@$!%*?&]/,
-        "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
-      )
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^_-])[A-Za-z\d@$!%*?&]/,
+      //   "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
+      // )
       .required("Password wajib diisi"),
   });
 
@@ -69,9 +69,7 @@ function SignUp() {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
-      setTimeout(() => {
-        navigate("/unverified");
-      }, 1000);
+      navigate("/unverified");
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -159,8 +157,14 @@ function SignUp() {
             onSubmit={onSubmit}
           >
             {(formik) => {
-              const { handleChange, isSubmitting, isValid, handleBlur } =
-                formik;
+              const {
+                handleChange,
+                isSubmitting,
+                isValid,
+                handleBlur,
+                errors,
+                touched,
+              } = formik;
 
               return (
                 <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
@@ -177,7 +181,12 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className=""
+                      className={`${
+                        (errors.username && touched.username) ||
+                        (message[0] && !changed)
+                          ? "outline-red-700"
+                          : null
+                      }`}
                     />
                     <img
                       src={profileIcon}
@@ -230,7 +239,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type={visible ? "text" : "password"}
-                      className=""
+                      className="placeholder:translate-y-1"
                     />
                     <button
                       type="button"

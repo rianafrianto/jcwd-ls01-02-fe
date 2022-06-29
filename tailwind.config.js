@@ -8,6 +8,7 @@ module.exports = {
         "primary-dark": "#008076",
         secondary: "#213360",
         neutral: "#222222",
+        danger: "#FF6B6B",
         "neutral-gray": "#CCCCCC",
         facebook: "#527BCB",
       },
@@ -16,7 +17,7 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     styled: true,
-    themes: false,
+    themes: [],
     base: true,
     utils: true,
     logs: true,

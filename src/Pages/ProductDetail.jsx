@@ -1,11 +1,40 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Card from "../Component/Card";
+import axios from "axios";
+import API_URL from "../Helpers/API_URL";
+import formatToCurrency from "../Helpers/formatToCurrency";
 
 function ProductDetail() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { isLogin } = useSelector((state) => state.user);
+  console.log(data);
+
+  const params = useParams();
+  let product_name = params.product_name;
+  const fetchProductDetails = async () => {
+    try {
+      product_name = product_name.split("-").join(" ");
+      let res = await axios.get(
+        `${API_URL}/product/product-details/${product_name}`
+      );
+      console.log(res);
+      setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchProductDetails();
+  }, []);
+  if (loading) {
+    return <div>Loading ...</div>;
+  }
   return (
     <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
       <div className="container h-full flex flex-col px-24 py-11">
@@ -20,15 +49,22 @@ function ProductDetail() {
           </div>
           <div className="w-full h-full border border-putih flex flex-col mr-28">
             <div className="h-[300px] w-full bg-white flex flex-col">
-              <div className="text-sm mb-1">merk</div>
-              <div className="text-2xl mb-5">nama obat</div>
-              <div className="text-2xl mb-3">harga/satuan</div>
-              <div className="text-base mb-6">potongan harga</div>
+              <div className="text-sm mb-1">{data.principal}</div>
+              <div className="text-2xl mb-5">{data.name}</div>
+              <div className="text-2xl mb-3">
+                {formatToCurrency(data.price)}
+              </div>
+              <div className="text-base mb-6">
+                <span className="text-danger font-semibold border-2 border-danger text-xs rounded p-1">{`${data.promo}%`}</span>{" "}
+                <span className="line-through text-neutral-gray text-sm">
+                  {formatToCurrency(data.initPrice)}
+                </span>
+              </div>
               <div className="h-10 mb-11 flex items-center gap-x-4 border border-black">
                 <div className="w-40 h-full border border-green-600 flex justify-center items-center">
                   Button qty
                 </div>
-                <div>stok</div>
+                <div>{data.stock}</div>
               </div>
               <div className="flex gap-x-4 h-12 mb-20">
                 <button
@@ -73,7 +109,7 @@ function ProductDetail() {
           <div className="absolute left-3 top-10 text-2xl">
             Lorem, ipsum dolor.
           </div>
-          <Card />
+          {/* <Card /> */}
         </div>
       </div>
     </div>

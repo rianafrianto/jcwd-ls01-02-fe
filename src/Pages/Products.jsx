@@ -1,20 +1,38 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../Component/Card";
+import API_URL from "../Helpers/API_URL";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      let fetchedProducts = [];
-      for (let i = 0; i < 20; i++) {
-        fetchedProducts.push("");
-      }
-
-      setProducts(fetchedProducts);
+  const fetchProducts = async () => {
+    try {
+      setLoadingProducts(true);
+      let res = await axios.get(`${API_URL}/product/products/obat`);
+      console.log(res);
+      const { data } = res.data;
+      console.log(data);
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoadingProducts(false);
-    }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+    // setTimeout(() => {
+    //   let fetchedProducts = [];
+    //   for (let i = 0; i < 20; i++) {
+    //     fetchedProducts.push("");
+    //   }
+
+    //   setProducts(fetchedProducts);
+    //   setLoadingProducts(false);
+    // }, 1000);
   }, []);
 
   const printProducts = () => {
@@ -28,7 +46,7 @@ function Products() {
     return (
       <div className="w-full h-full container grid grid-cols-2 2xl:grid-cols-4 md:grid-cols-3  gap-3 lg:gap-x-4 lg:gap-y-6">
         {products.map((val, i) => {
-          return <Card key={i} />;
+          return <Card key={i} data={val} />;
         })}
       </div>
     );
