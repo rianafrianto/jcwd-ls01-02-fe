@@ -14,7 +14,7 @@ function ProductDetail() {
   console.log(data);
 
   const params = useParams();
-  let product_name = params.product_name;
+  const { product_name } = params;
   const fetchProductDetails = async () => {
     try {
       product_name = product_name.split("-").join(" ");

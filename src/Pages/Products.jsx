@@ -1,16 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Card from "../Component/Card";
 import API_URL from "../Helpers/API_URL";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [order, setOrder] = useState("ORDER BY name ASC");
+  const params = useParams();
+  let { category } = params;
 
   const fetchProducts = async () => {
     try {
       setLoadingProducts(true);
-      let res = await axios.get(`${API_URL}/product/products/obat`);
+      category = category.split("_").join(" ");
+      let res = await axios.get(
+        `${API_URL}/product/products/${category}?order=${order}`
+      );
       console.log(res);
       const { data } = res.data;
       console.log(data);
@@ -21,19 +28,11 @@ function Products() {
       setLoadingProducts(false);
     }
   };
+  console.log(order);
 
   useEffect(() => {
     fetchProducts();
-    // setTimeout(() => {
-    //   let fetchedProducts = [];
-    //   for (let i = 0; i < 20; i++) {
-    //     fetchedProducts.push("");
-    //   }
-
-    //   setProducts(fetchedProducts);
-    //   setLoadingProducts(false);
-    // }, 1000);
-  }, []);
+  }, [order]);
 
   const printProducts = () => {
     if (loadingProducts) {
@@ -72,7 +71,16 @@ function Products() {
                 <div>Total items</div>
                 <div className="hidden lg:flex gap-x-4">
                   <div>Urutkan</div>
-                  <select className="h-full w-36 border border-white" />
+                  <select
+                    className="h-full w-36 border border-white"
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
+                  >
+                    <option value="ORDER BY name ASC">A-Z</option>
+                    <option value="ORDER BY name DESC">Z-A</option>
+                    <option value="ORDER BY price ASC">Harga Terendah</option>
+                    <option value="ORDER BY price DESC">Harga Tertinggi</option>
+                  </select>
                 </div>
               </div>
               <div className="w-full h-full bg-white">{printProducts()}</div>
