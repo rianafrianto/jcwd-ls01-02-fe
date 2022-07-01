@@ -116,7 +116,7 @@ function SignUp() {
               <div className="w-full h-11 flex items-center gap-x-4">
                 <Button
                   type="button"
-                  className="button-general outline-neutral-gray relative gap-x-3"
+                  className="button-general btn-plain outline-neutral-gray relative gap-x-3"
                   buttonContent={
                     <>
                       <img
@@ -130,7 +130,7 @@ function SignUp() {
                 />
                 <Button
                   type="button"
-                  className="button-general bg-facebook text-white relative gap-x-3"
+                  className="button-general btn-plain bg-facebook text-white relative gap-x-3"
                   buttonContent={
                     <>
                       <img
@@ -281,7 +281,7 @@ function SignUp() {
                     type="submit"
                     buttonContent={isSubmitting ? "Loading.." : "Sign Up"}
                     disabled={!isValid || isSubmitting}
-                    className={`btn bg-primary text-white disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5 hover:bg-primary-dark ${
+                    className={`btn btn-primary text-white disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5 hover:bg-primary-dark ${
                       isSubmitting && "loading"
                     }`}
                   />

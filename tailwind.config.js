@@ -22,13 +22,14 @@ module.exports = {
         mytheme: {
           primary: "#009B90",
 
-          secondary: "#f45dce",
+          secondary: "#009B90",
+          "secondary-content": "#ffffff",
 
           accent: "#f4eb95",
 
           neutral: "#2F2136",
 
-          "base-100": "#E0E7EB",
+          "base-100": "#ffffff",
 
           info: "#7ED8F7",
 
@@ -37,6 +38,9 @@ module.exports = {
           warning: "#F2B23A",
 
           error: "#EB1E4A",
+
+          "--border-btn": "2px",
+          "--btn-text-case": "none",
         },
       },
     ],

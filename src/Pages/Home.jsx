@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import uploadResep from "../Assets/upload-resep.png";
-import categoryList from "../Helpers/categoryList";
+import { categoryList } from "../Helpers/categoryList";
 import CardCategory from "../Component/CardCategory";
 import kejarDiskon from "../Assets/kejar-diskon.png";
 import CarouselSlider from "../Component/Carousel/CarouselSlider";
