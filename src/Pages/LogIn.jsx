@@ -200,10 +200,7 @@ function LogIn() {
                       <label htmlFor="" className="ml-3">
                         <span className="text-secondary">Ingat saya</span>
                       </label>
-                      <label
-                        htmlFor=""
-                        className="ml-3 absolute justify-between"
-                      >
+                      <label htmlFor="" className="ml-3 justify-between">
                         <span
                           className="text-primary cursor-pointer justify-between"
                           onClick={() => forgotPasswordModalHandler(true)}

@@ -7,6 +7,11 @@ const INITIAL_STATE = {
   error_mes: "",
   loading: false,
   cart: [],
+  fullname: "",
+  profile_picture: "",
+  edit: null,
+  address: "",
+  age: "",
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -32,6 +37,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
     case "LOGOUT":
       return (state = INITIAL_STATE);
+    case "NEWEDIT":
+      return { ...state, edit: action.payload };
     case "DONE":
       return { ...state, loading: false };
     default:
