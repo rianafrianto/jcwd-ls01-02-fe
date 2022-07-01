@@ -6,11 +6,11 @@ import formatToCurrency from "../Helpers/formatToCurrency";
 
 function Card({ data }) {
   const navigate = useNavigate();
-  const link = data.name.split(" ").join("-");
+  const link = data.name.split(" ").join("_");
   return (
     <div
       className="w-full relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary duration-300"
-      onClick={() => navigate(`/products/${data.category}/${link}`)}
+      onClick={() => navigate(`/kategori/${data.category}/${link}`)}
     >
       <button
         className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-md hover:shadow-primary hover:bg-white"

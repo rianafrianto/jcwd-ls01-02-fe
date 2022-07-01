@@ -6,7 +6,7 @@ import FilterLeftBar from "../Component/FilterLeftBar";
 import API_URL from "../Helpers/API_URL";
 import { printCategory } from "../Helpers/categoryList";
 
-function Products() {
+function Category() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [order, setOrder] = useState("ORDER BY name ASC");
@@ -18,6 +18,9 @@ function Products() {
     try {
       setLoadingProducts(true);
       category = category.split("_").join(" ");
+      if (category === "all") {
+        category = "semua";
+      }
       let res = await axios.get(
         `${API_URL}/product/products/${category}?order=${order}&page=${page}`
       );
@@ -90,7 +93,7 @@ function Products() {
                 <FilterLeftBar />
                 <div className="w-full h-full flex flex-col gap-y-5">
                   <div className="h-11 text-3xl font-bold text-secondary">
-                    {category && category === "semua"
+                    {category && category === "all"
                       ? `${printCategory(category)} Kategori`
                       : printCategory(category)}
                   </div>
@@ -98,7 +101,7 @@ function Products() {
                   <div className="w-full h-9 mt-2 mb-2 flex justify-between items-center">
                     <div>
                       {products[0]?.total} Produk{" "}
-                      {category && category === "semua"
+                      {category && category === "all"
                         ? ""
                         : `di ${printCategory(category)}`}
                     </div>
@@ -141,4 +144,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default Category;

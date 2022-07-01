@@ -15,7 +15,7 @@ function Home() {
     return categoryList.map((val, index) => {
       const { cardText, cardPic, cardPath } = val;
       return (
-        <div key={index}>
+        <div key={index} className="w-full h-full flex px-2">
           <CardCategory
             cardText={cardText}
             cardPath={cardPath}
@@ -58,7 +58,7 @@ function Home() {
             Unggah Resep
           </button>
         </div>
-        <div className="w-full h-44 flex flex-col justify-between">
+        <div className="w-full h-full flex flex-col justify-between">
           <div className="flex justify-between items-end">
             <div className="text-2xl text-secondary font-bold">Kategori</div>
             <div
@@ -69,7 +69,11 @@ function Home() {
             </div>
           </div>
           {/* <div className="flex gap-x-4 "> */}
-          <CarouselSlider settings={settings} printFunc={printCat} />
+          <CarouselSlider
+            settings={settings}
+            printFunc={printCat}
+            className="bg-black"
+          />
           {/* </div> */}
         </div>
         <div className="w-full border-t border-neutral-gray" />

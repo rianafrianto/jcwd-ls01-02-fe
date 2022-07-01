@@ -10,7 +10,7 @@ import minusIcon from "../Assets/minus-icon.png";
 import chatDetailIcon from "../Assets/chat-detail-icon.png";
 import bagikanIcon from "../Assets/bagikan-icon.png";
 import { HeartIcon } from "@heroicons/react/outline";
-import { printCategory } from "../Helpers/categoryList";
+import { printCategory, printCategoryParams } from "../Helpers/categoryList";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function ProductDetail() {
 
   const fetchProductDetails = async () => {
     try {
-      product_name = product_name.split("-").join(" ");
+      product_name = product_name.split("_").join(" ");
       let res = await axios.get(
         `${API_URL}/product/product-details/${product_name}`
       );
@@ -102,8 +102,13 @@ function ProductDetail() {
   useEffect(() => {
     fetchProductDetails();
   }, []);
+
   if (loading) {
-    return <div>Loading ...</div>;
+    return (
+      <div className="w-full h-screen flex justify-center items-center text-5xl pt-20">
+        Loading ...
+      </div>
+    );
   }
 
   return (
@@ -115,12 +120,12 @@ function ProductDetail() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to={`/products/${data.category}`}>
+              <Link to={`/kategori/${printCategoryParams(category)}`}>
                 {printCategory(category)}
               </Link>
             </li>
             <li className="text-primary font-bold">
-              {product_name.split("-").join(" ")}
+              {product_name.split("_").join(" ")}
             </li>
           </ul>
         </div>
@@ -152,9 +157,11 @@ function ProductDetail() {
               <div className="text-2xl mb-5">{data.name}</div>
               <div className="text-2xl font-bold text-secondary mb-3">
                 {formatToCurrency(data.price)}{" "}
-                <span className="font-normal text-lg">/ {data.satuan}</span>
+                <span className="font-normal text-lg">
+                  / {data.satuan.toLowerCase()}
+                </span>
               </div>
-              <div className="text-base mb-6 flex gap-x-5 items center">
+              <div className="text-base mb-6 flex gap-x-5 items-center">
                 <span className="line-through text-neutral-gray">
                   {formatToCurrency(data.initPrice)}
                 </span>
@@ -183,12 +190,12 @@ function ProductDetail() {
                   </button>
                 </div>
                 <div>
-                  Sisa {data.stock} {data.satuan}
+                  Sisa {data.stock} {data.satuan.toLowerCase()}
                 </div>
               </div>
-              <div className="flex gap-x-4 h-12">
+              <div className="flex gap-x-4">
                 <button
-                  className="button-outline h-full w-40 text-sm"
+                  className="button-outline w-40 text-sm"
                   onClick={() => {
                     isLogin
                       ? console.log(`tambah ke keranjang sebanyak ${qty}`)
@@ -198,14 +205,14 @@ function ProductDetail() {
                   Keranjang
                 </button>
                 <button
-                  className="button-primary h-full w-40 text-sm"
+                  className="button-primary w-40 text-sm"
                   onClick={() => {
                     isLogin ? navigate("/cart") : navigate("/login");
                   }}
                 >
                   Beli
                 </button>
-                <button className="button-outline h-full aspect-square group">
+                <button className="button-outline aspect-square group">
                   <HeartIcon className="h-2/3 text-primary group-hover:text-pink-500 duration-300" />
                 </button>
               </div>
