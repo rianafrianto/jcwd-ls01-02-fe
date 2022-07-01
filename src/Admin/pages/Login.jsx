@@ -180,7 +180,7 @@ function Login() {
                     </div>
                     <div className="w-full flex justify-center mb-12">
                       <button
-                        className="w-full h-12 border bg-teal-600 text-white rounded-md hover:bg-teal-500"
+                        className="w-full h-12 border bg-teal-500 text-white rounded-md hover:bg-teal-600"
                         type="submit"
                         disabled={!isValid || !changed || isSubmitting}
                       >
@@ -193,7 +193,7 @@ function Login() {
                       </div>
                     </div>
                     <div className="flex justify-center w-full mb-12">
-                      <button className="w-full h-12 border border-teal-600 hover:bg-teal-500 hover:text-white text-center rounded-md font-bold">
+                      <button className="w-full h-12 border border-teal-600 hover:bg-teal-600 hover:text-white text-center rounded-md font-bold">
                         <div className="flex justify-center">
                           <img src={Googleicon} className="w-8 h-8" />
                           <div className="pt-1 px-2">Masuk Dengan Google</div>
