@@ -6,14 +6,14 @@ import formatToCurrency from "../Helpers/formatToCurrency";
 
 function Card({ data }) {
   const navigate = useNavigate();
-  const link = data.name.split(" ").join("-");
+  const link = data.name.split(" ").join("_");
   return (
     <div
-      className="w-56 relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary duration-300 group"
-      onClick={() => navigate(`/products/obat/${link}`)}
+      className="w-full relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary duration-300"
+      onClick={() => navigate(`/kategori/${data.category}/${link}`)}
     >
       <button
-        className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-lg hover:shadow-primary hover:bg-white"
+        className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-md hover:shadow-primary hover:bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         <HeartIcon className="text-neutral-gray h-8" />
@@ -45,7 +45,7 @@ function Card({ data }) {
         </div>
       </div>
       <button
-        className="btn  w-full py-1 normal-case border-2 font-bold bg-white border-primary hover:border-primary text-primary group-hover:bg-primary/20"
+        className="btn-plain border-2 border-primary rounded-lg text-primary font-bold w-full py-1 hover:bg-primary/20"
         onClick={(e) => e.stopPropagation()}
       >
         Keranjang

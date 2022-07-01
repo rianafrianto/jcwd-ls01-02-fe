@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Card from "../Component/Card";
 import axios from "axios";
@@ -7,7 +7,10 @@ import API_URL from "../Helpers/API_URL";
 import formatToCurrency from "../Helpers/formatToCurrency";
 import plusIcon from "../Assets/plus-icon.png";
 import minusIcon from "../Assets/minus-icon.png";
+import chatDetailIcon from "../Assets/chat-detail-icon.png";
+import bagikanIcon from "../Assets/bagikan-icon.png";
 import { HeartIcon } from "@heroicons/react/outline";
+import { printCategory, printCategoryParams } from "../Helpers/categoryList";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -19,15 +22,14 @@ function ProductDetail() {
   const { isLogin } = useSelector((state) => state.user);
 
   const params = useParams();
-  let { product_name } = params;
+  let { product_name, category } = params;
 
   const fetchProductDetails = async () => {
     try {
-      product_name = product_name.split("-").join(" ");
+      product_name = product_name.split("_").join(" ");
       let res = await axios.get(
         `${API_URL}/product/product-details/${product_name}`
       );
-      console.log(res);
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -86,9 +88,7 @@ function ProductDetail() {
         return (
           <>
             <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">
-                Kontradiksi / Jangan digunakan oleh
-              </div>
+              <div className="h-full w-1/2 font-bold">Peringatn</div>
               <div className="h-full w-1/2">{data.peringatan}</div>
             </div>
           </>
@@ -102,26 +102,53 @@ function ProductDetail() {
   useEffect(() => {
     fetchProductDetails();
   }, []);
+
   if (loading) {
-    return <div>Loading ...</div>;
+    return (
+      <div className="w-full h-screen flex justify-center items-center text-5xl pt-20">
+        Loading ...
+      </div>
+    );
   }
 
   return (
     <div className="h-full w-screen flex justify-center pt-20">
       <div className="container h-full flex flex-col px-24 py-11">
-        Products/1
+        <div className="text-md breadcrumbs">
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to={`/kategori/${printCategoryParams(category)}`}>
+                {printCategory(category)}
+              </Link>
+            </li>
+            <li className="text-primary font-bold">
+              {product_name.split("_").join(" ")}
+            </li>
+          </ul>
+        </div>
         <div className="w-full mt-9 grid grid-cols-1 lg:grid-cols-2 gap-x-28">
-          <div className="flex flex-col w-full gap-y-6 items-center">
-            <figure className="h-[300px] w-[400px] bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
-              <img src={data?.photo ? API_URL + data?.photo : ""} alt="" />
-            </figure>
-            <div className="hidden lg:flex justify-center gap-x-2 ">
-              <button className="btn btn-primary rounded-full bg-primary border-0 text-white w-36 h-12 ">
-                chat admin
-              </button>
-              <button className="btn rounded-full bg-primary border-0 text-white w-36 h-12 ">
-                Bagikan
-              </button>
+          <div className="flex flex-col w-full items-center">
+            <div className="w-[400px] flex flex-col items-center gap-5">
+              <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
+                <img src={data?.photo ? API_URL + data?.photo : ""} alt="" />
+              </figure>
+              <div className="hidden lg:flex gap-x-2 w-full px-5">
+                <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">
+                  <img
+                    src={chatDetailIcon}
+                    alt=""
+                    className="h-full scale-50"
+                  />
+                  <span>Chat Admin</span>
+                </button>
+                <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">
+                  <img src={bagikanIcon} alt="" className="h-full scale-50" />
+                  <span>Bagikan</span>
+                </button>
+              </div>
             </div>
           </div>
           <div className="w-full h-full flex flex-col mr-28">
@@ -129,18 +156,21 @@ function ProductDetail() {
               <div className="text-sm mb-1">{data.principal}</div>
               <div className="text-2xl mb-5">{data.name}</div>
               <div className="text-2xl font-bold text-secondary mb-3">
-                {formatToCurrency(data.price)}
+                {formatToCurrency(data.price)}{" "}
+                <span className="font-normal text-lg">
+                  / {data.satuan.toLowerCase()}
+                </span>
               </div>
-              <div className="text-base mb-6 flex gap-x-5 items center">
+              <div className="text-base mb-6 flex gap-x-5 items-center">
                 <span className="line-through text-neutral-gray">
                   {formatToCurrency(data.initPrice)}
                 </span>
                 <span className="text-danger font-semibold border-2 border-danger text-xs rounded p-1">{`${data.promo}%`}</span>{" "}
               </div>
               <div className="h-10 mb-11 flex items-center gap-x-4">
-                <div className="w-40 h-full flex justify-center items-center">
+                <div className="w-40 h-full flex justify-center items-center bg-primary/10 rounded-lg overflow-hidden">
                   <button
-                    className="btn border-0 w-1/3 px-0 bg-white flex justify-center items-center hover:bg-transparent"
+                    className="btn-plain h-full w-1/3 px-0 flex justify-center items-center hover:bg-primary/20"
                     onClick={() =>
                       qty === 1 ? null : setQty((prev) => prev - 1)
                     }
@@ -151,7 +181,7 @@ function ProductDetail() {
                     {qty}
                   </span>
                   <button
-                    className="btn border-0 w-1/3 px-0 py-0 bg-white flex justify-center items-center hover:bg-transparent"
+                    className="btn-plain h-full w-1/3 px-0 flex justify-center items-center hover:bg-primary/20"
                     onClick={() =>
                       qty === data.stock ? null : setQty((prev) => prev + 1)
                     }
@@ -160,12 +190,12 @@ function ProductDetail() {
                   </button>
                 </div>
                 <div>
-                  Sisa {data.stock} {data.satuan}
+                  Sisa {data.stock} {data.satuan.toLowerCase()}
                 </div>
               </div>
-              <div className="flex gap-x-4 h-12">
+              <div className="flex gap-x-4">
                 <button
-                  className="btn bg-white text-primary h-full w-40 hover:bg-white hover:border-primary border-2 border-primary"
+                  className="button-outline w-40 text-sm"
                   onClick={() => {
                     isLogin
                       ? console.log(`tambah ke keranjang sebanyak ${qty}`)
@@ -175,38 +205,44 @@ function ProductDetail() {
                   Keranjang
                 </button>
                 <button
-                  className="btn bg-primary h-full w-40 hover:bg-primary border-0"
+                  className="button-primary w-40 text-sm"
                   onClick={() => {
                     isLogin ? navigate("/cart") : navigate("/login");
                   }}
                 >
                   Beli
                 </button>
-                <button className="btn bg-white h-full hover:bg-white border-2 border-primary hover:border-primary">
-                  <HeartIcon className="h-2/3 text-primary" />
+                <button className="button-outline aspect-square group">
+                  <HeartIcon className="h-2/3 text-primary group-hover:text-pink-500 duration-300" />
                 </button>
               </div>
             </div>
             <div className="w-full h-14 flex tabs">
               <button
-                className={`tab tab-bordered h-full w-1/3 flex justify-center items-center z-10 text-base ${
-                  tab === "DESKRIPSI" ? "tab-active" : null
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                  tab === "DESKRIPSI"
+                    ? "border-y-2 border-primary text-primary font-bold"
+                    : "border-y border-neutral-gray"
                 }`}
                 onClick={() => setTab("DESKRIPSI")}
               >
                 Deskripsi
               </button>
               <button
-                className={`tab tab-bordered h-full w-1/3 flex justify-center items-center z-10 text-base ${
-                  tab === "CARAPAKAI" ? "tab-active" : null
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                  tab === "CARAPAKAI"
+                    ? "border-y-2 border-primary text-primary font-bold"
+                    : "border-y border-neutral-gray"
                 }`}
                 onClick={() => setTab("CARAPAKAI")}
               >
                 Cara Pakai
               </button>
               <button
-                className={`tab tab-bordered h-full w-1/3 flex justify-center items-center z-10 text-base ${
-                  tab === "PERINGATAN" ? "tab-active" : null
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                  tab === "PERINGATAN"
+                    ? "border-y-2 border-primary text-primary font-bold"
+                    : "border-y border-neutral-gray"
                 }`}
                 onClick={() => setTab("PERINGATAN")}
               >

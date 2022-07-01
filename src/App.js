@@ -3,7 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Home from "./Pages/Home";
-import Products from "./Pages/Products";
+import Category from "./Pages/Category";
 import ProductDetail from "./Pages/ProductDetail";
 import Checkout from "./Pages/Checkout";
 import Address from "./Pages/Address";
@@ -65,10 +65,9 @@ function App() {
         <Route path="/register" element={isLogin ? <Home /> : <SignUp />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/products/:category" element={<Products />} />
+        <Route path="/kategori/:category" element={<Category />} />
         <Route
-          path="/products/:category/:product_name"
+          path="/kategori/:category/:product_name"
           element={<ProductDetail />}
         />
         <Route path="/checkout" element={<Checkout />} />

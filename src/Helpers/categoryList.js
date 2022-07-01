@@ -5,7 +5,8 @@ import vitamin from "../Assets/vitamin-cat.png";
 import alatKesehatan from "../Assets/alat-cat.png";
 import perawatan from "../Assets/perawatan-cat.png";
 
-const categoryList = [
+export const categoryList = [
+  { cardText: "Semua Produk", cardPath: "all", cardPic: "" },
   { cardText: "Obat-Obatan", cardPath: "obat-obatan", cardPic: obatObatan },
   { cardText: "Nutrisi", cardPath: "nutrisi", cardPic: nutrisi },
   { cardText: "Herbal", cardPath: "herbal", cardPic: herbal },
@@ -27,4 +28,34 @@ const categoryList = [
   { cardText: "Ibu & Anak", cardPath: "ibu_&_anak", cardPic: obatObatan },
 ];
 
-export default categoryList;
+export const printCategory = (cat) => {
+  if (cat === "all") {
+    return "Semua";
+  }
+  if (cat.split("_").length === 1) {
+    cat = cat.split("-");
+    cat = cat
+      .map((val) => {
+        val = val.split("");
+        val[0] = val[0].toUpperCase();
+        val = val.join("");
+        return val;
+      })
+      .join("-");
+    return cat;
+  }
+  cat = cat.split("_");
+  cat = cat
+    .map((val) => {
+      val = val.split("");
+      val[0] = val[0].toUpperCase();
+      val = val.join("");
+      return val;
+    })
+    .join(" ");
+  return cat;
+};
+
+export const printCategoryParams = (cat) => {
+  return cat.split(" ").join("_");
+};
