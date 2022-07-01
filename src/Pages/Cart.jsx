@@ -42,7 +42,7 @@ function Cart() {
           <div className="absolute left-3 top-10 text-2xl">
             Lorem, ipsum dolor.
           </div>
-          <Card />
+          {/* <Card /> */}
         </div>
       </div>
     </div>
