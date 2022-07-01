@@ -7,6 +7,7 @@ import API_URL from "../Helpers/API_URL";
 import formatToCurrency from "../Helpers/formatToCurrency";
 import plusIcon from "../Assets/plus-icon.png";
 import minusIcon from "../Assets/minus-icon.png";
+import { HeartIcon } from "@heroicons/react/outline";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function ProductDetail() {
 
   const params = useParams();
   let { product_name } = params;
+
   const fetchProductDetails = async () => {
     try {
       product_name = product_name.split("-").join(" ");
@@ -75,10 +77,6 @@ function ProductDetail() {
               <div className="h-full w-1/2">{data.cara_pakai}</div>
             </div>
             <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Dosis</div>
-              <div className="h-full w-1/2">{data.dosis}</div>
-            </div>
-            <div className="w-full flex">
               <div className="h-full w-1/2 font-bold">Cara Penyimpanan</div>
               <div className="h-full w-1/2">{data.cara_penyimpanan}</div>
             </div>
@@ -91,17 +89,7 @@ function ProductDetail() {
               <div className="h-full w-1/2 font-bold">
                 Kontradiksi / Jangan digunakan oleh
               </div>
-              <div className="h-full w-1/2">
-                {data.peringatan ? data.peringatan : "-"}
-              </div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Efek Samping</div>
-              <div className="h-full w-1/2">{data.efek_samping}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Perhatian Khusus</div>
-              <div className="h-full w-1/2">{data.perhatian}</div>
+              <div className="h-full w-1/2">{data.peringatan}</div>
             </div>
           </>
         );
@@ -117,6 +105,7 @@ function ProductDetail() {
   if (loading) {
     return <div>Loading ...</div>;
   }
+
   return (
     <div className="h-full w-screen flex justify-center pt-20">
       <div className="container h-full flex flex-col px-24 py-11">
@@ -124,10 +113,10 @@ function ProductDetail() {
         <div className="w-full mt-9 grid grid-cols-1 lg:grid-cols-2 gap-x-28">
           <div className="flex flex-col w-full gap-y-6 items-center">
             <figure className="h-[300px] w-[400px] bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
-              <img src={API_URL + data.photo} alt="" />
+              <img src={data?.photo ? API_URL + data?.photo : ""} alt="" />
             </figure>
             <div className="hidden lg:flex justify-center gap-x-2 ">
-              <button className="btn rounded-full bg-primary border-0 text-white w-36 h-12 ">
+              <button className="btn btn-primary rounded-full bg-primary border-0 text-white w-36 h-12 ">
                 chat admin
               </button>
               <button className="btn rounded-full bg-primary border-0 text-white w-36 h-12 ">
@@ -136,17 +125,17 @@ function ProductDetail() {
             </div>
           </div>
           <div className="w-full h-full flex flex-col mr-28">
-            <div className="h-[300px] w-full bg-white flex flex-col">
+            <div className="h-[300px] w-full bg-white flex flex-col mb-20">
               <div className="text-sm mb-1">{data.principal}</div>
               <div className="text-2xl mb-5">{data.name}</div>
-              <div className="text-2xl mb-3">
+              <div className="text-2xl font-bold text-secondary mb-3">
                 {formatToCurrency(data.price)}
               </div>
-              <div className="text-base mb-6">
-                <span className="text-danger font-semibold border-2 border-danger text-xs rounded p-1">{`${data.promo}%`}</span>{" "}
-                <span className="line-through text-neutral-gray text-sm">
+              <div className="text-base mb-6 flex gap-x-5 items center">
+                <span className="line-through text-neutral-gray">
                   {formatToCurrency(data.initPrice)}
                 </span>
+                <span className="text-danger font-semibold border-2 border-danger text-xs rounded p-1">{`${data.promo}%`}</span>{" "}
               </div>
               <div className="h-10 mb-11 flex items-center gap-x-4">
                 <div className="w-40 h-full flex justify-center items-center">
@@ -174,25 +163,27 @@ function ProductDetail() {
                   Sisa {data.stock} {data.satuan}
                 </div>
               </div>
-              <div className="flex gap-x-4 h-12 mb-20">
+              <div className="flex gap-x-4 h-12">
                 <button
-                  className="h-full w-40 border border-green-600 hover:bg-green-600"
+                  className="btn bg-white text-primary h-full w-40 hover:bg-white hover:border-primary border-2 border-primary"
                   onClick={() => {
-                    isLogin ? navigate("/cart") : navigate("/login");
+                    isLogin
+                      ? console.log(`tambah ke keranjang sebanyak ${qty}`)
+                      : navigate("/login");
                   }}
                 >
                   Keranjang
                 </button>
                 <button
-                  className="h-full w-40 border border-green-600 hover:bg-green-600"
+                  className="btn bg-primary h-full w-40 hover:bg-primary border-0"
                   onClick={() => {
                     isLogin ? navigate("/cart") : navigate("/login");
                   }}
                 >
                   Beli
                 </button>
-                <button className="h-full w-40 border border-green-600">
-                  fav
+                <button className="btn bg-white h-full hover:bg-white border-2 border-primary hover:border-primary">
+                  <HeartIcon className="h-2/3 text-primary" />
                 </button>
               </div>
             </div>

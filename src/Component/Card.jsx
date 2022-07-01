@@ -6,9 +6,7 @@ import formatToCurrency from "../Helpers/formatToCurrency";
 
 function Card({ data }) {
   const navigate = useNavigate();
-  console.log(data);
   const link = data.name.split(" ").join("-");
-  console.log(link);
   return (
     <div
       className="w-56 relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary duration-300 group"

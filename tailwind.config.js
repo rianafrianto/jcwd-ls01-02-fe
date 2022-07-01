@@ -17,7 +17,29 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     styled: true,
-    themes: false,
+    themes: [
+      {
+        mytheme: {
+          primary: "#009B90",
+
+          secondary: "#f45dce",
+
+          accent: "#f4eb95",
+
+          neutral: "#2F2136",
+
+          "base-100": "#E0E7EB",
+
+          info: "#7ED8F7",
+
+          success: "#23E198",
+
+          warning: "#F2B23A",
+
+          error: "#EB1E4A",
+        },
+      },
+    ],
     base: true,
     utils: true,
     logs: true,
