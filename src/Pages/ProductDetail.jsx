@@ -11,6 +11,7 @@ import chatDetailIcon from "../Assets/chat-detail-icon.png";
 import bagikanIcon from "../Assets/bagikan-icon.png";
 import { HeartIcon } from "@heroicons/react/outline";
 import { printCategory, printCategoryParams } from "../Helpers/categoryList";
+import PromoCarousel from "../Component/Carousel/Carousels/PromoCarousel";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function ProductDetail() {
   const fetchProductDetails = async () => {
     try {
       product_name = product_name.split("_").join(" ");
+      console.log(product_name);
       let res = await axios.get(
         `${API_URL}/product/product-details/${product_name}`
       );
@@ -100,6 +102,7 @@ function ProductDetail() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchProductDetails();
   }, []);
 
@@ -120,7 +123,7 @@ function ProductDetail() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to={`/kategori/${printCategoryParams(category)}`}>
+              <Link to={`/category/${printCategoryParams(category)}`}>
                 {printCategory(category)}
               </Link>
             </li>
@@ -217,12 +220,14 @@ function ProductDetail() {
                 </button>
               </div>
             </div>
+            <div className="w-full border-t border-neutral-gray" />
+
             <div className="w-full h-14 flex tabs">
               <button
                 className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
                   tab === "DESKRIPSI"
-                    ? "border-y-2 border-primary text-primary font-bold"
-                    : "border-y border-neutral-gray"
+                    ? "border-b-2 border-primary text-primary font-bold"
+                    : "border-b border-neutral-gray"
                 }`}
                 onClick={() => setTab("DESKRIPSI")}
               >
@@ -231,8 +236,8 @@ function ProductDetail() {
               <button
                 className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
                   tab === "CARAPAKAI"
-                    ? "border-y-2 border-primary text-primary font-bold"
-                    : "border-y border-neutral-gray"
+                    ? "border-b-2 border-primary text-primary font-bold"
+                    : "border-b border-neutral-gray"
                 }`}
                 onClick={() => setTab("CARAPAKAI")}
               >
@@ -241,8 +246,8 @@ function ProductDetail() {
               <button
                 className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
                   tab === "PERINGATAN"
-                    ? "border-y-2 border-primary text-primary font-bold"
-                    : "border-y border-neutral-gray"
+                    ? "border-b-2 border-primary text-primary font-bold"
+                    : "border-b border-neutral-gray"
                 }`}
                 onClick={() => setTab("PERINGATAN")}
               >
@@ -255,10 +260,12 @@ function ProductDetail() {
           </div>
         </div>
         <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex py-28 relative">
-          <div className="absolute left-3 top-10 text-2xl">
-            Lorem, ipsum dolor.
+          <div className="absolute left-3 top-10 text-2xl font-bold">
+            Produk Terkait (ganti pake endpoint kategori)
           </div>
-          {/* <Card /> */}
+          <div className="z-10 w-full h-full">
+            <PromoCarousel />
+          </div>
         </div>
       </div>
     </div>

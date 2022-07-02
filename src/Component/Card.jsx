@@ -1,19 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import API_URL from "../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
 import formatToCurrency from "../Helpers/formatToCurrency";
 
 function Card({ data }) {
+  const { isLogin } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
   return (
     <div
-      className="w-full relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary duration-300"
-      onClick={() => navigate(`/kategori/${data.category}/${link}`)}
+      className="h-full relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
+      onClick={() => navigate(`/category/${data.category}/${link}`)}
     >
       <button
-        className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-md hover:shadow-primary hover:bg-white"
+        className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-md hover:shadow-primary/50 hover:bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         <HeartIcon className="text-neutral-gray h-8" />
@@ -45,8 +47,13 @@ function Card({ data }) {
         </div>
       </div>
       <button
-        className="btn-plain border-2 border-primary rounded-lg text-primary font-bold w-full py-1 hover:bg-primary/20"
-        onClick={(e) => e.stopPropagation()}
+        className="btn-plain border-2 text-sm border-primary rounded-lg text-primary font-bold w-full py-1 hover:bg-primary/20"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!isLogin) {
+            navigate("/login");
+          }
+        }}
       >
         Keranjang
       </button>

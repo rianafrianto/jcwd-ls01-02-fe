@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "../Component/Card";
 import FilterLeftBar from "../Component/FilterLeftBar";
 import API_URL from "../Helpers/API_URL";
@@ -13,6 +13,7 @@ function Category() {
   const [page, setPage] = useState(0);
   const params = useParams();
   let { category } = params;
+  const limit = 24;
 
   const fetchProducts = async () => {
     try {
@@ -22,7 +23,7 @@ function Category() {
         category = "semua";
       }
       let res = await axios.get(
-        `${API_URL}/product/products/${category}?order=${order}&page=${page}`
+        `${API_URL}/product/products/${category}?order=${order}&page=${page}&limit=${limit}`
       );
       const { data } = res.data;
       setProducts(data);
@@ -34,6 +35,7 @@ function Category() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchProducts();
   }, [order, page]);
 
@@ -78,6 +80,7 @@ function Category() {
       );
     });
   };
+
   return (
     <div className="h-full w-full pt-20">
       <div className="h-10 w-60 lg:hidden border border-green-800 fixed flex bottom-20 left-1/2 -translate-x-1/2 z-50 rounded-lg overflow-hidden">
@@ -86,10 +89,19 @@ function Category() {
       </div>
       <div className="h-full w-ful bg-white flex justify-center relative">
         <div className="container h-full flex flex-col px-6 lg:px-24 py-11">
-          Products
-          <div className="w-full mt-9 border border-white flex gap-x-12">
+          <div className="text-md breadcrumbs">
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li className="text-primary font-bold">
+                {printCategory(category)}
+              </li>
+            </ul>
+          </div>
+          <div className="w-full mt-9 flex gap-x-12">
             <div className="w-full h-fullflex flex-col">
-              <div className="w-full mt-9 border border-primary flex gap-x-12">
+              <div className="w-full mt-9 flex gap-x-12">
                 <FilterLeftBar />
                 <div className="w-full h-full flex flex-col gap-y-5">
                   <div className="h-11 text-3xl font-bold text-secondary">
@@ -115,7 +127,12 @@ function Category() {
                           setPage(0);
                         }}
                       >
-                        <option value="ORDER BY name ASC">A-Z</option>
+                        <option
+                          value="ORDER BY name ASC"
+                          className="hover:bg-primary"
+                        >
+                          A-Z
+                        </option>
                         <option value="ORDER BY name DESC">Z-A</option>
                         <option value="ORDER BY price ASC">
                           Harga Terendah
