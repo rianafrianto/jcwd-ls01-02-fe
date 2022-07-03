@@ -65,9 +65,9 @@ function App() {
         <Route path="/register" element={isLogin ? <Home /> : <SignUp />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/" element={<Home />} />
-        <Route path="/kategori/:category" element={<Category />} />
+        <Route path="/category/:category" element={<Category />} />
         <Route
-          path="/kategori/:category/:product_name"
+          path="/category/:category/:product_name"
           element={<ProductDetail />}
         />
         <Route path="/checkout" element={<Checkout />} />

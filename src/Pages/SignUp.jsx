@@ -260,16 +260,15 @@ function SignUp() {
                   </div>
 
                   {/* T&C */}
-                  <div className="w-full relative">
+                  <div className="w-full relative flex items-center">
                     <input
                       name="passwordConfirm"
-                      placeholder="confirm password"
                       onChange={(e) => {
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
                       type="checkbox"
-                      className={``}
+                      className={`checkbox checkbox-primary`}
                     />
                     <label htmlFor="" className="ml-3">
                       Saya setuju dengan{" "}
@@ -279,7 +278,13 @@ function SignUp() {
                   </div>
                   <Button
                     type="submit"
-                    buttonContent={isSubmitting ? "Loading.." : "Sign Up"}
+                    buttonContent={
+                      isSubmitting
+                        ? "Loading.."
+                        : !isValid
+                        ? "Cek Kembali Data Kamu!"
+                        : "Daftar"
+                    }
                     disabled={!isValid || isSubmitting}
                     className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
                       isSubmitting && "button-loading"

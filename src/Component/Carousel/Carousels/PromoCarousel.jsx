@@ -1,0 +1,101 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import API_URL from "../../../Helpers/API_URL";
+import Card from "../../Card";
+import CarouselSlider from "../CarouselSlider";
+import NextArrow from "../NextArrow";
+import PrevArrow from "../PrevArrow";
+
+function PromoCarousel() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${API_URL}/product/promo-products`);
+      console.log(res.data.data);
+      setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const settings = {
+    infinite: true,
+    speed: 300,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextArrow height="top-40" />,
+    prevArrow: <PrevArrow height="top-40" />,
+    responsive: [
+      {
+        breakpoint: 1536,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+      //   {
+      //     breakpoint: 640,
+      //     settings: {
+      //       slidesToShow: 1,
+      //       slidesToScroll: 1,
+      //     },
+      //   },
+    ],
+  };
+
+  const printProducts = () => {
+    return data.map((val, i) => {
+      return (
+        <div key={i} className="w-full h-full flex px-2 py-4">
+          <Card key={i} data={val} />
+        </div>
+      );
+    });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  if (loading) {
+    return <>Loading....</>;
+  }
+  return (
+    <CarouselSlider
+      settings={settings}
+      printFunc={printProducts}
+      className="bg-black"
+    />
+  );
+}
+
+export default PromoCarousel;

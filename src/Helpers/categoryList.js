@@ -6,7 +6,6 @@ import alatKesehatan from "../Assets/alat-cat.png";
 import perawatan from "../Assets/perawatan-cat.png";
 
 export const categoryList = [
-  { cardText: "Semua Produk", cardPath: "all", cardPic: "" },
   { cardText: "Obat-Obatan", cardPath: "obat-obatan", cardPic: obatObatan },
   { cardText: "Nutrisi", cardPath: "nutrisi", cardPic: nutrisi },
   { cardText: "Herbal", cardPath: "herbal", cardPic: herbal },

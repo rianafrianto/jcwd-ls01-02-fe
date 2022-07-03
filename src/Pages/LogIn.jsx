@@ -14,6 +14,7 @@ import signupImage from "../Assets/signup-image.png";
 import logoImage from "../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
+import googleIcon from "../Assets/google-icon.png";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -56,8 +57,7 @@ function LogIn() {
       dispatch({ type: "LOGIN", payload: res.data });
       toast.success(`welcome back ${values.personId}`, {
         theme: "colored",
-        position: "top-center",
-        style: { backgroundColor: "#3A7D44" },
+        style: { backgroundColor: "#009B90" },
       });
       setTimeout(() => {
         navigate("/home");
@@ -83,8 +83,8 @@ function LogIn() {
       <div className="w-screen h-screen flex bg-white">
         <div className="w-1/2 h-full border flex justify-center items-center relative">
           <i
-            className="w-1/6 min-h-min cursor-pointer absolute left-10 top-10"
-            onClick={() => navigate("/home")}
+            className="w-1/6 min-h-min cursor-pointer absolute left-10 top-10 z-10"
+            onClick={() => navigate("/")}
           >
             <img src={logoImage} alt="" className="outline-none" />
           </i>
@@ -214,9 +214,11 @@ function LogIn() {
                     </div>
                     <Button
                       type="submit"
-                      buttonText={isSubmitting ? "Loading.." : "Log In"}
+                      buttonContent={isSubmitting ? "Loading.." : "Log In"}
                       disabled={!isValid || isSubmitting}
-                      className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5"
+                      className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
+                        isSubmitting && "button-loading"
+                      }`}
                     />
                     <div className="w-full min-h-min flex flex-col gap-y-5">
                       <div className="w-full h-full relative flex justify-center items-center">
@@ -227,9 +229,18 @@ function LogIn() {
                       </div>
                     </div>
                     <Button
-                      type="Button"
-                      buttonText="Masuk dengan Google"
-                      className="outline-neutral-gray"
+                      type="button"
+                      buttonContent={
+                        <>
+                          <img
+                            src={googleIcon}
+                            alt=""
+                            className="h-5 aspect-square"
+                          />{" "}
+                          Daftar dengan Google
+                        </>
+                      }
+                      className="button-general w-full outline-neutral-gray relative gap-x-3"
                     />
                     <div className="flex justify-center w-full -mt-2">
                       <div>
