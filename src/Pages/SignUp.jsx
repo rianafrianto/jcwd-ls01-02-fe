@@ -49,10 +49,10 @@ function SignUp() {
       .required("Email wajib diisi"),
     password: Yup.string()
       .min(8, "Password terlalu pendek - minimum 8 karakter")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+-=])[A-Za-z\d@$!%*?&]/,
-        "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
-      )
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^_-])[A-Za-z\d@$!%*?&]/,
+      //   "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
+      // )
       .required("Password wajib diisi"),
   });
 
@@ -69,9 +69,7 @@ function SignUp() {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
-      setTimeout(() => {
-        navigate("/unverified");
-      }, 1000);
+      navigate("/unverified");
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -118,7 +116,7 @@ function SignUp() {
               <div className="w-full h-11 flex items-center gap-x-4">
                 <Button
                   type="button"
-                  className="button-general outline-neutral-gray relative gap-x-3"
+                  className="button-general w-full outline-neutral-gray relative gap-x-3"
                   buttonContent={
                     <>
                       <img
@@ -132,7 +130,7 @@ function SignUp() {
                 />
                 <Button
                   type="button"
-                  className="button-general bg-facebook text-white relative gap-x-3"
+                  className="button-general w-full bg-facebook text-white relative gap-x-3"
                   buttonContent={
                     <>
                       <img
@@ -159,8 +157,14 @@ function SignUp() {
             onSubmit={onSubmit}
           >
             {(formik) => {
-              const { handleChange, isSubmitting, isValid, handleBlur } =
-                formik;
+              const {
+                handleChange,
+                isSubmitting,
+                isValid,
+                handleBlur,
+                errors,
+                touched,
+              } = formik;
 
               return (
                 <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
@@ -177,7 +181,12 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className=""
+                      className={`${
+                        (errors.username && touched.username) ||
+                        (message[0] && !changed)
+                          ? "outline-red-700"
+                          : null
+                      }`}
                     />
                     <img
                       src={profileIcon}
@@ -230,7 +239,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type={visible ? "text" : "password"}
-                      className=""
+                      className="placeholder:translate-y-1"
                     />
                     <button
                       type="button"
@@ -251,16 +260,15 @@ function SignUp() {
                   </div>
 
                   {/* T&C */}
-                  <div className="w-full relative">
+                  <div className="w-full relative flex items-center">
                     <input
                       name="passwordConfirm"
-                      placeholder="confirm password"
                       onChange={(e) => {
                         handleChange(e);
                       }}
                       onBlur={handleBlur}
                       type="checkbox"
-                      className={``}
+                      className={`checkbox checkbox-primary`}
                     />
                     <label htmlFor="" className="ml-3">
                       Saya setuju dengan{" "}
@@ -270,10 +278,16 @@ function SignUp() {
                   </div>
                   <Button
                     type="submit"
-                    buttonContent={isSubmitting ? "Loading.." : "Sign Up"}
+                    buttonContent={
+                      isSubmitting
+                        ? "Loading.."
+                        : !isValid
+                        ? "Cek Kembali Data Kamu!"
+                        : "Daftar"
+                    }
                     disabled={!isValid || isSubmitting}
-                    className={`btn bg-primary text-white disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5 hover:bg-primary-dark ${
-                      isSubmitting && "loading"
+                    className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
+                      isSubmitting && "button-loading"
                     }`}
                   />
                 </Form>

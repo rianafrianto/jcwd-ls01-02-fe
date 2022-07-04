@@ -3,17 +3,14 @@ import React from "react";
 import TextError from "../TextError";
 
 function Input(props) {
-  const { label, name, placeholder, onChange, onBlur, type, className } = props;
+  const { label, name, className, ...rest } = props;
   return (
     <>
       <label htmlFor={name}>{label}</label>
       <input
         name={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        onBlur={onBlur}
-        type={type}
         className={`field-input pl-14 ${className}`}
+        {...rest}
       />
       <ErrorMessage name={name} component={TextError} />
     </>

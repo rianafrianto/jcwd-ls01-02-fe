@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import API_URL from "../Helpers/API_URL";
 
 function AuthProvider({ children }) {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +33,21 @@ function AuthProvider({ children }) {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <div>Loading Auth Provider</div>;
+  if (loading)
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
   return children;
 }
 

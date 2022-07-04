@@ -39,7 +39,8 @@ function Unverified() {
   };
 
   useEffect(() => {
-    if (verified) navigate(-1);
+    console.log(verified);
+    if (verified) navigate("/");
   }, []);
 
   return (
@@ -65,7 +66,7 @@ function Unverified() {
       <div className="w-1/2 h-full border shadow-2xl flex">
         <div className="bg-white h-5/6 w-5/6 m-auto flex flex-col items-center justify-center gap-y-5 py-10 container">
           <div className="w-full min-h-min text-2xl font-bold">
-            Verifikasi akun mu dulu yuk!
+            Halo {username}! Verifikasi akun mu dulu yuk!
           </div>
           <div className="w-full min-h-min">
             <p className="">

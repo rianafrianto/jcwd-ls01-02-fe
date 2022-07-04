@@ -15,7 +15,7 @@ function Navbar() {
   const [dropdown, setDropdown] = useState(false);
 
   return (
-    <div className="bg-white w-full h-20 flex justify-center items-center fixed z-10 shadow-lg">
+    <div className="bg-white w-full h-20 flex justify-center items-center fixed z-50 shadow-lg">
       {dropdown && <Dropdown dropdown={dropdown} setDropdown={setDropdown} />}
       <div className="container h-full flex justify-between items-center px-20 gap-x-6 lg:gap-x-16">
         <div className="w-5/6 h-11 flex items-center gap-x-9">
@@ -97,7 +97,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonContent="Masuk"
-                className="outline-primary text-primary text-xs"
+                className="button-outline w-full text-xs"
                 onClick={() => navigate("/login")}
               />
             </li>
@@ -105,7 +105,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonContent="Daftar"
-                className="bg-primary text-white text-xs"
+                className="button-primary w-full text-xs"
                 onClick={() => navigate("/register")}
               />
             </li>
