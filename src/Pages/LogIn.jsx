@@ -211,9 +211,11 @@ function LogIn() {
                     </div>
                     <Button
                       type="submit"
-                      buttonText={isSubmitting ? "Loading.." : "Log In"}
+                      buttonContent={isSubmitting ? "Loading.." : "Log In"}
                       disabled={!isValid || isSubmitting}
-                      className="bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm leading-5"
+                      className={`btn bg-primary text-white disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5 hover:bg-primary-dark ${
+                        isSubmitting && "loading"
+                      }`}
                     />
                     <div className="w-full min-h-min flex flex-col gap-y-5">
                       <div className="w-full h-full relative flex justify-center items-center">
@@ -225,7 +227,7 @@ function LogIn() {
                     </div>
                     <Button
                       type="Button"
-                      buttonText="Masuk dengan Google"
+                      buttonTContent={"Masuk dengan Google"}
                       className="outline-neutral-gray"
                     />
                     <div className="flex justify-center w-full -mt-2">

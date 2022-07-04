@@ -8,9 +8,9 @@ const INITIAL_STATE = {
   loading: false,
   cart: [],
   fullname: "",
-  profile_picture: "",
+  profile_picture: null,
   edit: null,
-  address: "",
+  // address_id: "",
   age: "",
 };
 
