@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Card from "../Component/Card";
 import FilterLeftBar from "../Component/FilterLeftBar";
+import Loading from "../Component/Loading";
 import API_URL from "../Helpers/API_URL";
 import { printCategory } from "../Helpers/categoryList";
 
@@ -37,15 +38,11 @@ function Category() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchProducts();
-  }, [order, page]);
+  }, [order, page, category]);
 
   const printProducts = () => {
     if (loadingProducts) {
-      return (
-        <div className="h-96 w-full flex items-center justify-center text-3xl">
-          LOADING...
-        </div>
-      );
+      return <Loading className="pt-28 h-full" />;
     }
     return (
       <div className="w-full h-full container grid grid-cols-2 2xl:grid-cols-4 md:grid-cols-3  gap-3 lg:gap-x-10 lg:gap-y-6">
@@ -102,7 +99,7 @@ function Category() {
           <div className="w-full mt-9 flex gap-x-12">
             <div className="w-full h-fullflex flex-col">
               <div className="w-full mt-9 flex gap-x-12">
-                <FilterLeftBar />
+                <FilterLeftBar category={category} />
                 <div className="w-full h-full flex flex-col gap-y-5">
                   <div className="h-11 text-3xl font-bold text-secondary">
                     {category && category === "all"
@@ -120,7 +117,7 @@ function Category() {
                     <div className="hidden lg:flex gap-x-4 items-center">
                       <div>Urutkan</div>
                       <select
-                        className="h-full w-44 border border-neutral-gray p-2 rounded-lg"
+                        className="select select-primary h-full w-44 border border-neutral-gray p-2 rounded-lg"
                         value={order}
                         onChange={(e) => {
                           setOrder(e.target.value);
