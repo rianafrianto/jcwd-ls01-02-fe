@@ -9,9 +9,11 @@ import plusIcon from "../Assets/plus-icon.png";
 import minusIcon from "../Assets/minus-icon.png";
 import chatDetailIcon from "../Assets/chat-detail-icon.png";
 import bagikanIcon from "../Assets/bagikan-icon.png";
+import tambahKeranjangIcon from "../Assets/tambah-keranjang-icon.png";
 import { HeartIcon } from "@heroicons/react/outline";
 import { printCategory, printCategoryParams } from "../Helpers/categoryList";
-import PromoCarousel from "../Component/Carousel/Carousels/PromoCarousel";
+import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
+import Loading from "../Component/Loading";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -107,11 +109,7 @@ function ProductDetail() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center text-5xl pt-20">
-        Loading ...
-      </div>
-    );
+    return <Loading className="h-screen" />;
   }
 
   return (
@@ -198,13 +196,18 @@ function ProductDetail() {
               </div>
               <div className="flex gap-x-4">
                 <button
-                  className="button-outline w-40 text-sm"
+                  className="button-outline w-40 text-sm flex gap-x-2"
                   onClick={() => {
                     isLogin
                       ? console.log(`tambah ke keranjang sebanyak ${qty}`)
                       : navigate("/login");
                   }}
                 >
+                  <img
+                    src={tambahKeranjangIcon}
+                    alt=""
+                    className="h-full scale-75"
+                  />{" "}
                   Keranjang
                 </button>
                 <button
@@ -260,11 +263,11 @@ function ProductDetail() {
           </div>
         </div>
         <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex py-28 relative">
-          <div className="absolute left-3 top-10 text-2xl font-bold">
-            Produk Terkait (ganti pake endpoint kategori)
-          </div>
+          <h1 className="absolute left-3 top-10 text-2xl text-secondary font-bold">
+            Produk Terkait
+          </h1>
           <div className="z-10 w-full h-full">
-            <PromoCarousel />
+            <ProdCatCarousel category={category} />
           </div>
         </div>
       </div>
