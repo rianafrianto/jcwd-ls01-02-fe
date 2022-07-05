@@ -1,5 +1,5 @@
 import { Form, Formik, Field } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -84,6 +84,14 @@ function SignUp() {
       setSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      message = [];
+      dispatch({ type: "CLEARERROR" });
+    };
+  }, []);
+
   return (
     <div className="w-screen h-screen flex bg-white">
       <div className="w-1/2 h-full flex justify-center items-center relative">
@@ -185,7 +193,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`${
+                      className={`pl-14 ${
                         (errors.username && touched.username) ||
                         (message[0] && !changed)
                           ? "outline-red-700"
@@ -217,7 +225,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`${
+                      className={`pl-14 ${
                         (errors.email && touched.email) ||
                         (message[0] && !changed)
                           ? "outline-red-700"
@@ -248,7 +256,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type={visible ? "text" : "password"}
-                      className={`placeholder:translate-y-1 ${
+                      className={`pl-14 placeholder:translate-y-1 ${
                         errors.password && touched.password
                           ? "outline-red-700"
                           : null
@@ -283,7 +291,7 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type={visibleConf ? "text" : "password"}
-                      className={`placeholder:translate-y-1 ${
+                      className={`pl-14 placeholder:translate-y-1 ${
                         errors.passwordConfirmation &&
                         touched.passwordConfirmation
                           ? "outline-red-700"

@@ -34,6 +34,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return (state = INITIAL_STATE);
     case "DONE":
       return { ...state, loading: false };
+    case "CLEARERROR":
+      return { ...state, error: false, error_mes: "" };
     default:
       return state;
   }

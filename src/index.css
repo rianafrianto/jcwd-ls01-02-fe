@@ -8,10 +8,10 @@ html {
 
 @layer components {
   .button-general {
-    @apply h-11 rounded-lg outline outline-1 flex justify-center items-center btn-plain;
+    @apply h-11 rounded-lg outline outline-2 flex justify-center items-center btn-plain;
   }
   .button-primary {
-    @apply h-11 rounded-lg outline outline-1 flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain;
+    @apply h-11 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain;
   }
   .button-outline {
     @apply h-11 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-white hover:bg-primary/20 text-primary font-bold btn-plain;

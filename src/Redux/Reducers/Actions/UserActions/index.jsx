@@ -26,3 +26,21 @@ export const registerAction = (data) => {
     }
   };
 };
+
+export const newAddressAction = (data) => {
+  return async (dispatch) => {
+    try {
+      let token = Cookies.get("token");
+      const res = await axios.post(`${API_URL}/profile/new-address`, data, {
+        headers: { authorization: token },
+      });
+      console.log(res.data);
+      toast.success(`berhasil`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
