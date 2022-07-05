@@ -54,14 +54,16 @@ function LogIn() {
         password: values.password,
       });
       Cookies.set("token", res.headers["x-token-access"]);
-      dispatch({ type: "LOGIN", payload: res.data });
+      dispatch({ type: "LOGIN", payload: res.data.data });
       toast.success(`welcome back ${values.personId}`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
-      setTimeout(() => {
-        navigate("/home");
-      }, 500);
+      if (!res.data.data.verified) {
+        navigate("/unverified");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       dispatch({
         type: "ERROR",

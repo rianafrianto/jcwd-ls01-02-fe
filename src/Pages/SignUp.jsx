@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, Field } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import facebookIcon from "../Assets/facebook-icon.png";
 import googleIcon from "../Assets/google-icon.png";
 import FormikControl from "../Component/Formik/FormikControl";
+import { registerAction } from "../Redux/Reducers/Actions/UserActions";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function SignUp() {
   const { error_mes } = useSelector((state) => state.user);
 
   const [visible, setVisible] = useState(false);
+  const [visibleConf, setVisibleConf] = useState(false);
   const [changed, setChanged] = useState(false);
 
   let message = [];
@@ -35,7 +37,8 @@ function SignUp() {
     username: "",
     email: "",
     password: "",
-    passwordConfirm: "",
+    passwordConfirmation: "",
+    termsCondition: false,
   };
 
   const validationSchema = Yup.object({
@@ -49,11 +52,22 @@ function SignUp() {
       .required("Email wajib diisi"),
     password: Yup.string()
       .min(8, "Password terlalu pendek - minimum 8 karakter")
-      // .matches(
-      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^_-])[A-Za-z\d@$!%*?&]/,
-      //   "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
-      // )
+      .matches(
+        //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^_-])[A-Za-z\d@$!%*?&]/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?\^\(\)\-\_\+\=])/,
+        "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
+      )
       .required("Password wajib diisi"),
+    passwordConfirmation: Yup.string()
+      .oneOf(
+        [Yup.ref("password"), null],
+        "Cocokkan dengan password kamu sebelumnya"
+      )
+      .required("Cocokkan dengan password kamu sebelumnya"),
+    termsCondition: Yup.boolean().oneOf(
+      [true],
+      "Kamu belum menyetujui persyaratan dan persetujuan"
+    ),
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -61,20 +75,10 @@ function SignUp() {
       message = [];
       setChanged(false);
       dispatch({ type: "LOADING" });
-      let res = await axios.post(`${API_URL}/auth/register`, values);
-      console.log(res.data);
-      dispatch({ type: "LOGIN", payload: res.data });
-      Cookies.set("token", res.headers["x-token-access"]);
-      toast.success(`welcome ${values.username}`, {
-        theme: "colored",
-        style: { backgroundColor: "#009B90" },
-      });
+      await dispatch(registerAction(values));
       navigate("/unverified");
     } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: error.response.data.message || "Network Error",
-      });
+      console.log(error);
     } finally {
       dispatch({ type: "DONE" });
       setSubmitting(false);
@@ -194,7 +198,7 @@ function SignUp() {
                       className="h-5 w-5 absolute left-5 top-11"
                     />
                     {message[0] && !changed && (
-                      <div className="absolute text-red-600 -bottom-6">
+                      <div className="absolute text-red-600 -bottom-6 right-0 text-sm">
                         {message[0]}
                       </div>
                     )}
@@ -213,7 +217,12 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className=""
+                      className={`${
+                        (errors.email && touched.email) ||
+                        (message[0] && !changed)
+                          ? "outline-red-700"
+                          : null
+                      }`}
                     />
                     <img
                       src={emailIcon}
@@ -221,7 +230,7 @@ function SignUp() {
                       className="h-5 w-5 absolute left-5 top-11"
                     />
                     {message[1] && !changed && (
-                      <div className="absolute text-red-600 -bottom-6">
+                      <div className="absolute text-red-600 -bottom-6 right-0 text-sm">
                         {message[1]}
                       </div>
                     )}
@@ -239,17 +248,57 @@ function SignUp() {
                       }}
                       onBlur={handleBlur}
                       type={visible ? "text" : "password"}
-                      className="placeholder:translate-y-1"
+                      className={`placeholder:translate-y-1 ${
+                        errors.password && touched.password
+                          ? "outline-red-700"
+                          : null
+                      }`}
                     />
                     <button
                       type="button"
-                      className="h-6 w-6 absolute right-5 top-10 translate-y-[5%] text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
+                      className="button-general outline-0 h-7 aspect-square absolute right-5 top-10  text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
                       onClick={() => setVisible(!visible)}
                     >
                       {visible ? (
-                        <BsFillEyeFill className="h-full" />
+                        <BsFillEyeFill className="w-full" />
                       ) : (
-                        <BsFillEyeSlashFill className="h-full" />
+                        <BsFillEyeSlashFill className="w-full" />
+                      )}
+                    </button>
+                    <img
+                      src={passwordIcon}
+                      alt=""
+                      className="h-5 w-5 absolute left-5 top-11"
+                    />
+                  </div>
+                  {/* Confirmation Password */}
+                  <div className="w-full relative flex flex-col justify-between gap-y-2">
+                    <FormikControl
+                      control="INPUT"
+                      label="Password Confirmation"
+                      name="passwordConfirmation"
+                      placeholder="********"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      onBlur={handleBlur}
+                      type={visibleConf ? "text" : "password"}
+                      className={`placeholder:translate-y-1 ${
+                        errors.passwordConfirmation &&
+                        touched.passwordConfirmation
+                          ? "outline-red-700"
+                          : null
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      className="button-general outline-0 h-7 aspect-square absolute right-5 top-10  text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
+                      onClick={() => setVisibleConf(!visibleConf)}
+                    >
+                      {visibleConf ? (
+                        <BsFillEyeFill className="w-full" />
+                      ) : (
+                        <BsFillEyeSlashFill className="w-full" />
                       )}
                     </button>
                     <img
@@ -261,20 +310,107 @@ function SignUp() {
 
                   {/* T&C */}
                   <div className="w-full relative flex items-center">
-                    <input
-                      name="passwordConfirm"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      onBlur={handleBlur}
+                    <Field
+                      name="termsCondition"
                       type="checkbox"
-                      className={`checkbox checkbox-primary`}
+                      className={`checkbox checkbox-primary ${
+                        errors.termsCondition && touched.termsCondition
+                          ? "border-red-600"
+                          : ""
+                      }`}
                     />
                     <label htmlFor="" className="ml-3">
                       Saya setuju dengan{" "}
-                      <span className="text-primary">persyaratan</span> dan{" "}
-                      <span className="text-primary">persetujuan</span>
+                      <label
+                        htmlFor="termsAndCondition"
+                        className="text-primary bg-white cursor-pointer hover:underline"
+                      >
+                        persyaratan
+                      </label>{" "}
+                      dan{" "}
+                      <label
+                        htmlFor="termsAndCondition"
+                        className="text-primary bg-white cursor-pointer hover:underline"
+                      >
+                        persetujuan
+                      </label>
+                      <input
+                        type="checkbox"
+                        id="termsAndCondition"
+                        className="modal-toggle"
+                      />
+                      <label
+                        htmlFor="termsAndCondition"
+                        className="modal cursor-pointer"
+                      >
+                        <label
+                          className="modal-box relative h-1/2 w-full"
+                          htmlFor=""
+                        >
+                          <div className="h-full w-full flex flex-col justify-center items-center gap-y-5">
+                            <h1 className="w-full text-center">
+                              Persyaratan dan Persetujuan
+                            </h1>
+                            <div className="w-full h-4\5 overflow-y-scroll">
+                              <p className="text-sm text-justify">
+                                Lorem ipsum dolor, sit amet consectetur
+                                adipisicing elit. Veritatis ducimus facere
+                                corporis accusantium dignissimos distinctio?
+                                Libero, architecto dolore sint laudantium
+                                repellat molestiae veniam repudiandae earum
+                                rerum dolor unde, assumenda ducimus? Lorem
+                                ipsum, dolor sit amet consectetur adipisicing
+                                elit. Minus, maiores nostrum asperiores,
+                                dignissimos quaerat illo, quibusdam obcaecati ab
+                                dolorem ex distinctio sit reprehenderit
+                                excepturi assumenda quo nesciunt voluptatem.
+                                Tempora, perferendis animi! A praesentium
+                                eligendi beatae saepe aut rerum, similique minus
+                                expedita, enim odit, autem quo nesciunt corporis
+                                velit quisquam. Ratione sint facilis assumenda
+                                dignissimos cum id recusandae, magni asperiores
+                                accusantium commodi dolor, minus explicabo amet
+                                libero, fugiat corporis officia itaque incidunt
+                                voluptas accusamus et! Similique suscipit amet
+                                dolore officiis odit quas unde quos, praesentium
+                                facilis laborum possimus voluptatum ipsum ipsam
+                                eos aperiam distinctio ullam voluptatibus
+                                tempora magnam recusandae numquam et laboriosam
+                                tenetur? Cumque facere placeat illo aliquid
+                                maxime aut incidunt ducimus amet labore, nobis
+                                pariatur ex assumenda quos sit fugit molestias
+                                nesciunt, maiores error! Cum ipsam neque eos?
+                                Fugit error aut eveniet voluptatem ab molestiae
+                                libero non, eum accusantium dolore minus
+                                assumenda? Suscipit, non aspernatur nostrum
+                                asperiores unde enim. Ea eaque sequi laboriosam
+                                asperiores distinctio ducimus dignissimos
+                                provident obcaecati, repellendus tempore minima
+                                possimus. Possimus non nostrum enim quibusdam,
+                                ipsum beatae dolorem neque perferendis debitis
+                                error optio fuga aut voluptatem ea fugit odit
+                                vel harum similique tenetur maiores dolores rem
+                                animi, atque voluptatibus. Vel repudiandae
+                                expedita corporis inventore quas sed atque.
+                              </p>
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="termsAndCondition"
+                                className="button-primary w-full px-5 cursor-pointer"
+                              >
+                                Saya mengerti
+                              </label>
+                            </div>
+                          </div>
+                        </label>
+                      </label>
                     </label>
+                    {errors.termsCondition && touched.termsCondition && (
+                      <div className="absolute text-red-600 -bottom-4 text-sm">
+                        {errors.termsCondition}
+                      </div>
+                    )}
                   </div>
                   <Button
                     type="submit"
