@@ -7,6 +7,8 @@ const INITIAL_STATE = {
   error_mes: "",
   loading: false,
   cart: [],
+  fullname: "",
+  profile_picture: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
