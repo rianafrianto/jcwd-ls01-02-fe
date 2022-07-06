@@ -1,14 +1,18 @@
 const INITIAL_STATE = {
   isLogin: false,
+  id: null,
   username: "",
   email: "",
   verified: "",
+  address_id: null,
+  bod: null,
+  fullname: "",
+  profile_picture: null,
+  cart: [],
+  fav: [],
   error: false,
   error_mes: "",
   loading: false,
-  cart: [],
-  fullname: "",
-  profile_picture: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
