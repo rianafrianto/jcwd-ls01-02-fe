@@ -109,7 +109,7 @@ function Category() {
                   <div className="w-full border-b border-neutral-gray" />
                   <div className="w-full h-9 mt-2 mb-2 flex justify-between items-center">
                     <div>
-                      {products[0]?.total} Produk{" "}
+                      {loadingProducts ? "..." : products[0].total} Produk{" "}
                       {category && category === "all"
                         ? ""
                         : `di ${printCategory(category)}`}
@@ -145,7 +145,7 @@ function Category() {
                   </div>
                   <div className="flex justify-end">
                     <div className="bg-primary/20 rounded-lg overflow-hidden">
-                      {printButton()}
+                      {loadingProducts ? "" : printButton()}
                     </div>
                   </div>
                 </div>

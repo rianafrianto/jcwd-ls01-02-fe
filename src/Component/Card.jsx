@@ -6,6 +6,7 @@ import API_URL from "../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
 import formatToCurrency from "../Helpers/formatToCurrency";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 function Card({ data }) {
   const { isLogin } = useSelector((state) => state.user);
@@ -43,7 +44,17 @@ function Card({ data }) {
     >
       <button
         className="btn btn-circle border-0 flex justify-center items-center bg-white absolute right-3 shadow-md hover:shadow-primary/50 hover:bg-white"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (isLogin) {
+            console.log("liked");
+          } else {
+            toast.error("Silahkan Log In terlebih dahulu!", {
+              theme: "colored",
+            });
+            navigate("/login");
+          }
+        }}
       >
         <HeartIcon className="text-neutral-gray h-8" />
       </button>

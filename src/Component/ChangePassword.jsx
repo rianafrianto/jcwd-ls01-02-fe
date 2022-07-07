@@ -25,10 +25,16 @@ function ChangePassword({ changePassword, setChangePassword }) {
 
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old Password is required"),
-    newPassword: Yup.string().required("Your New Password is required"),
-    confirmationPassword: Yup.string().required(
-      "Confirmation password is Required"
-    ),
+    newPassword: Yup.string()
+      .min(8, "Password is too short - minimimum of 8 characters.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?\^\(\)\-\_\+\=])/,
+        "Must also contain uppercase, number, and special character (ex. !, #)."
+      )
+      .required("Password is required!"),
+    confirmationPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], "Passwords do not match.")
+      .required("Passwords do not match."),
   });
 
   const onSubmit = async (values, onSubmit) => {
@@ -36,7 +42,7 @@ function ChangePassword({ changePassword, setChangePassword }) {
       console.log("Password jalan!<<<<<<<>>>>>>>");
       let token = Cookies.get("token");
       await axios.post(
-        `${API_URL}/auth/change-password-profile`,
+        `${API_URL}/auth/change-password`,
         {
           oldPassword: values.oldPassword,
           newPassword: values.newPassword,
