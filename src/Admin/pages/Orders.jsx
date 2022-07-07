@@ -23,7 +23,7 @@ function Orders() {
                 className=" w-full h-full outline outline-neutral-gray outline-1 rounded-lg overflow-hidden focus:outline focus:outline-1 focus:outline-primary :"
               />
             </div>
-            <div className="ml-20 w-1/4">
+            <div className="ml-10 w-1/5">
               <input
                 name=""
                 type="date"
@@ -31,7 +31,7 @@ function Orders() {
                 className={`field-input h-full `}
               />
             </div>
-            <div className="w-1/4">
+            <div className="w-1/5 ml-10">
               <select className="field-input h-full bg-white rounded-lg">
                 <option value="">Urutkan</option>
                 <option value="">Terbaru</option>
@@ -47,7 +47,7 @@ function Orders() {
             {/* <div className="w-32 pt-3 text-center bg-green-500 border">
                 Kartu
               </div> */}
-            <div className="w-2/4 ">
+            <div className="w-1/5 ml-56 ">
               <select className="field-input w-2/4 h-full bg-white rounded-lg">
                 <option value="">5</option>
                 <option value="">10</option>
