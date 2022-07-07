@@ -145,7 +145,7 @@ function Profile() {
     switch (tab) {
       case "PROFIL":
         return (
-          <div className="w-full h-full bg-white">
+          <div className="w-full h-full bg-white ">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -390,12 +390,75 @@ function Profile() {
       case "PROSES":
         return (
           <>
-            <div className="ml-2">Daftar Pemesanan</div>
-            <div>Semua</div>
-            <div>Menunggu</div>
-            <div>Diproses</div>
-            <div>Dikirim</div>
-            <div>Semua</div>
+            <div className="ml-10 mt-8">Daftar Pemesanan</div>
+            <div className="flex items-stretch  ">
+              <div className="py-4 ml-28 cursor-pointer ">Semua</div>
+              <div className="py-4 ml-28 cursor-pointer">Menunggu</div>
+              <div className="py-4 ml-28 cursor-pointer">Diproses</div>
+              <div className="py-4 ml-28 cursor-pointer">Dikirim</div>
+              <div className="py-4 ml-28 cursor-pointer">Selesai</div>
+              <div className="py-4 ml-28 cursor-pointer">Dibatalkan</div>
+            </div>
+            <div className="flex items-stretch  ">
+              <div className="py-4 ml-10 font-bold">Jenis Obat</div>
+              <button className="py-4 mt-1 ml-10 btn rounded-full btn-ghost border-primary hover:bg-primary">
+                Semua Obat
+              </button>
+              <button className="py-4 mt-1 ml-5 btn rounded-full btn-ghost border-primary hover:bg-primary">
+                Obat Resep
+              </button>
+              <button className="py-4 mt-1 ml-5 btn rounded-full btn-ghost border-primary hover:bg-primary">
+                Obat Bebas
+              </button>
+              {/* <div className="py-4 items-center mt-1 ml-80 ">Urutkan</div> */}
+              <div className="hidden lg:flex gap-x-4 items-center ml-80">
+                <div>Urutkan</div>
+                <select
+                  className="select select-primary h-25 w-44 border border-neutral-gray p-2 rounded-lg"
+                  // value={order}
+                  // onChange={(e) => {
+                  //   setOrder(e.target.value);
+                  //   setPage(0);
+                  // }}
+                >
+                  <option
+                    value="ORDER BY name ASC"
+                    className="hover:bg-primary"
+                  >
+                    Terbaru
+                  </option>
+                  <option value="ORDER BY name DESC">Terakhir</option>
+                </select>
+              </div>
+            </div>
+            <div className="w-[1000px] h-[200px] drop-shadow-lg justify-center ml-10 mr-10 rounded-xl border bg-white border-grey mt-5">
+              <div className="py-4 ml-6 text-xs flex items-stretch ">
+                Jumat, 5 April 2022, 15:45
+                <div className="ml-auto mr-5 h-25 w-30 border bg-danger p-2 rounded text-white  ">
+                  Menunggu Konfirmasi
+                </div>
+              </div>
+              <div className="flex items-stretch">
+                <img src={DefaultPicture} className="w-28 h-24 ml-6 rounded" />
+                <div className="ml-2 text-xs">
+                  Nomor Resep
+                  <div className="text-base py-1">#123abc456def</div>
+                  <div className="text-xs gap-4 mt-8 text-primary">
+                    Tampilkan Detail
+                  </div>
+                </div>
+                <div className="ml-auto mr-5">
+                  <span className="countdown font-mono text-4xl text-red-400">
+                    <span className="--value:10;"></span>:
+                    <span className="--value:24;"></span>:
+                    <span className="--value:5;"></span>
+                  </span>
+                </div>
+              </div>
+              <div className="ml-6 py-8 text-xs text-primary ">
+                Costumer Chat Service
+              </div>
+            </div>
           </>
         );
       case "METODE":
