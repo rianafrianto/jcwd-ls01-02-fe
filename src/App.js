@@ -17,6 +17,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verification from "./Pages/Verification";
 import ResetPassword from "./Pages/ResetPassword";
+import Search from "./Pages/Search";
 
 import Admin from "./Pages/Admin";
 import Unverified from "./Pages/Unverified";
@@ -78,6 +79,7 @@ function App() {
         <Route path="/myaccount" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
         <Route path="/unverified" element={<Unverified />} />
+        <Route path="/search/:category" element={<Search />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />
