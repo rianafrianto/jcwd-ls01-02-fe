@@ -34,7 +34,6 @@ function Profile() {
   };
   let {
     profile_picture,
-    // profile_cover,
     id,
     verified,
     username,
@@ -76,6 +75,8 @@ function Profile() {
   useEffect(() => {
     if (!isLogin) navigate("/home");
     // eslint-disable-next-line
+    if (localStorage.getItem("uploadSuccess"))
+      setTab(localStorage.getItem("uploadSuccess"));
   }, [isLogin]);
 
   const onSubmit = async (values) => {
@@ -353,13 +354,25 @@ function Profile() {
                               placeholder="Jl. Meruya No. 9 Kembangan Jakarta Barat"
                               className={`field-input w-full h-10 `}
                             />
-                            <div className="mb-2 mt-3">Age</div>
-                            <input
-                              name="age"
-                              type="date"
-                              placeholder=""
-                              className={`field-input w-full h-10 `}
-                            />
+                            <div className="flex">
+                              <div className="w-2/4 mr-5">
+                                <div className="mt-3">Age</div>
+                                <input
+                                  name="age"
+                                  type="date"
+                                  placeholder=""
+                                  className={`field-input w-full h-10 mr-5 `}
+                                />
+                              </div>
+                              <div className="w-2/4 ml-5">
+                                <div className="mt-3">Gender</div>
+                                <select className="field-input w-full h-10 bg-white rounded-lg">
+                                  <option value="">All</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                </select>
+                              </div>
+                            </div>
                             {loadingSubmit ? (
                               <Loading
                                 className={"animate-spin h-10 w-10 ml-5"}
@@ -413,21 +426,11 @@ function Profile() {
               {/* <div className="py-4 items-center mt-1 ml-80 ">Urutkan</div> */}
               <div className="hidden lg:flex gap-x-4 items-center ml-80">
                 <div>Urutkan</div>
-                <select
-                  className="select select-primary h-25 w-44 border border-neutral-gray p-2 rounded-lg"
-                  // value={order}
-                  // onChange={(e) => {
-                  //   setOrder(e.target.value);
-                  //   setPage(0);
-                  // }}
-                >
-                  <option
-                    value="ORDER BY name ASC"
-                    className="hover:bg-primary"
-                  >
+                <select className="select select-primary h-25 w-44 border border-neutral-gray p-2 rounded-lg">
+                  <option value="" className="hover:bg-primary">
                     Terbaru
                   </option>
-                  <option value="ORDER BY name DESC">Terakhir</option>
+                  <option value="">Terakhir</option>
                 </select>
               </div>
             </div>
@@ -448,14 +451,14 @@ function Profile() {
                   </div>
                 </div>
                 <div className="ml-auto mr-5">
-                  <span className="countdown font-mono text-4xl text-red-400">
+                  <span className="countdown font-mono text-4xl text-red-400 border-red-400">
                     <span className="--value:10;"></span>:
                     <span className="--value:24;"></span>:
                     <span className="--value:5;"></span>
                   </span>
                 </div>
               </div>
-              <div className="ml-6 py-8 text-xs text-primary ">
+              <div className="ml-6 py-6 text-xs text-primary ">
                 Costumer Chat Service
               </div>
             </div>

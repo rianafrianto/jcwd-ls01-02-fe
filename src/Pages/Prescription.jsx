@@ -272,7 +272,10 @@ function Prescription() {
                             isSubmitting && "loading"
                           }`}
                           onClick={() => {
-                            setUploadSuccess(true);
+                            setUploadSuccess(
+                              true,
+                              localStorage.setItem("uploadSuccess", "PROSES")
+                            );
                           }}
                         />
                       )}

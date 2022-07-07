@@ -1,4 +1,5 @@
 import React from "react";
+import searchIcon from "../../Assets/search-icon.png";
 
 function Orders() {
   return (
@@ -14,28 +15,47 @@ function Orders() {
               <button className="w-24 h-12 bg-green-500 border">EXCEL</button>
             </div>
           </div>
-          <div className="flex w-full h-12 mb-9">
-            <div className="w-56 pt-3 text-center bg-green-500 border">
-              Cari Nama Obat
+          <div className="flex h-12 mb-9">
+            <div className=" w-1/3 h-full ">
+              <input
+                type="text"
+                placeholder="Cari Nama Obat"
+                className=" w-full h-full outline outline-neutral-gray outline-1 rounded-lg overflow-hidden focus:outline focus:outline-1 focus:outline-primary :"
+              />
             </div>
-            <div className="w-32 pt-3 text-center bg-green-500 border">
-              Filter
+            <div className="ml-20 w-1/4">
+              <input
+                name=""
+                type="date"
+                placeholder="calender"
+                className={`field-input h-full `}
+              />
             </div>
-            <div className="w-32 pt-3 text-center bg-green-500 border">
-              Urutkan
+            <div className="w-1/4">
+              <select className="field-input h-full bg-white rounded-lg">
+                <option value="">Urutkan</option>
+                <option value="">Terbaru</option>
+                <option value="">Sebelumnya</option>
+              </select>
             </div>
           </div>
           <div className="flex w-full h-12 mb-9">
             <div className="w-40 pt-3 text-center bg-green-500 border">
               Pilih Semua
             </div>
-            <div className="flex justify-end w-full">
-              <div className="w-32 pt-3 text-center bg-green-500 border">
+
+            {/* <div className="w-32 pt-3 text-center bg-green-500 border">
                 Kartu
-              </div>
-              <div className="w-60 pt-3 text-center bg-green-500 border">
-                Paginate
-              </div>
+              </div> */}
+            <div className="w-2/4 ">
+              <select className="field-input w-2/4 h-full bg-white rounded-lg">
+                <option value="">5</option>
+                <option value="">10</option>
+                <option value="">15</option>
+              </select>
+            </div>
+            <div className="w-60 pt-3 text-center bg-green-500 border">
+              Paginate
             </div>
           </div>
           <div className="w-full h-full border bg-white mb-6">
