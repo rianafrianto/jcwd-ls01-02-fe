@@ -31,10 +31,28 @@ export const newAddressAction = (data) => {
   return async (dispatch) => {
     try {
       let token = Cookies.get("token");
-      const res = await axios.post(`${API_URL}/profile/new-address`, data, {
+      await axios.post(`${API_URL}/profile/new-address`, data, {
         headers: { authorization: token },
       });
-      console.log(res.data);
+      toast.success(`berhasil`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const getPrimaryAddress = (data) => {
+  return async (dispatch) => {
+    try {
+      let token = Cookies.get("token");
+      const res = await axios.get(`${API_URL}/transaction/primary-address`, {
+        headers: { authorization: token },
+        params: { address_id: data },
+      });
+      console.log(res.data.data);
       toast.success(`berhasil`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },

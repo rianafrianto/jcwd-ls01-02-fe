@@ -1,14 +1,18 @@
 const INITIAL_STATE = {
   isLogin: false,
+  id: null,
   username: "",
   email: "",
   verified: "",
+  address_id: null,
+  bod: null,
+  fullname: "",
+  profile_picture: null,
+  cart: [],
+  fav: [],
   error: false,
   error_mes: "",
   loading: false,
-  cart: [],
-  fullname: "",
-  profile_picture: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -38,6 +42,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false };
     case "CLEARERROR":
       return { ...state, error: false, error_mes: "" };
+    case "CHANGEADDRESS":
+      return { ...state, address_id: action.payload };
     default:
       return state;
   }
