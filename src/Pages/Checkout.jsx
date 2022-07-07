@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import CardAddress from "../Component/CardAddress";
 import { toast } from "react-toastify";
+import ModalAllAddress from "../Component/ModalAllAddress";
 
 function Checkout() {
   const navigate = useNavigate();
@@ -14,9 +15,9 @@ function Checkout() {
   const { isLogin, address_id } = useSelector((state) => state.user);
   const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(false);
   const [loadingAllAddress, setLoadingAllAddress] = useState(false);
-  const [dataPrimaryAddress, setdataPrimaryAddress] = useState([]);
   const [dataAddresses, setDataAddresses] = useState([]);
   const [destinationId, setDestinationId] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState([]);
 
   const getPrimaryAddress = async (data) => {
     try {
@@ -27,12 +28,8 @@ function Checkout() {
         params: { address_id: data },
       });
       console.log(res.data.data);
-      setdataPrimaryAddress(res.data.data);
+      setSelectedAddress(res.data.data);
       setDestinationId(res.data.data.destination);
-      toast.success(`berhasil`, {
-        theme: "colored",
-        style: { backgroundColor: "#009B90" },
-      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -49,10 +46,6 @@ function Checkout() {
       });
       setDataAddresses(res.data.data);
       console.log(res.data.data);
-      toast.success(`berhasil`, {
-        theme: "colored",
-        style: { backgroundColor: "#009B90" },
-      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -60,11 +53,6 @@ function Checkout() {
     }
   };
 
-  const printAddresses = () => {
-    return dataAddresses.map((val) => {
-      return <CardAddress data={val} />;
-    });
-  };
   useEffect(() => {
     if (!isLogin) navigate("/home");
     getPrimaryAddress(address_id);
@@ -83,7 +71,7 @@ function Checkout() {
                   {loadingPrimaryAddress ? (
                     <div className="w-full h-full bg-neutral-gray" />
                   ) : (
-                    <CardAddress data={dataPrimaryAddress} />
+                    <CardAddress data={selectedAddress} />
                   )}
 
                   <label
@@ -93,26 +81,12 @@ function Checkout() {
                   >
                     Pilih alamat lain
                   </label>
-
-                  <input
-                    type="checkbox"
-                    id="addresses"
-                    className="modal-toggle"
+                  <ModalAllAddress
+                    setSelectedAddress={setSelectedAddress}
+                    dataAddresses={dataAddresses}
+                    loadingAllAddress={loadingAllAddress}
+                    selectedAddress={selectedAddress}
                   />
-                  <label htmlFor="addresses" className="modal cursor-pointer">
-                    <label className="modal-box relative" htmlFor="">
-                      <div className="relative w-full h-12">
-                        Pilih Alamat
-                        <label
-                          htmlFor="my-modal-3"
-                          className="btn btn-sm btn-circle absolute right-2 top-0"
-                        >
-                          ✕
-                        </label>
-                      </div>
-                      <div>{loadingAllAddress ? "" : printAddresses()}</div>
-                    </label>
-                  </label>
                 </div>
                 <button
                   className="w-full h-6 border border-green-400 hover:bg-green-800"

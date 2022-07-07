@@ -42,6 +42,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false };
     case "CLEARERROR":
       return { ...state, error: false, error_mes: "" };
+    case "CHANGEADDRESS":
+      return { ...state, address_id: action.payload };
     default:
       return state;
   }
