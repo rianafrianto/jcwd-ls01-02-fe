@@ -39,7 +39,7 @@ function ResetPassword() {
     password: Yup.string()
       .min(8, "Password is too short - minimimum of 8 characters.")
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?\^\(\)\-\_\+\=])/,
         "Must also contain uppercase, number, and special character (ex. !, #)."
       )
       .required("Password is required!"),
@@ -51,7 +51,7 @@ function ResetPassword() {
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       await axios.post(
-        `${API_URL}/auth/change-password`,
+        `${API_URL}/auth/reset-password`,
         { password: values.password },
         {
           headers: {
@@ -62,10 +62,9 @@ function ResetPassword() {
       setSubmitting(false);
       setTimeout(() => {
         setSucceed(true);
-        toast.success("Password Changed!", {
-          position: "top-center",
+        toast.success("Password berhasil diubah!", {
           theme: "colored",
-          style: { backgroundColor: "#3A7D44" },
+          style: { backgroundColor: "#009B90" },
         });
         navigate("/login");
       }, 1000);
@@ -221,9 +220,9 @@ function ResetPassword() {
                         </div>
                         <Button
                           type="submit"
-                          buttonText="Ganti Password"
+                          buttonContent="Ganti Password"
                           disabled={!isValid || isSubmitting}
-                          className="bg-primary text-white disabled:bg-gray-600 text-sm leading-5 hover:bg-dark-primary mt-2"
+                          className="button-primary w-full disabled:bg-gray-600 text-sm leading-5 mt-2"
                         />
                       </Form>
                     );

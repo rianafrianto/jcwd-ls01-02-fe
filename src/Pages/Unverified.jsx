@@ -39,7 +39,6 @@ function Unverified() {
   };
 
   useEffect(() => {
-    console.log(verified);
     if (verified) navigate("/");
   }, []);
 

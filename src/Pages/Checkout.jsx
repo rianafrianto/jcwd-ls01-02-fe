@@ -1,40 +1,92 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardCart from "../Component/CardCart";
-import PaymentMethodModal from "../Component/PaymentMethodModal";
+import API_URL from "../Helpers/API_URL";
+import axios from "axios";
+import Cookies from "js-cookie";
+import CardAddress from "../Component/CardAddress";
+import { toast } from "react-toastify";
+import ModalAllAddress from "../Component/ModalAllAddress";
 
 function Checkout() {
   const navigate = useNavigate();
-  const [paymentMethodModal, setPaymentMethodModal] = useState(false);
-  const { isLogin } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { isLogin, address_id } = useSelector((state) => state.user);
+  const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(false);
+  const [loadingAllAddress, setLoadingAllAddress] = useState(false);
+  const [dataAddresses, setDataAddresses] = useState([]);
+  const [destinationId, setDestinationId] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState([]);
+
+  const getPrimaryAddress = async (data) => {
+    try {
+      let token = Cookies.get("token");
+      setLoadingPrimaryAddress(true);
+      const res = await axios.get(`${API_URL}/transaction/primary-address`, {
+        headers: { authorization: token },
+        params: { address_id: data },
+      });
+      console.log(res.data.data);
+      setSelectedAddress(res.data.data);
+      setDestinationId(res.data.data.destination);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingPrimaryAddress(false);
+    }
+  };
+
+  const getAllAddresses = async () => {
+    try {
+      let token = Cookies.get("token");
+      setLoadingAllAddress(true);
+      const res = await axios.get(`${API_URL}/transaction/all-addresses`, {
+        headers: { authorization: token },
+      });
+      setDataAddresses(res.data.data);
+      console.log(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingAllAddress(false);
+    }
+  };
 
   useEffect(() => {
     if (!isLogin) navigate("/home");
+    getPrimaryAddress(address_id);
     // eslint-disable-next-line
-  }, [isLogin]);
+  }, []);
 
   return (
     <>
-      {paymentMethodModal && (
-        <PaymentMethodModal
-          paymentMethodModal={paymentMethodModal}
-          setPaymentMethodModal={setPaymentMethodModal}
-        />
-      )}
       <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
           <div className="w-full border border-white flex gap-x-16">
             <div className="flex flex-col px-10 py-7 gap-y-7 w-4/6 bg-white">
               <div>
-                <div className="h-6 w-full mb-3 border-b-[.5px] border-black">
-                  Alamat Pengiriman
-                </div>
-                <div className="h-36 w-full flex justify-between">
-                  <div className="border border-green-800 w-full">alamat</div>
-                  <button className="mb-28 w-full px-1 border border-green-500 hover:bg-green-500">
+                <div className="h-6 w-full mb-3">Alamat Pengiriman</div>
+                <div className="h-36 w-full relative">
+                  {loadingPrimaryAddress ? (
+                    <div className="w-full h-full bg-neutral-gray" />
+                  ) : (
+                    <CardAddress data={selectedAddress} />
+                  )}
+
+                  <label
+                    htmlFor="addresses"
+                    className="px-1 absolute top-0 right-0 modal-button cursor-pointer"
+                    onClick={getAllAddresses}
+                  >
                     Pilih alamat lain
-                  </button>
+                  </label>
+                  <ModalAllAddress
+                    setSelectedAddress={setSelectedAddress}
+                    dataAddresses={dataAddresses}
+                    loadingAllAddress={loadingAllAddress}
+                    selectedAddress={selectedAddress}
+                  />
                 </div>
                 <button
                   className="w-full h-6 border border-green-400 hover:bg-green-800"
@@ -64,15 +116,22 @@ function Checkout() {
                 >
                   Metode Pembayaran
                 </button> */}
-                <label for="my-modal-4" class="btn modal-button">
-                  Metode Pembayaran
+                <label
+                  htmlFor="my-modal-4"
+                  className="button-primary text-sm modal-button"
+                >
+                  Pilih Metode Pembayaran
                 </label>
-                <input type="checkbox" id="my-modal-4" class="modal-toggle" />
-                <label for="my-modal-4" class="modal cursor-pointer">
-                  <label class="modal-box relative" for="">
+                <input
+                  type="checkbox"
+                  id="my-modal-4"
+                  className="modal-toggle"
+                />
+                <label htmlFor="my-modal-4" className="modal cursor-pointer">
+                  <label className="modal-box relative" htmlFor="">
                     <label
-                      for="my-modal-4"
-                      class="btn btn-sm btn-circle absolute right-2 top-2"
+                      htmlFor="my-modal-4"
+                      className="btn btn-sm btn-circle absolute right-2 top-2"
                     >
                       ✕
                     </label>

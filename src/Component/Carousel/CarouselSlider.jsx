@@ -7,7 +7,7 @@ function CarouselSlider(props) {
   let { settings, printFunc } = props;
 
   return (
-    <Slider {...settings} className="">
+    <Slider {...settings} className="group">
       {printFunc()}
     </Slider>
   );
