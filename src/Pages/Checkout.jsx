@@ -2,26 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CardCart from "../Component/CardCart";
-import PaymentMethodModal from "../Component/PaymentMethodModal";
+import API_URL from "../Helpers/API_URL";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Checkout() {
   const navigate = useNavigate();
-  const [paymentMethodModal, setPaymentMethodModal] = useState(false);
   const { isLogin } = useSelector((state) => state.user);
 
+  const getPrimaryAddress = async () => {
+    try {
+      let token = Cookies.get("token");
+      const res = await axios.get(`${API_URL}/transaction/primary-address`, {
+        headers: { authorization: token },
+      });
+    } catch (error) {}
+  };
   useEffect(() => {
     if (!isLogin) navigate("/home");
+
     // eslint-disable-next-line
-  }, [isLogin]);
+  }, []);
 
   return (
     <>
-      {paymentMethodModal && (
-        <PaymentMethodModal
-          paymentMethodModal={paymentMethodModal}
-          setPaymentMethodModal={setPaymentMethodModal}
-        />
-      )}
       <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
           <div className="w-full border border-white flex gap-x-16">
@@ -64,15 +68,19 @@ function Checkout() {
                 >
                   Metode Pembayaran
                 </button> */}
-                <label for="my-modal-4" class="btn modal-button">
+                <label htmlFor="my-modal-4" className="btn modal-button">
                   Metode Pembayaran
                 </label>
-                <input type="checkbox" id="my-modal-4" class="modal-toggle" />
-                <label for="my-modal-4" class="modal cursor-pointer">
-                  <label class="modal-box relative" for="">
+                <input
+                  type="checkbox"
+                  id="my-modal-4"
+                  className="modal-toggle"
+                />
+                <label htmlFor="my-modal-4" className="modal cursor-pointer">
+                  <label className="modal-box relative" htmlFor="">
                     <label
-                      for="my-modal-4"
-                      class="btn btn-sm btn-circle absolute right-2 top-2"
+                      htmlFor="my-modal-4"
+                      className="btn btn-sm btn-circle absolute right-2 top-2"
                     >
                       ✕
                     </label>
