@@ -8,13 +8,13 @@ html {
 
 @layer components {
   .button-general {
-    @apply h-11 rounded-lg outline outline-1 flex justify-center items-center btn-plain;
+    @apply py-2 rounded-lg outline outline-2 flex justify-center items-center btn-plain cursor-pointer text-sm;
   }
   .button-primary {
-    @apply h-11 rounded-lg outline outline-1 flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain;
+    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain cursor-pointer text-sm;
   }
   .button-outline {
-    @apply h-11 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-white hover:bg-primary/20 text-primary font-bold btn-plain;
+    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-white hover:bg-primary/20 text-primary font-bold btn-plain cursor-pointer text-sm;
   }
   .field-input {
     @apply w-full h-11 px-5 outline outline-1 outline-neutral-gray rounded-lg;
