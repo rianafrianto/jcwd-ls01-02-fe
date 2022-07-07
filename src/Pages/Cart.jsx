@@ -20,7 +20,7 @@ function Cart() {
         <div className="w-full mt-9 border border-white flex gap-x-16">
           <div className="flex flex-col px-10 w-4/6 bg-white">
             <div className="h-20 w-full border-b-[.5px] border-black">
-              Pilih Semua check box
+              <input type="checkbox" /> Pilih Semua
             </div>
             <CardCart />
           </div>
