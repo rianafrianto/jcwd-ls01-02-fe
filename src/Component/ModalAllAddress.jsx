@@ -13,6 +13,7 @@ function ModalAllAddress(props) {
     setSelectedAddress,
     loadingAllAddress,
     selectedAddress,
+    setCourier,
   } = props;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,7 @@ function ModalAllAddress(props) {
               htmlFor="addresses"
               onClick={() => {
                 setSelectedAddress(val);
+                setCourier("");
               }}
               className="button-primary px-5 absolute right-2 top-2"
             >
