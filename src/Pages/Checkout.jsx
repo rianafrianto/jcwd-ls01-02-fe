@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import CardAddress from "../Component/CardAddress";
 import { toast } from "react-toastify";
+import plusIcon from "../Assets/plus-icon.png";
 import ModalAllAddress from "../Component/ModalAllAddress";
 
 function Checkout() {
@@ -17,7 +18,7 @@ function Checkout() {
   const [loadingAllAddress, setLoadingAllAddress] = useState(false);
   const [dataAddresses, setDataAddresses] = useState([]);
   const [destinationId, setDestinationId] = useState(null);
-  const [selectedAddress, setSelectedAddress] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const getPrimaryAddress = async (data) => {
     try {
@@ -27,6 +28,11 @@ function Checkout() {
         headers: { authorization: token },
         params: { address_id: data },
       });
+      if (res.data.data?.primary_address)
+        dispatch({
+          type: "CHANGEADDRESS",
+          payload: res.data.data?.primary_address,
+        });
       console.log(res.data.data);
       setSelectedAddress(res.data.data);
       setDestinationId(res.data.data.destination);
@@ -36,7 +42,7 @@ function Checkout() {
       setLoadingPrimaryAddress(false);
     }
   };
-
+  console.log(selectedAddress);
   const getAllAddresses = async () => {
     try {
       let token = Cookies.get("token");
@@ -61,38 +67,46 @@ function Checkout() {
 
   return (
     <>
-      <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
+      <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
-          <div className="w-full border border-white flex gap-x-16">
-            <div className="flex flex-col px-10 py-7 gap-y-7 w-4/6 bg-white">
-              <div>
-                <div className="h-6 w-full mb-3">Alamat Pengiriman</div>
-                <div className="h-36 w-full relative">
-                  {loadingPrimaryAddress ? (
-                    <div className="w-full h-full bg-neutral-gray" />
-                  ) : (
-                    <CardAddress data={selectedAddress} />
-                  )}
+          <div className="w-full flex gap-x-16">
+            <div className="flex flex-col gap-y-7 w-4/6">
+              <div className="w-full h-full flex flex-col items-start gap-y-3">
+                <h1 className="h-6 w-full font-bold text-secondary text-xl">
+                  Alamat Pengiriman
+                </h1>
+                <div className="border-b border-neutral-gray w-full" />
+                {!selectedAddress ? null : (
+                  <div className="h-32 w-full relative">
+                    {loadingPrimaryAddress ? (
+                      <div className="w-full h-full bg-neutral-gray" />
+                    ) : (
+                      <CardAddress data={selectedAddress} />
+                    )}
 
-                  <label
-                    htmlFor="addresses"
-                    className="px-1 absolute top-0 right-0 modal-button cursor-pointer"
-                    onClick={getAllAddresses}
-                  >
-                    Pilih alamat lain
-                  </label>
-                  <ModalAllAddress
-                    setSelectedAddress={setSelectedAddress}
-                    dataAddresses={dataAddresses}
-                    loadingAllAddress={loadingAllAddress}
-                    selectedAddress={selectedAddress}
-                  />
-                </div>
+                    <label
+                      htmlFor="addresses"
+                      className="button-general py-0 outline-0 text-primary font-bold absolute top-2 right-2 modal-button cursor-pointer"
+                      onClick={getAllAddresses}
+                    >
+                      Pilih alamat lain
+                    </label>
+                    <ModalAllAddress
+                      setSelectedAddress={setSelectedAddress}
+                      dataAddresses={dataAddresses}
+                      loadingAllAddress={loadingAllAddress}
+                      selectedAddress={selectedAddress}
+                      setLoadingAllAddress={setLoadingAllAddress}
+                    />
+                    <div className="border-b border-neutral-gray w-full" />
+                  </div>
+                )}
                 <button
-                  className="w-full h-6 border border-green-400 hover:bg-green-800"
+                  className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg"
                   onClick={() => navigate("/address")}
                 >
-                  Tambah alamat
+                  <img src={plusIcon} alt="" className="h-7 aspect-square" />
+                  Tambah Alamat Baru
                 </button>
               </div>
               <div className="border border-black">

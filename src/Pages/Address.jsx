@@ -77,9 +77,9 @@ function Address() {
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       dispatch({ type: "LOADING" });
+      console.log(values.primaryAddress);
       await dispatch(newAddressAction(values));
-      // navigate("/unverified");
-      console.log(values);
+      navigate("/checkout");
     } catch (error) {
       console.log(error);
     } finally {
@@ -96,7 +96,6 @@ function Address() {
       setKodePos(() => {
         for (let val of cities) {
           if (val?.value == cityId) {
-            console.log(val?.value, Number(cityId));
             return val.kode_pos;
           }
         }

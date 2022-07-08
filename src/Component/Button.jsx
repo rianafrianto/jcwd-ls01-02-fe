@@ -5,7 +5,7 @@ function Button({ className, onClick, type, disabled, buttonContent }) {
     <button
       type={type}
       disabled={disabled}
-      className={`button-general ${className}`}
+      className={`${className}`}
       onClick={onClick}
     >
       {buttonContent}

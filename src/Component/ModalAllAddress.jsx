@@ -5,6 +5,7 @@ import API_URL from "../Helpers/API_URL";
 import CardAddress from "./CardAddress";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 function ModalAllAddress(props) {
   const {
@@ -40,7 +41,7 @@ function ModalAllAddress(props) {
     return dataAddresses.map((val, i) => {
       return (
         <div
-          className="w-full h-full relative p-2 border-b border-neutral-gray"
+          className="w-full min-h-min relative p-2 border-b border-neutral-gray"
           key={i}
         >
           <CardAddress data={val} className="border-0" />
@@ -51,7 +52,7 @@ function ModalAllAddress(props) {
               onClick={() => {
                 setSelectedAddress(val);
               }}
-              className="button-primary px-5 absolute right-0 top-2"
+              className="button-primary px-5 absolute right-2 top-2"
             >
               Pilih Alamat
             </label>
@@ -62,12 +63,13 @@ function ModalAllAddress(props) {
                 Alamat Utama
               </span>
             ) : (
-              <span
-                className="button-general text-primary outline-0 py-0 hover:font-semibold"
+              <button
+                disabled={loading}
+                className="button-general text-primary outline-0 py-0 hover:font-semibold disabled:pointer-events-none"
                 onClick={() => changePrimaryAddress(val)}
               >
-                Jadikan Alamat Utama
-              </span>
+                {loading ? "Loading..." : "Jadikan Alamat Utama"}
+              </button>
             )}
           </div>
         </div>
@@ -78,9 +80,9 @@ function ModalAllAddress(props) {
   return (
     <>
       <input type="checkbox" id="addresses" className="modal-toggle" />
-      <label htmlFor="addresses" className="modal cursor-pointer ">
-        <label className="modal-box relative" htmlFor="">
-          <div className="relative w-full h-full flex items-center  justify-between border-b border-neutral-gray py-2">
+      <label htmlFor="addresses" className="modal cursor-pointer">
+        <label className="modal-box relative h-1/2 flex flex-col" htmlFor="">
+          <div className="relative w-full min-h-min flex items-start justify-between border-b border-neutral-gray pb-2">
             <span className="text-xl font-bold text-secondary">
               Pilih Alamat
             </span>
@@ -91,7 +93,13 @@ function ModalAllAddress(props) {
               ✕
             </label>
           </div>
-          <div>{loadingAllAddress ? "" : printAddresses()}</div>
+          <div className="h-full w-full overflow-y-scroll border-b border-neutral-gray">
+            {loadingAllAddress ? (
+              <Loading className="h-full" />
+            ) : (
+              printAddresses()
+            )}
+          </div>
         </label>
       </label>
     </>
