@@ -88,7 +88,7 @@ const ForgotPasswordModal = (props) => {
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-neutral-gray shadow-2xl rounded-2xl">
                 <Dialog.Title
                   as="div"
-                  className="relative text-lg font-medium leading-6 text-putih bg-primary rounded text-center mb-5 -mt-7 -mx-10"
+                  className="relative text-lg font-medium leading-6 text-white bg-primary rounded text-center mb-5 -mt-7 -mx-10"
                 >
                   <h1 className="h-20 w-100 flex justify-center items-center text-xl">
                     {!succeed && "Forgot Password?"}
@@ -140,20 +140,20 @@ const ForgotPasswordModal = (props) => {
                                     values.email.length &&
                                     dirty) ||
                                   (error_mes && !changed)
-                                    ? "p-2 px-4 outline outline-merah outline-2 rounded bg-putih"
-                                    : "p-2 px-4 focus:outline focus:outline-biru focus:outline-2 rounded bg-putih"
+                                    ? "p-2 px-4 outline outline-red-600 outline-2 rounded bg-white"
+                                    : "p-2 px-4 focus:outline focus:outline-primary focus:outline-2 rounded bg-white"
                                 }
                               />
                               {errors.email && dirty && values.email.length ? (
                                 <div
                                   name="email"
-                                  className="text-merah -ml-2 text-xs absolute px-2 -bottom-5 pointer-events-none"
+                                  className="text-red-600 -ml-2 text-xs absolute px-2 -bottom-5 pointer-events-none"
                                 >
                                   {errors.email}
                                 </div>
                               ) : null}
                               {error_mes && !changed && (
-                                <div className="text-merah -ml-2 text-xs absolute px-2 -bottom-5 pointer-events-none">
+                                <div className="text-red-600 -ml-2 text-xs absolute px-2 -bottom-5 pointer-events-none">
                                   {error_mes}
                                 </div>
                               )}
@@ -164,7 +164,7 @@ const ForgotPasswordModal = (props) => {
                                 type="submit"
                                 className="justify-center px-4 py-2 text-sm font-medium border rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 
                                 duration-500
-                                      hover:text-putih shadow-md hover:shadow-black text-putih bg-primary border-transparent 
+                                      hover:text-white shadow-md hover:shadow-primary text-white bg-primary border-transparent 
                                       disabled:bg-primary disabled:cursor-not-allowed"
                                 onClick={() => setChanged(false)}
                               >
