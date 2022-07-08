@@ -31,13 +31,23 @@ export const newAddressAction = (data) => {
   return async (dispatch) => {
     try {
       let token = Cookies.get("token");
-      await axios.post(`${API_URL}/profile/new-address`, data, {
+      const res = await axios.post(`${API_URL}/profile/new-address`, data, {
         headers: { authorization: token },
       });
       toast.success(`berhasil`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
+      if (data.primaryAddress) {
+        console.log("ada primary");
+        console.log(res);
+        dispatch({
+          type: "CHANGEADDRESS",
+          payload: res.data.data?.address_id,
+        });
+        console.log("ubah ada primary");
+      }
+      return res;
     } catch (error) {
       throw new Error(error);
     }
