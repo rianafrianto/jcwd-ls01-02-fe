@@ -151,7 +151,7 @@ function Prescription() {
                 <div className="w-full h-[550px] drop-shadow-2xl rounded-lg bg-white flex px-16 py-7">
                   <div className="w-full ">
                     Unggah Resep Dokter
-                    <div className="w-full h-[400px] rounded-xl px-6 border bg-white border-grey mt-5">
+                    <div className="w-full h-[400px] rounded-xl px-6 border-dashed border-4 bg-white border-grey mt-5">
                       {/* <div className="flex justify-center mt-20 text-xl">
                       Tarik & Letakan File
                     </div> */}
