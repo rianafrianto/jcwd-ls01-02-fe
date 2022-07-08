@@ -2,8 +2,8 @@ import React from "react";
 
 function Orders() {
   return (
-    <div className="bg-red-500 h-full w-full flex">
-      <div className="bg-green-400 w-full h-full pt-16 pl-64">
+    <div className="min-h-screen w-full flex">
+      <div className="w-full pt-16 pl-64">
         <div className="py-8 px-12">
           <div className="flex h-12 w-full mb-16">
             <div className="w-36 h-12 pt-3 text-center bg-green-500 border">

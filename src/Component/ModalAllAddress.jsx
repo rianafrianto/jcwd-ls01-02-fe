@@ -14,6 +14,9 @@ function ModalAllAddress(props) {
     loadingAllAddress,
     selectedAddress,
     setCourier,
+    setSelectedMethod,
+    setSelectedMethodCost,
+    setTotal,
   } = props;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -53,6 +56,10 @@ function ModalAllAddress(props) {
               onClick={() => {
                 setSelectedAddress(val);
                 setCourier("");
+                toast.success("Alamat telah diganti", { theme: "colored" });
+                setSelectedMethod(null);
+                setSelectedMethodCost(0);
+                setTotal(0);
               }}
               className="button-primary px-5 absolute right-2 top-2"
             >

@@ -2,7 +2,7 @@ import React from "react";
 
 function Dashboard() {
   return (
-    <div className="bg-red-500 h-full w-full justify-center flex">
+    <div className="h-full w-full justify-center flex">
       <div className="bg-[#f1f5fc] w-screen pt-16 pl-64">
         <div className="py-8 px-12">
           <div className="mb-8">
