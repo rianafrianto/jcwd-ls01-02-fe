@@ -162,7 +162,11 @@ function Leftbar() {
           </button>
         </div>
       </div>
-      <div className="w-full relative z-10 bg-white">
+      <div
+        className={`w-full relative duration-300 ${
+          salesDisclosure ? "h-[240px]" : "h-24"
+        }`}
+      >
         <button
           className={`button-left-bar justify-between px-4 ${
             location.pathname === "/admin/sales" ||
@@ -195,8 +199,8 @@ function Leftbar() {
           />
         </button>
         <div
-          className={`w-full -z-50 pointer-events-auto flex flex-col duration-300 ${
-            salesDisclosure ? "h-36" : "h-0"
+          className={`w-full flex flex-col absolute duration-300 pointer-events-auto ${
+            salesDisclosure ? "z-0" : "-translate-y-full -z-10"
           }`}
         >
           <Link
