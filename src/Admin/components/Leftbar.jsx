@@ -17,12 +17,12 @@ function Leftbar() {
   const [salesDisclosure, setSalesDisclosure] = useState(false);
   return (
     <div className="h-screen flex flex-col w-64 fixed top-0 z-20 bg-white overflow-hidden shadow-xl shadow-black/50">
-      <div className="w-full h-16 flex justify-center items-center bg-white">
+      <div className="w-full h-16 flex justify-center items-center bg-white z-10">
         <i>Logo</i>
       </div>
       <Link
         to="/admin/dashboard"
-        className={`button-left-bar pl-4 ${
+        className={`button-left-bar pl-4 z-10 ${
           location.pathname === "/admin/dashboard" ? "text-primary" : ""
         }`}
       >
@@ -41,7 +41,7 @@ function Leftbar() {
       </Link>
       <Link
         to="/admin/products"
-        className={`button-left-bar pl-4 ${
+        className={`button-left-bar pl-4 z-10 ${
           location.pathname === "/admin/products" ? "text-primary" : ""
         }`}
       >
@@ -58,14 +58,18 @@ function Leftbar() {
           Produk
         </div>
       </Link>
-      <div className="w-full relative z-10">
+      <div
+        className={`w-full relative duration-300 ${
+          transaksiDisclosure ? "h-[434px]" : "h-24"
+        }`}
+      >
         <button
-          className={`button-left-bar justify-between px-4 ${
+          className={`button-left-bar justify-between z-20 px-4 ${
             location.pathname.match("/admin/orders") ? "text-primary" : ""
           }`}
           onClick={() => setTransaksiDisclosure(!transaksiDisclosure)}
         >
-          <div className="flex w-full gap-x justify-start items-center gap-x-2">
+          <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
             <img
               src={
                 location.pathname.match("/admin/orders")
@@ -83,14 +87,9 @@ function Leftbar() {
             }`}
           />
         </button>
-        {/* <div
-          className={`w-full flex flex-col absolute -z-10 duration-300 border border-black ${
-            transaksiDisclosure ? "" : "-translate-y-full"
-          }`}
-        ></div> */}
         <div
-          className={`w-full -z-50 pointer-events-auto flex flex-col duration-300 ${
-            transaksiDisclosure ? "h-[338px]" : "h-0"
+          className={`w-full flex flex-col absolute duration-300 pointer-events-auto ${
+            transaksiDisclosure ? "z-0" : "-translate-y-full -z-10"
           }`}
         >
           <Link
@@ -143,7 +142,7 @@ function Leftbar() {
           </Link>
           <Link
             to="/admin/orders/selesai"
-            className={`sub-button-left-bar ${
+            className={`sub-button-left-bar pointer-events-auto ${
               location.pathname === "/admin/orders/selesai"
                 ? "text-primary"
                 : ""
@@ -195,11 +194,6 @@ function Leftbar() {
             }`}
           />
         </button>
-        {/* <div
-          className={`w-full flex flex-col absolute -z-10 duration-300 border border-black ${
-            transaksiDisclosure ? "" : "-translate-y-full"
-          }`}
-        ></div> */}
         <div
           className={`w-full -z-50 pointer-events-auto flex flex-col duration-300 ${
             salesDisclosure ? "h-36" : "h-0"
