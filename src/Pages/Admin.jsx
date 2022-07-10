@@ -14,6 +14,7 @@ import Report from "../Admin/pages/Report";
 import Sales from "../Admin/pages/Sales";
 import LeftbarAdmin from "../Admin/components/Leftbar";
 import NavbarAdmin from "../Admin/components/Navbar";
+import Statistics from "../Admin/pages/Statistics";
 
 function Admin() {
   const location = useLocation();
@@ -37,6 +38,7 @@ function Admin() {
         <Route path="orders/:status" element={<Orders />} />
         <Route path="report" element={<Report />} />
         <Route path="sales" element={<Sales />} />
+        <Route path="statistics" element={<Statistics />} />
       </Routes>
     </>
   );

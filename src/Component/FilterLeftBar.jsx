@@ -1,32 +1,29 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { categoryList, printCategory } from "../Helpers/categoryList";
 
-function FilterLeftBar() {
+function FilterLeftBar({ category }) {
+  const navigate = useNavigate();
   return (
     <div className="hidden xl:flex flex-col w-72 gap-y-8">
       <div className="h-72 w-full bg-white py-6 px-7 rounded-xl">
-        <div className="text-xl font-semibold pb-3">Katagori</div>
+        <div className="text-xl font-semibold pb-3">Kategori</div>
         <div className="flex-col flex">
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Obat Obatan
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Nutrisi
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Herbal
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Vitamin & Suplemen
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Alat Kesehatan
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Perawatan Tubuh
-          </button>
-          <button className="text-left w-48 mb-1 hover:text-teal-500 hover:font-semibold">
-            Ibu & Anak
-          </button>
+          {categoryList.map((val, i) => {
+            return (
+              <button
+                className={`button-general h-6 justify-start outline-0 w-48 mb-1 hover:text-primary hover:font-semibold ${
+                  printCategory(category) === val.cardText
+                    ? "font-semibold text-primary"
+                    : ""
+                }`}
+                key={i}
+                onClick={() => navigate(`/category/${val.cardPath}`)}
+              >
+                {val.cardText}
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className="h-[1415px] bg-white border border-orange-700 py-6 rounded-xl">

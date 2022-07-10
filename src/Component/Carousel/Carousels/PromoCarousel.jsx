@@ -14,7 +14,6 @@ function PromoCarousel() {
     try {
       setLoading(true);
       const res = await axios.get(`${API_URL}/product/promo-products`);
-      console.log(res.data.data);
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -77,7 +76,7 @@ function PromoCarousel() {
   const printProducts = () => {
     return data.map((val, i) => {
       return (
-        <div key={i} className="w-full h-full flex px-2 py-4">
+        <div key={i} className="w-full h-full flex px-3 py-4">
           <Card key={i} data={val} />
         </div>
       );

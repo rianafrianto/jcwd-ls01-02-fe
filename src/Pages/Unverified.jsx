@@ -39,7 +39,6 @@ function Unverified() {
   };
 
   useEffect(() => {
-    console.log(verified);
     if (verified) navigate("/");
   }, []);
 
@@ -89,7 +88,9 @@ function Unverified() {
                 buttonContent={
                   loadingEmail ? "Sedang Mengirim ..." : "Kirim Ulang Email"
                 }
-                className="text-white bg-primary hover:bg-primary-dark disabled:bg-gray-600"
+                className={`button-primary disabled:bg-gray-600 ${
+                  loadingEmail && "button-loading"
+                }`}
                 onClick={sendEmail}
               />
             </div>
@@ -108,7 +109,7 @@ function Unverified() {
               </p>
               <Button
                 buttonContent="Ganti Akun"
-                className="text-primary"
+                className="text-primary button-outline"
                 onClick={changeAccount}
               />
             </div>

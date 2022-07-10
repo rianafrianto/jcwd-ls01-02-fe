@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import axios from "axios";
 import API_URL from "../Helpers/API_URL";
+import Loading from "./Loading";
 
 function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function AuthProvider({ children }) {
             authorization: token,
           },
         });
-        dispatch({ type: "LOGIN", payload: res.data });
+        dispatch({ type: "LOGIN", payload: res.data.data });
       }
     } catch (error) {
       console.log(error);
@@ -33,21 +34,7 @@ function AuthProvider({ children }) {
     // eslint-disable-next-line
   }, []);
 
-  if (loading)
-    return (
-      <div className="h-screen w-full flex justify-center items-center">
-        <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-    );
+  if (loading) return <Loading className="h-screen" />;
   return children;
 }
 

@@ -7,11 +7,7 @@ function Input(props) {
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <input
-        name={name}
-        className={`field-input pl-14 ${className}`}
-        {...rest}
-      />
+      <input name={name} className={`field-input ${className}`} {...rest} />
       <ErrorMessage name={name} component={TextError} />
     </>
   );

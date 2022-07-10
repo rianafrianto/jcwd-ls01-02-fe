@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -54,14 +54,16 @@ function LogIn() {
         password: values.password,
       });
       Cookies.set("token", res.headers["x-token-access"]);
-      dispatch({ type: "LOGIN", payload: res.data });
+      dispatch({ type: "LOGIN", payload: res.data.data });
       toast.success(`welcome back ${values.personId}`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
-      setTimeout(() => {
-        navigate("/home");
-      }, 500);
+      if (!res.data.data.verified) {
+        navigate("/unverified");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -71,6 +73,13 @@ function LogIn() {
       onSubmit.setSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      message = [];
+      dispatch({ type: "CLEARERROR" });
+    };
+  }, []);
 
   return (
     <>
@@ -240,7 +249,7 @@ function LogIn() {
                           Daftar dengan Google
                         </>
                       }
-                      className="button-general w-full outline-neutral-gray relative gap-x-3"
+                      className="button-general w-full outline outline-1 outline-neutral-gray relative gap-x-3 hover:bg-neutral-gray/50"
                     />
                     <div className="flex justify-center w-full -mt-2">
                       <div>
