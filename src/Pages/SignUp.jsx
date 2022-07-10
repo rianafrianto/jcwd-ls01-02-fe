@@ -128,7 +128,7 @@ function SignUp() {
               <div className="w-full h-11 flex items-center gap-x-4">
                 <Button
                   type="button"
-                  className="button-general w-full outline-neutral-gray relative gap-x-3"
+                  className="button-general w-full outline outline-1 outline-neutral-gray relative gap-x-3 hover:bg-neutral-gray/50"
                   buttonContent={
                     <>
                       <img

@@ -14,11 +14,13 @@ import { HeartIcon } from "@heroicons/react/outline";
 import { printCategory, printCategoryParams } from "../Helpers/categoryList";
 import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
 import Loading from "../Component/Loading";
+import defaultProduct from "../Assets/default-product.png";
 
 function ProductDetail() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState("");
   let [tab, setTab] = useState("DESKRIPSI");
 
   const [qty, setQty] = useState(1);
@@ -35,8 +37,10 @@ function ProductDetail() {
         `${API_URL}/product/product-details/${product_name}`
       );
       setData(res.data.data);
+      await axios.get(API_URL + res.data.data.image);
+      setImage(API_URL + res.data.data.image);
     } catch (error) {
-      console.log(error);
+      setImage(defaultProduct);
     } finally {
       setLoading(false);
     }
@@ -134,9 +138,9 @@ function ProductDetail() {
           <div className="flex flex-col w-full items-center">
             <div className="w-[400px] flex flex-col items-center gap-5">
               <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
-                <img src={data?.photo ? API_URL + data?.photo : ""} alt="" />
+                <img src={image} alt="" />
               </figure>
-              <div className="hidden lg:flex gap-x-2 w-full px-5">
+              <div className="hidden lg:flex gap-x-2 w-full px-5 h-11">
                 <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">
                   <img
                     src={chatDetailIcon}
@@ -194,7 +198,7 @@ function ProductDetail() {
                   Sisa {data.stock} {data.satuan.toLowerCase()}
                 </div>
               </div>
-              <div className="flex gap-x-4">
+              <div className="flex gap-x-4 h-11">
                 <button
                   className="button-outline w-40 text-sm flex gap-x-2"
                   onClick={() => {
