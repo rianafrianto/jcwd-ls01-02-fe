@@ -194,6 +194,9 @@ function Checkout() {
                       selectedAddress={selectedAddress}
                       setLoadingAllAddress={setLoadingAllAddress}
                       setCourier={setCourier}
+                      setSelectedMethod={setSelectedMethod}
+                      setSelectedMethodCost={setSelectedMethodCost}
+                      setTotal={setTotal}
                     />
                     <div className="border-b border-neutral-gray w-full" />
                   </div>

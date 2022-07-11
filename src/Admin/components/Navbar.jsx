@@ -1,12 +1,16 @@
 import React from "react";
+import notifAdmin from "../../Assets/notification-admin.png";
+import profileIcon from "../../Assets/profile-icon.png";
 
 function Navbar() {
   return (
-    <div className="bg-green-500 flex w-screen h-16 justify-end fixed top-0 z-10">
-      <div className="container bg-green-200 h-full flex justify-end pt-3 pr-4">
-        <button className="w-20 h-10 border border-red-700">LOGO</button>
-        <button className="w-20 h-10 border border-red-700">LOGO</button>
-      </div>
+    <div className="bg-white flex w-screen h-16 justify-end fixed top-0 z-10 items-center pr-12 gap-x-8 shadow-lg shadow-black/20">
+      <button className="h-6 object-cover">
+        <img src={notifAdmin} alt="" className="h-full" />
+      </button>
+      <button className="h-6 object-cover">
+        <img src={profileIcon} alt="" className="h-full" />
+      </button>
     </div>
   );
 }
