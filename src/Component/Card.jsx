@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API_URL from "../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
 import formatToCurrency from "../Helpers/formatToCurrency";
 import { toast } from "react-toastify";
+import defaultProduct from "../Assets/default-product.png";
+import axios from "axios";
 
 function Card({ data }) {
   const { isLogin } = useSelector((state) => state.user);
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
+
+  const getImage = async (data) => {
+    try {
+      await axios.get(API_URL + data);
+      setImage(API_URL + data);
+    } catch (error) {
+      setImage(defaultProduct);
+    }
+  };
+  useEffect(() => {
+    getImage(data.photo);
+  }, []);
+
   return (
     <div
-      className="h-full relative bg-white p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
+      className="h-full relative bg-white border p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
       onClick={() => navigate(`/category/${data.category}/${link}`)}
     >
       <button
@@ -34,8 +50,8 @@ function Card({ data }) {
       <div className="flex flex-col items-start w-full">
         <figure className="w-full flex justify-center">
           <img
-            src={API_URL + data.photo}
-            alt=""
+            src={image}
+            alt={defaultProduct}
             className="h-36 aspect-square"
           />
         </figure>

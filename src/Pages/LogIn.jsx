@@ -247,7 +247,7 @@ function LogIn() {
                           Daftar dengan Google
                         </>
                       }
-                      className="button-general w-full outline-neutral-gray relative gap-x-3"
+                      className="button-general w-full outline outline-1 outline-neutral-gray relative gap-x-3 hover:bg-neutral-gray/50"
                     />
                     <div className="flex justify-center w-full -mt-2">
                       <div>
