@@ -227,7 +227,7 @@ function SignUp() {
                       type="text"
                       className={`pl-14 ${
                         (errors.email && touched.email) ||
-                        (message[0] && !changed)
+                        (message[1] && !changed)
                           ? "outline-red-700"
                           : null
                       }`}
