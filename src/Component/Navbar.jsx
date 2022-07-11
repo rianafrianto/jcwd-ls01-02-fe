@@ -97,7 +97,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonContent="Masuk"
-                className="button-outline w-full text-xs"
+                className="button-outline h-full w-full text-xs"
                 onClick={() => navigate("/login")}
               />
             </li>
@@ -105,7 +105,7 @@ function Navbar() {
               <Button
                 type="button"
                 buttonContent="Daftar"
-                className="button-primary w-full text-xs"
+                className="button-primary h-full w-full text-xs"
                 onClick={() => navigate("/register")}
               />
             </li>
