@@ -89,9 +89,9 @@ function Profile() {
     let dataInput = {
       username: values.username,
       fullname: values.fullname,
-      // gender: values.gender,
-      // address: values.address,
-      // age: values.age,
+      gender: values.gender,
+      address: values.address,
+      age: values.age,
     };
 
     formData.append("data", JSON.stringify(dataInput));

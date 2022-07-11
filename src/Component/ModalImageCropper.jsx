@@ -22,7 +22,7 @@ function ModalImageCropper({
     if (image.type === "ava") {
       setObjectFit("vertical-cover");
       setAspect(1);
-      setShape("round");
+      setShape("shape");
     } else {
       setObjectFit("horizontal-cover");
       setAspect(16 / 9);
