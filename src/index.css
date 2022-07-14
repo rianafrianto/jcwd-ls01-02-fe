@@ -20,7 +20,7 @@ html {
     @apply w-full h-11 px-5 outline outline-1 outline-neutral-gray rounded-lg;
   }
   .button-left-bar {
-    @apply btn-plain hover:bg-gray-200 w-full h-24 flex justify-between items-center bg-white text-xl font-bold text-gray-400;
+    @apply btn-plain hover:bg-gray-200 w-full h-20 flex justify-between items-center bg-white text-xl font-bold text-gray-400;
   }
   .sub-button-left-bar {
     @apply btn-plain hover:bg-gray-200 w-full h-12 flex justify-start px-4 items-center bg-white font-semibold text-gray-400 pointer-events-auto;

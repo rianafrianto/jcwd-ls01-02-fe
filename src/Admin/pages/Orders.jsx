@@ -1,8 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import searchIcon from "../../Assets/search-icon.png";
+import Loading from "../../Component/Loading";
+import API_URL from "../../Helpers/API_URL";
 import CardOrderAdmin from "../components/CardOrderAdmin";
 
 function Orders() {
+  const params = useParams();
+  const { status } = params;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getOrders = async () => {
+    try {
+      setLoading(true);
+      let res = await axios.get(`${API_URL}/admin/orders/${status}`);
+      console.log(res);
+      setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const printOrders = (data) => {
+    return data.map((val, i) => {
+      return <CardOrderAdmin data={val} key={i} />;
+    });
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, [status]);
+
   return (
     <div className="min-h-screen w-full flex bg-[#f1f5fc]">
       <div className="w-full pt-16 pl-64">
@@ -60,7 +92,7 @@ function Orders() {
             </div>
           </div>
           <div className="w-full">
-            <CardOrderAdmin />
+            {loading ? <Loading className="pt-56" /> : printOrders(data)}
           </div>
         </div>
       </div>
