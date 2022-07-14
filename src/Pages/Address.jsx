@@ -55,7 +55,7 @@ function Address() {
       let data = res.data.data.map((val) => {
         return { value: val.id, content: val.province };
       });
-      setProvinces([{ content: "Provinsi", value: "" }, , ...data]);
+      setProvinces([{ content: "Provinsi", value: 0 }, , ...data]);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +104,7 @@ function Address() {
   }, [provinceId, cityId]);
 
   return (
-    <div className="h-full w-screen flex justify-center pt-20">
+    <div className="h-full w-full flex justify-center pt-20">
       <div className="container h-full flex flex-col px-10 sm:px-40 xl:px-96 py-24 gap-y-16">
         <div>Alamat Pengiriman</div>
         <div className="w-full h-full flex">

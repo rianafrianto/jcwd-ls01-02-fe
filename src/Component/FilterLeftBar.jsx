@@ -4,12 +4,16 @@ import { categoryList, printCategory } from "../Helpers/categoryList";
 
 function FilterLeftBar({ category }) {
   const navigate = useNavigate();
+  const catList = [
+    { cardText: "Semua Produk", cardPath: "all" },
+    ...categoryList,
+  ];
   return (
     <div className="hidden xl:flex flex-col w-72 gap-y-8">
       <div className="h-72 w-full bg-white py-6 px-7 rounded-xl">
         <div className="text-xl font-semibold pb-3">Kategori</div>
         <div className="flex-col flex">
-          {categoryList.map((val, i) => {
+          {catList.map((val, i) => {
             return (
               <button
                 className={`button-general h-6 justify-start outline-0 w-48 mb-1 hover:text-primary hover:font-semibold ${

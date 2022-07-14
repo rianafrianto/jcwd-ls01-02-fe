@@ -3,7 +3,7 @@ import { ErrorMessage, Field } from "formik";
 import TextError from "../TextError";
 
 function Select(props) {
-  const { label, name, className, options, onChange, ...rest } = props;
+  const { label, name, className, options, ...rest } = props;
 
   return (
     <>
@@ -12,7 +12,6 @@ function Select(props) {
         as="select"
         id={name}
         name={name}
-        onChange={onChange}
         className={`field-input ${className}`}
         {...rest}
       >
