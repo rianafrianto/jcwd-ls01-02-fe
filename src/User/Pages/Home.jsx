@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import uploadResep from "../Assets/upload-resep.png";
-import kejarDiskon from "../Assets/kejar-diskon.png";
-import programHamil from "../Assets/program-hamil.png";
-import idulFitri from "../Assets/idul-fitri.png";
+import uploadResep from "../../Assets/upload-resep.png";
+import kejarDiskon from "../../Assets/kejar-diskon.png";
+import programHamil from "../../Assets/program-hamil.png";
+import idulFitri from "../../Assets/idul-fitri.png";
 import PromoCarousel from "../Component/Carousel/Carousels/PromoCarousel";
 import CategoryCarousel from "../Component/Carousel/Carousels/CategoryCarousel";
 import CardMiniJumbotron from "../Component/CardMiniJumbotron";

@@ -2,21 +2,17 @@ import { Form, Formik, Field } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import API_URL from "../Helpers/API_URL";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import Button from "../Component/Button";
-import profileIcon from "../Assets/profile-icon.png";
-import emailIcon from "../Assets/email-icon.png";
-import passwordIcon from "../Assets/password-icon.png";
-import signupImage from "../Assets/signup-image.png";
+import profileIcon from "../../Assets/profile-icon.png";
+import emailIcon from "../../Assets/email-icon.png";
+import passwordIcon from "../../Assets/password-icon.png";
+import signupImage from "../../Assets/signup-image.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import facebookIcon from "../Assets/facebook-icon.png";
-import googleIcon from "../Assets/google-icon.png";
+import facebookIcon from "../../Assets/facebook-icon.png";
+import googleIcon from "../../Assets/google-icon.png";
 import FormikControl from "../Component/Formik/FormikControl";
-import { registerAction } from "../Redux/Reducers/Actions/UserActions";
+import { registerAction } from "../../Redux/Reducers/Actions/UserActions";
 
 function SignUp() {
   const navigate = useNavigate();

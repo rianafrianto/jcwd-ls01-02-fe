@@ -1,5 +1,5 @@
 import React from "react";
-import { categoryList } from "../../../Helpers/categoryList";
+import { categoryList } from "../../../../Helpers/categoryList";
 import CardCategory from "../../CardCategory";
 import CarouselSlider from "../CarouselSlider";
 import NextArrow from "../NextArrow";

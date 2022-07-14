@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import API_URL from "../../../Helpers/API_URL";
+import API_URL from "../../../../Helpers/API_URL";
 import Card from "../../Card";
 import CarouselSlider from "../CarouselSlider";
 import NextArrow from "../NextArrow";

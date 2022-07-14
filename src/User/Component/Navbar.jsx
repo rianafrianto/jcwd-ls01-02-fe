@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "./DropdownProfile";
 import Button from "./Button";
-import searchIcon from "../Assets/search-icon.png";
+import searchIcon from "../../Assets/search-icon.png";
 import Cookies from "js-cookie";
 
 function Navbar() {
@@ -72,7 +72,7 @@ function Navbar() {
                   className="border border-primary px-5 py-2 flex items-center justify-center hover:bg-primary rounded-lg duration-300"
                   onClick={() => {
                     setDropdown(false);
-                    navigate("/myaccount");
+                    navigate("/myaccount/profile");
                   }}
                 >
                   My Account

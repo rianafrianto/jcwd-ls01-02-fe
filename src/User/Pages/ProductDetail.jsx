@@ -3,18 +3,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Card from "../Component/Card";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
-import formatToCurrency from "../Helpers/formatToCurrency";
-import plusIcon from "../Assets/plus-icon.png";
-import minusIcon from "../Assets/minus-icon.png";
-import chatDetailIcon from "../Assets/chat-detail-icon.png";
-import bagikanIcon from "../Assets/bagikan-icon.png";
-import tambahKeranjangIcon from "../Assets/tambah-keranjang-icon.png";
+import API_URL from "../../Helpers/API_URL";
+import formatToCurrency from "../../Helpers/formatToCurrency";
+import plusIcon from "../../Assets/plus-icon.png";
+import minusIcon from "../../Assets/minus-icon.png";
+import chatDetailIcon from "../../Assets/chat-detail-icon.png";
+import bagikanIcon from "../../Assets/bagikan-icon.png";
+import tambahKeranjangIcon from "../../Assets/tambah-keranjang-icon.png";
 import { HeartIcon } from "@heroicons/react/outline";
-import { printCategory, printCategoryParams } from "../Helpers/categoryList";
+import { printCategory, printCategoryParams } from "../../Helpers/categoryList";
 import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
 import Loading from "../Component/Loading";
-import defaultProduct from "../Assets/default-product.png";
+import defaultProduct from "../../Assets/default-product.png";
 
 function ProductDetail() {
   const navigate = useNavigate();

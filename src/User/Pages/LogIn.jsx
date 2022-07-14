@@ -5,16 +5,16 @@ import { toast } from "react-toastify";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import Cookies from "js-cookie";
 import Button from "../Component/Button";
-import emailIcon from "../Assets/email-icon.png";
-import passwordIcon from "../Assets/password-icon.png";
-import signupImage from "../Assets/signup-image.png";
-import logoImage from "../Assets/logo-1.png";
+import emailIcon from "../../Assets/email-icon.png";
+import passwordIcon from "../../Assets/password-icon.png";
+import signupImage from "../../Assets/signup-image.png";
+import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
-import googleIcon from "../Assets/google-icon.png";
+import googleIcon from "../../Assets/google-icon.png";
 
 function LogIn() {
   const navigate = useNavigate();

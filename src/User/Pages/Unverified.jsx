@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import Button from "../Component/Button";
-import API_URL from "../Helpers/API_URL";
-import signupImage from "../Assets/signup-image.png";
+import API_URL from "../../Helpers/API_URL";
+import signupImage from "../../Assets/signup-image.png";
 
 function Unverified() {
   const navigate = useNavigate();

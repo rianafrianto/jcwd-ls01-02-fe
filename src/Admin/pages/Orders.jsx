@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import searchIcon from "../../Assets/search-icon.png";
-import Loading from "../../Component/Loading";
+import Loading from "../../User/Component/Loading";
 import API_URL from "../../Helpers/API_URL";
 import CardOrderAdmin from "../components/CardOrderAdmin";
 

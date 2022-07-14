@@ -1,5 +1,5 @@
 import React from "react";
-import lArrow from "../../Assets/l-arrow.png";
+import lArrow from "../../../Assets/l-arrow.png";
 
 function PrevArrow(props) {
   const { onClick, height } = props;
