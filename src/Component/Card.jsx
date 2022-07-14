@@ -10,21 +10,8 @@ import axios from "axios";
 
 function Card({ data }) {
   const { isLogin } = useSelector((state) => state.user);
-  const [image, setImage] = useState("");
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
-
-  const getImage = async (data) => {
-    try {
-      await axios.get(API_URL + data);
-      setImage(API_URL + data);
-    } catch (error) {
-      setImage(defaultProduct);
-    }
-  };
-  useEffect(() => {
-    getImage(data.photo);
-  }, []);
 
   return (
     <div
@@ -50,7 +37,7 @@ function Card({ data }) {
       <div className="flex flex-col items-start w-full">
         <figure className="w-full flex justify-center">
           <img
-            src={image}
+            src={data.photo ? API_URL + data.photo : defaultProduct}
             alt={defaultProduct}
             className="h-36 aspect-square"
           />

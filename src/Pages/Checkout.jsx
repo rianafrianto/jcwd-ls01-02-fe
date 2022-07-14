@@ -20,9 +20,7 @@ function Checkout() {
   const dispatch = useDispatch();
   const { isLogin, address_id } = useSelector((state) => state.user);
   const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(false);
-  const [loadingAllAddress, setLoadingAllAddress] = useState(false);
   const [loadingCourier, setLoadingCourier] = useState(false);
-  const [dataAddresses, setDataAddresses] = useState([]);
   const [destinationId, setDestinationId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [weight, setWeight] = useState(1000);
@@ -35,6 +33,16 @@ function Checkout() {
   const [total, setTotal] = useState(0);
   const [dataAddress, setDataAddress] = useState("");
   const [dataMethod, setDataMethod] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   const originId = "152";
 
   const getPrimaryAddress = async (data) => {
@@ -56,22 +64,6 @@ function Checkout() {
       console.log(error);
     } finally {
       setLoadingPrimaryAddress(false);
-    }
-  };
-
-  const getAllAddresses = async () => {
-    try {
-      let token = Cookies.get("token");
-      setLoadingAllAddress(true);
-      const res = await axios.get(`${API_URL}/transaction/all-addresses`, {
-        headers: { authorization: token },
-      });
-      setDataAddresses(res.data.data);
-      console.log(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingAllAddress(false);
     }
   };
 
@@ -163,6 +155,16 @@ function Checkout() {
 
   return (
     <>
+      <ModalAllAddress
+        isOpen={isOpen}
+        closeModal={closeModal}
+        setSelectedAddress={setSelectedAddress}
+        selectedAddress={selectedAddress}
+        setCourier={setCourier}
+        setSelectedMethod={setSelectedMethod}
+        setSelectedMethodCost={setSelectedMethodCost}
+        setTotal={setTotal}
+      />
       <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
           <div className="w-full flex gap-x-16">
@@ -175,30 +177,20 @@ function Checkout() {
                 {!selectedAddress ? null : (
                   <div className="h-32 w-full relative">
                     {loadingPrimaryAddress ? (
-                      <div className="w-full h-full bg-neutral-gray" />
+                      <Loading className="h-full" />
                     ) : (
-                      <CardAddress data={selectedAddress} />
+                      <>
+                        <CardAddress data={selectedAddress} />
+                        <button
+                          h="addresses"
+                          className="button-general py-0 outline-0 text-primary font-bold absolute top-2 right-2 modal-button cursor-pointer"
+                          onClick={openModal}
+                        >
+                          Pilih alamat lain
+                        </button>
+                        <div className="border-b border-neutral-gray w-full" />
+                      </>
                     )}
-
-                    <label
-                      htmlFor="addresses"
-                      className="button-general py-0 outline-0 text-primary font-bold absolute top-2 right-2 modal-button cursor-pointer"
-                      onClick={getAllAddresses}
-                    >
-                      Pilih alamat lain
-                    </label>
-                    <ModalAllAddress
-                      setSelectedAddress={setSelectedAddress}
-                      dataAddresses={dataAddresses}
-                      loadingAllAddress={loadingAllAddress}
-                      selectedAddress={selectedAddress}
-                      setLoadingAllAddress={setLoadingAllAddress}
-                      setCourier={setCourier}
-                      setSelectedMethod={setSelectedMethod}
-                      setSelectedMethodCost={setSelectedMethodCost}
-                      setTotal={setTotal}
-                    />
-                    <div className="border-b border-neutral-gray w-full" />
                   </div>
                 )}
                 <button
