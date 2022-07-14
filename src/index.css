@@ -105,3 +105,12 @@ code {
     -4px -4px 4px rgba(190, 190, 190, 0.06),
     8px 8px 4px rgba(190, 190, 190, 0.06);
 }
+
+.bg-admin {
+  background: linear-gradient(
+    155.7deg,
+    #d6f5f3 -45.88%,
+    #f7fcfc 45.77%,
+    #f1f5fc 117.72%
+  );
+}
