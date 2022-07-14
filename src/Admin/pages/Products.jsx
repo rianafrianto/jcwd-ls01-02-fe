@@ -73,7 +73,7 @@ function Products() {
                   <span className="w-full">
                     Lorem ipsum dolor sit amet consectetur.
                   </span>
-                  <div className="w-56"></div>
+                  <div className="w-56 flex border h-full">asd</div>
                 </div>
               </div>
             </div>
