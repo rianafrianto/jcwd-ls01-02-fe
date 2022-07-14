@@ -1,90 +1,95 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import succesImage from "../Assets/success-image.png";
 import Button from "../Component/Button";
 import DefaultPicture from "../Assets/default-upload.png";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
-import ModalImageCropper from "../Component/ModalImageCropper";
-import Loading from "../Component/Loading";
 import axios from "axios";
 import API_URL from "../Helpers/API_URL";
 import { toast } from "react-toastify";
+import { useDropzone } from "react-dropzone";
 
 function Prescription() {
+  const { token } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const { isLogin } = useSelector((state) => state.user);
-  const [changed, setChanged] = useState(false);
-  const [modalImageCropper, setModalImageCropper] = useState(false);
-  const [cropping, setCropping] = useState(null);
-  let { prescription_photo } = useSelector((state) => state.user);
-  const avaRec = useRef();
-
-  const modalImageCropperHandler = () => {
-    setModalImageCropper(!modalImageCropper);
-  };
   const [loadingSubmit, setloadingSubmit] = useState(false);
-  const [prescriptionPhoto, setPrescriptionPhoto] = useState({
-    ava: {
-      url: prescription_photo ? API_URL + prescription_photo : DefaultPicture,
-      file: null,
-    },
+  const [succeed, setSucceed] = useState(false);
+  const [selectedImage, setselectedImage] = useState({
+    file: [],
+    filePreview: null,
   });
-  const initialValues = {
-    prescription_photo: null,
+  // const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+  //   useDropzone({
+  //     accept: {
+  //       "image/jpeg": [],
+  //       "image/png": [],
+  //     },
+  //   });
+
+  // const acceptedFileItems = acceptedFiles.map((file) => (
+  //   <li key={file.path}>
+  //     {file.path} - {file.size} bytes
+  //   </li>
+  // ));
+
+  // const fileRejectionItems = fileRejections.map(({ file, errors }) => (
+  //   <li key={file.path}>
+  //     {file.path} - {file.size} bytes
+  //     <ul>
+  //       {errors.map((e) => (
+  //         <li key={e.code}>{e.message}</li>
+  //       ))}
+  //     </ul>
+  //   </li>
+  // ));
+
+  const onFileChange = (e) => {
+    console.log(e.target.files[0]);
+    if (e.target && e.target.files[0]) {
+      setselectedImage({
+        ...selectedImage,
+        file: e.target.files[0],
+        filePreview: URL.createObjectURL(e.target.files[0]),
+      });
+    }
   };
 
-  const onSubmit = async (values) => {
-    let formData = new FormData();
-    if (values.prescription_photo) {
-      values.prescription_photo[0] = prescriptionPhoto.ava.file;
-      formData.append(" prescription_photo", values.prescription_photo[0]);
-    }
-
-    let dataInput = {
-      prescription_photo: values.prescription_photo,
-    };
-
-    formData.append("data", JSON.stringify(dataInput));
+  const submitPhoto = async () => {
     try {
-      setChanged(false);
-      setloadingSubmit(true);
-      dispatch({ type: "LOADING" });
+      let formData = new FormData();
+      formData.append("prescription_photo", selectedImage.file);
       let token = Cookies.get("token");
-      let res = await axios.post(
-        `${API_URL}/receipe/prescription-photo`,
-        formData,
-        {
-          headers: { authorization: `${token}` },
-        }
-      );
-      dispatch({ type: "LOGIN", payload: res.data });
-      toast.success("Image Upload Success!", {
-        theme: "colored",
-        position: "top-center",
-        style: { backgroundColor: "#009B90" },
+      await axios.post(`${API_URL}/transaction/prescription-photo`, formData, {
+        headers: {
+          authorization: token,
+        },
       });
+
+      if (selectedImage.file.length == 0) {
+        throw "Please select images to submit!";
+      } else {
+        setselectedImage({ ...selectedImage, file: [] });
+      }
+      setTimeout(() => {
+        setSucceed(true);
+        toast.success("Photo berhasil diunggah!", {
+          theme: "colored",
+          style: { backgroundColor: "#009B90" },
+        });
+      }, 1000);
     } catch (error) {
       dispatch({
         type: "ERROR",
         payload: error.response.data.message || "Network Error",
       });
-    } finally {
-      setloadingSubmit(false);
-      // setUploadSuccess(false);
     }
   };
-  const onCancel = () => {
-    setCropping(null);
-  };
-
   useEffect(() => {
     if (!isLogin) navigate("/home");
-    // eslint-disable-next-line
   }, [isLogin]);
 
   if (uploadSuccess) {
@@ -109,53 +114,28 @@ function Prescription() {
   }
   return (
     <>
-      {modalImageCropper && (
-        <ModalImageCropper
-          image={cropping}
-          cropInit={cropping.crop}
-          zoomInit={cropping.zoom}
-          setPicture={setPrescriptionPhoto}
-          picture={prescriptionPhoto}
-          onCancel={onCancel}
-          modalImageCropper={modalImageCropper}
-          setModalImageCropper={setModalImageCropper}
-          modalImageCropperHandler={modalImageCropperHandler}
-        />
-      )}
       <div className="h-full w-screen bg-white flex justify-center">
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {(formik) => {
-            const {
-              handleChange,
-              errors,
-              touched,
-              isSubmitting,
-              isValid,
-              values,
-              dirty,
-              handleBlur,
-            } = formik;
-            return (
-              <div className="container h-full flex flex-col px-52 py-14 gap-y-9">
-                <div className="w-full bg-white flex flex-col gap-y-2 mt-10">
-                  <div className="w-full h-7 flex items-center ml-3 text-xl">
-                    Kirim resep
-                  </div>
-                  <div className="w-full h-6 flex items-center ml-3 -mt-2 text-xs">
-                    Tak perlu antre & obat langsung dikirimkan ke lokasi anda !
-                    <div className="font-bold ml-1">
-                      Foto tidak boleh lebih dari 10 MB.
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full h-[550px] drop-shadow-2xl rounded-lg bg-white flex px-16 py-7">
-                  <div className="w-full ">
-                    Unggah Resep Dokter
-                    <div className="w-full h-[400px] rounded-xl px-6 border-dashed border-4 bg-white border-grey mt-5">
-                      {/* <div className="flex justify-center mt-20 text-xl">
+        return (
+        <div className="container h-full flex flex-col px-52 py-14 gap-y-9">
+          <div className="w-full bg-white flex flex-col gap-y-2 mt-10">
+            <div className="w-full h-7 flex items-center ml-3 text-xl">
+              Kirim resep
+            </div>
+            <div className="w-full h-6 flex items-center ml-3 -mt-2 text-xs">
+              Tak perlu antre & obat langsung dikirimkan ke lokasi anda !
+              <div className="font-bold ml-1">
+                Foto tidak boleh lebih dari 10 MB.
+              </div>
+            </div>
+          </div>
+          <div className="w-full h-[550px] drop-shadow-2xl rounded-lg bg-white flex px-16 py-7">
+            <div className="w-full ">
+              Unggah Resep Dokter
+              <div className="w-full h-[400px] rounded-xl px-6 border-dashed border-4 bg-white border-grey mt-5">
+                {/* <div className="flex justify-center mt-20 text-xl">
                       Tarik & Letakan File
                     </div> */}
-                      {/* <div className="w-full min-h-min flex flex-col gap-y-5 mt-10">
+                {/* <div className="w-full min-h-min flex flex-col gap-y-5 mt-10">
                       <div className="w-full h-full relative flex justify-center items-center">
                         <div className="outline outline-1 outline-neutral-gray w-[150px] absolute" />
                         <div className="px-5 leading-none z-10 min-h-min bg-cyan-50">
@@ -168,131 +148,67 @@ function Prescription() {
                         Unggah
                       </button>
                     </div> */}
-                      <div className="w-1/3 aspect-square overflow-hidden items-center ml-80">
-                        <img
-                          src={prescriptionPhoto.ava.url}
-                          className="w-full h-42 mt-5 object-cover items-center justify-center"
-                        />
-                        <input
-                          type="file"
-                          ref={avaRec}
-                          name="prescription_photo"
-                          id=""
-                          accept=".jpg,.jpeg,.JPG,.JPEG,.png"
-                          className="hidden"
-                          onClick={(event) => (event.target.value = null)}
-                          onChange={(event) => {
-                            console.log("event :", event.target.files[0]);
-                            if (event.target.files[0]) {
-                              console.log("event :", event.target.files[0]);
-                              let format =
-                                event.target.files[0].name.split(".");
-                              format = format[format.length - 1];
-                              const reader = new FileReader();
-                              reader.readAsDataURL(event.target.files[0]);
-                              reader.addEventListener("load", () => {
-                                setCropping({
-                                  type: "ava",
-                                  value: reader.result,
-                                  fileType: event.target.files[0].type,
-                                  format,
-                                });
-                                setChanged(true);
-                                setModalImageCropper(true);
-                              });
-                              formik.setFieldValue("prescription_photo", [
-                                event.target.files[0],
-                              ]);
-                            } else {
-                              setPrescriptionPhoto({
-                                ...prescriptionPhoto,
-                                ava: {
-                                  url: prescription_photo
-                                    ? API_URL + prescription_photo
-                                    : DefaultPicture,
-                                  file: null,
-                                },
-                              });
-                            }
-                          }}
-                        />
-                        {/* <button
-                        type="button"
-                        className="w-full border rounded-md h-9 mb-3 hover:bg-teal-500"
-                        onClick={() => avaRec.current.click()}
-                      >
-                        Pilih Foto
-                      </button> */}
-                      </div>
-                      <div>
-                        {" "}
-                        <button
-                          type="button"
-                          className="w-1/3 mt-5 justify-center border rounded-md h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
-                          onClick={() => avaRec.current.click()}
-                        >
-                          Pilih Foto
-                        </button>
-                      </div>
-                    </div>
-                    <div className="w-full flex justify-end">
-                      {/* <button
-                        className="mr-6 mt-5 h-10 w-20 border border-green-800 hover:bg-green-800"
-                        onClick={() => setUploadSuccess(false)}
-                      >
-                        Cancel
-                      </button> */}
-                      {/* <button
-                        className=" mt-5 h-10 w-20 border border-green-800 hover:bg-green-800"
-                        onClick={() => setUploadSuccess(true)}
-                      >
-                        Submit
-                      </button> */}
-                      <Button
-                        type="submit"
-                        buttonContent={isSubmitting ? "Loading.." : "Cancel"}
-                        disabled={!isValid || isSubmitting}
-                        className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-40 mt-6 mr-5 ${
-                          isSubmitting && "loading"
-                        }`}
-                        onClick={() => {
-                          setUploadSuccess(false);
-                        }}
-                      />
-                      {loadingSubmit ? (
-                        <Loading className={"animate-spin h-10 w-10 ml-5"} />
-                      ) : (
-                        <Button
-                          type="submit"
-                          buttonContent={
-                            isSubmitting ? "Loading.." : "Save Changes"
-                          }
-                          disabled={!isValid || isSubmitting}
-                          className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-40 mt-6  ${
-                            isSubmitting && "loading"
-                          }`}
-                          onClick={() => {
-                            setUploadSuccess(
-                              true,
-                              localStorage.setItem("uploadSuccess", "PROSES")
-                            );
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-
+                {/* 
+                <div {...getRootProps({ className: "dropzone" })}>
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                  <em>(Only *.jpeg and *.png images will be accepted)</em>
+                </div>
+                <aside>
+                  <h4>Accepted files</h4>
+                  <ul>{acceptedFileItems}</ul>
+                  <h4>Rejected files</h4>
+                  <ul>{fileRejectionItems}</ul>
+                </aside> */}
+                <div className="w-1/3 aspect-square overflow-hidden items-center ml-80">
+                  {selectedImage.filePreview ? (
+                    <img
+                      src={selectedImage.filePreview}
+                      className="w-full h-42 mt-5 object-cover items-center justify-center"
+                    />
+                  ) : null}
+                  {/* {selectedImage.filePreview ? (
+                    <img
+                      src={`${API_URL}${prescription_photo}`}
+                      className="w-full h-42 mt-5 object-cover items-center justify-center"
+                    />
+                  ) : null} */}
+                </div>
+                <div>
+                  {" "}
+                  <input
+                    className="hidden"
+                    type="file"
+                    id="prescription_photo"
+                    onChange={onFileChange}
+                  />
+                  <label
+                    htmlFor="prescription_photo"
+                    type="button"
+                    className="w-1/3 mt-5 justify-center border h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
+                  >
+                    Pilih File
+                  </label>
                   {/* <button
-            className="h-20 w-40 border border-green-800 hover:bg-green-800"
-            onClick={() => setUploadSuccess(true)}
-          >
-            unggah
-          </button> */}
+                    type="button"
+                    className="w-1/3 mt-5 justify-center border rounded-md h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
+                  >
+                    Pilih Foto
+                  </button> */}
                 </div>
               </div>
-            );
-          }}
-        </Formik>
+              <div className="w-full flex justify-end">
+                <Button
+                  type="submit"
+                  buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
+                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-40 mt-6  ${"loading"}`}
+                  onClick={() => submitPhoto()}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        );
       </div>
     </>
   );

@@ -65,10 +65,9 @@ function Category() {
         <button
           key={i}
           className={`btn-plain px-5 py-2 ${page === i ? "bg-primary" : ""}`}
-          onClick={async () => {
+          onClick={() => {
             if (page !== i) {
               setPage(i);
-              window.scrollTo(0, 0);
             }
           }}
         >
