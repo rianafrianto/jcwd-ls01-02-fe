@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { categoryList, printCategory } from "../Helpers/categoryList";
+import { categoryList, printCategory } from "../../Helpers/categoryList";
 
 function FilterLeftBar({ category }) {
   const navigate = useNavigate();

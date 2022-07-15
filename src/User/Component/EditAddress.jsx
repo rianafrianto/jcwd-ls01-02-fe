@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import * as Yup from "yup";
 import Button from "./Button";
 import FormikControl from "./Formik/FormikControl";
-import { newAddressAction } from "../Redux/Reducers/Actions/UserActions";
+import { newAddressAction } from "../../Redux/Reducers/Actions/UserActions";
 
 function EditAddress({ data, switchModal, address }) {
   const {

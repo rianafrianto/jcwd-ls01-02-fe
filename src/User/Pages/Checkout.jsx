@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CardCart from "../Component/CardCart";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import axios from "axios";
 import Cookies from "js-cookie";
 import CardAddress from "../Component/CardAddress";
 import { toast } from "react-toastify";
-import plusIcon from "../Assets/plus-icon.png";
+import plusIcon from "../../Assets/plus-icon.png";
 import ModalAllAddress from "../Component/ModalAllAddress";
 import Loading from "../Component/Loading";
-import formatToCurrency from "../Helpers/formatToCurrency";
-import jneIcon from "../Assets/jne-icon.png";
-import posIcon from "../Assets/pos-icon.png";
-import tikiIcon from "../Assets/tiki-icon.png";
+import formatToCurrency from "../../Helpers/formatToCurrency";
+import jneIcon from "../../Assets/jne-icon.png";
+import posIcon from "../../Assets/pos-icon.png";
+import tikiIcon from "../../Assets/tiki-icon.png";
 
 function Checkout() {
   const navigate = useNavigate();

@@ -9,6 +9,7 @@ function CardOrderAdmin({ data }) {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState(data.status);
   let [isOpen, setIsOpen] = useState(false);
+  console.log(data);
 
   function closeModal() {
     setIsOpen(false);
@@ -30,7 +31,7 @@ function CardOrderAdmin({ data }) {
         closeModal={closeModal}
         data={data}
       />
-      <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden">
+      <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
         <div
           className={`w-full h-14 flex justify-between items-center border-l-8 px-7 duration-300 ${
             checked ? "border-primary" : "border-white"

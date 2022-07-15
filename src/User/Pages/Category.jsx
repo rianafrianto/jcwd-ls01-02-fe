@@ -4,8 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import Card from "../Component/Card";
 import FilterLeftBar from "../Component/FilterLeftBar";
 import Loading from "../Component/Loading";
-import API_URL from "../Helpers/API_URL";
-import { printCategory } from "../Helpers/categoryList";
+import API_URL from "../../Helpers/API_URL";
+import { printCategory } from "../../Helpers/categoryList";
 
 function Category() {
   const [products, setProducts] = useState([]);

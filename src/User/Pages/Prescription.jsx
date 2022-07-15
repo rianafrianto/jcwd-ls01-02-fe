@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import succesImage from "../Assets/success-image.png";
+import succesImage from "../../Assets/success-image.png";
 import Button from "../Component/Button";
-import DefaultPicture from "../Assets/default-upload.png";
+import DefaultPicture from "../../Assets/default-upload.png";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import ModalImageCropper from "../Component/ModalImageCropper";
 import Loading from "../Component/Loading";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import { toast } from "react-toastify";
 
 function Prescription() {
@@ -99,7 +99,7 @@ function Prescription() {
           </div>
           <button
             className="border border-green-800 hover:bg-green-800"
-            onClick={() => navigate("/myaccount")}
+            onClick={() => navigate("/myaccount/profile")}
           >
             Lihat progres pemesanan
           </button>
@@ -272,10 +272,7 @@ function Prescription() {
                             isSubmitting && "loading"
                           }`}
                           onClick={() => {
-                            setUploadSuccess(
-                              true,
-                              localStorage.setItem("uploadSuccess", "PROSES")
-                            );
+                            setUploadSuccess(true);
                           }}
                         />
                       )}

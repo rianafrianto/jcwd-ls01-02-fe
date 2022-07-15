@@ -6,15 +6,15 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import Dashboard from "../Admin/pages/Dashboard";
-import Login from "../Admin/pages/Login";
-import Orders from "../Admin/pages/Orders";
-import Products from "../Admin/pages/Products";
-import Report from "../Admin/pages/Report";
-import Sales from "../Admin/pages/Sales";
-import LeftbarAdmin from "../Admin/components/Leftbar";
-import NavbarAdmin from "../Admin/components/Navbar";
-import Statistics from "../Admin/pages/Statistics";
+import Dashboard from "../../Admin/pages/Dashboard";
+import Login from "../../Admin/pages/Login";
+import Orders from "../../Admin/pages/Orders";
+import Products from "../../Admin/pages/Products";
+import Report from "../../Admin/pages/Report";
+import Sales from "../../Admin/pages/Sales";
+import LeftbarAdmin from "../../Admin/components/Leftbar";
+import NavbarAdmin from "../../Admin/components/Navbar";
+import Statistics from "../../Admin/pages/Statistics";
 
 function Admin() {
   const location = useLocation();
