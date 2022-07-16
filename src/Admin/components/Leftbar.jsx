@@ -106,7 +106,7 @@ function Leftbar() {
           <Link
             to="/admin/orders/pengecekan-resep"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/menunggu-pengecekan"
+              location.pathname === "/admin/orders/pengecekan-resep"
                 ? "text-primary"
                 : ""
             }`}
@@ -116,7 +116,7 @@ function Leftbar() {
           <Link
             to="/admin/orders/pesanan-diterima"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/menunggu-pengecekan"
+              location.pathname === "/admin/orders/pesanan-diterima"
                 ? "text-primary"
                 : ""
             }`}

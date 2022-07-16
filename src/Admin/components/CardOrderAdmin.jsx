@@ -1,14 +1,15 @@
 import { ClockIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import PrescriptionServiceModal from "./PrescriptionServiceModal";
 import chatIcon from "../../Assets/chat-icon.png";
 import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
 import API_URL from "../../Helpers/API_URL";
+import { fullDateGenerator } from "../../Helpers/dateGenerator";
+import ModalPrescriptionService from "./ModalPrescriptionService";
 
 function CardOrderAdmin({ data }) {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState(data.status);
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(data);
 
   function closeModal() {
@@ -19,14 +20,9 @@ function CardOrderAdmin({ data }) {
     setIsOpen(true);
   }
 
-  const printDate = (data) => {
-    let date = new Date(`${data} UTC`).toString().split(" ");
-    return `${date[0]}, ${date[1]} ${date[2]} ${date[3]}, ${date[4]}`;
-  };
-
   return (
     <>
-      <PrescriptionServiceModal
+      <ModalPrescriptionService
         isOpen={isOpen}
         closeModal={closeModal}
         data={data}
@@ -52,7 +48,7 @@ function CardOrderAdmin({ data }) {
             <span className="text-neutral-gray">/</span>
             <span className="font-bold text-gray-500 flex gap-x-2 items-center">
               <ClockIcon className="h-5 aspect-square" />
-              {printDate(data.date_process)}
+              {fullDateGenerator(data.date_process)}
             </span>
           </div>
           <div className="flex gap-x-2">
