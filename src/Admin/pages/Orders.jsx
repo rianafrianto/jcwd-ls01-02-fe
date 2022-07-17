@@ -16,7 +16,6 @@ function Orders() {
     try {
       setLoading(true);
       let res = await axios.get(`${API_URL}/admin/orders/${status}`);
-      console.log(res);
       setData(res.data.data);
     } catch (error) {
       console.log(error);
