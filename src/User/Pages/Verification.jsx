@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import Button from "../Component/Button";
-import signupImage from "../Assets/signup-image.png";
-import successImage from "../Assets/success-image.png";
+import signupImage from "../../Assets/signup-image.png";
+import successImage from "../../Assets/success-image.png";
 import Cookies from "js-cookie";
 
 function Verification() {

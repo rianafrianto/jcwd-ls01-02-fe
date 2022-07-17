@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import CardAddress from "./CardAddress";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";

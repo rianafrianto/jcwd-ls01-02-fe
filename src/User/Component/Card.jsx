@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
-import formatToCurrency from "../Helpers/formatToCurrency";
+import formatToCurrency from "../../Helpers/formatToCurrency";
 import { toast } from "react-toastify";
-import defaultProduct from "../Assets/default-product.png";
+import defaultProduct from "../../Assets/default-product.png";
 import axios from "axios";
 
 function Card({ data }) {

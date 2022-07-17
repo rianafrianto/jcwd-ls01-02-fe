@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import Button from "../Component/Button";
-import signupImage from "../Assets/signup-image.png";
+import signupImage from "../../Assets/signup-image.png";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import logoImage from "../Assets/logo-1.png";
+import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import passwordIcon from "../Assets/password-icon.png";
+import passwordIcon from "../../Assets/password-icon.png";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
 
 function ResetPassword() {

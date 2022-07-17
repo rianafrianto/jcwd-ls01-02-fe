@@ -1,5 +1,5 @@
 import React from "react";
-import rArrow from "../../Assets/r-arrow.png";
+import rArrow from "../../../Assets/r-arrow.png";
 
 function NextArrow(props) {
   const { onClick, height } = props;

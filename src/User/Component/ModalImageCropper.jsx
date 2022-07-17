@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../Helpers/cropImage.js";
+import getCroppedImg from "../../Helpers/cropImage.js";
 import { XIcon } from "@heroicons/react/outline";
 
 function ModalImageCropper({
