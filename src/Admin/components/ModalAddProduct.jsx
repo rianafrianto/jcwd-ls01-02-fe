@@ -8,63 +8,65 @@ function ModalAddProduct(props) {
   const { modalAdd, closeModalAdd } = props;
   const [modalState, setmodalState] = useState(1);
 
-  const initialValues = {
+  const initialValues1 = {
     name: "",
     NIE: "",
     category: "",
     golongan: "",
     tgl_kadaluarsa: "",
-    satuan: "",
     indikasi: "",
     komposisi: "",
-    kemasan: "",
     cara_penyimpanan: "",
     principal: "",
     cara_pakai: "",
     peringatan: "",
   };
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    NIE: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    category: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    golongan: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    satuan: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    indikasi: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    komposisi: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    kemasan: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    cara_penyimpanan: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    principal: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    cara_pakai: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
-    peringatan: Yup.string()
-      .required("Wajib diisi")
-      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
+
+  const initialValues2 = {
+    stock: null,
+    satuan: "",
+    kemasan: "",
+    price: null,
+    modal: null,
+    promo: null,
+    berat: null,
+  };
+
+  const validationSchema1 = Yup.object({
+    name: Yup.string().required("Wajib diisi"),
+    NIE: Yup.string().required("Wajib diisi"),
+    category: Yup.string().required("Wajib diisi"),
+    golongan: Yup.string().required("Wajib diisi"),
+    indikasi: Yup.string().required("Wajib diisi"),
+    komposisi: Yup.string().required("Wajib diisi"),
+    cara_penyimpanan: Yup.string().required("Wajib diisi"),
+    principal: Yup.string().required("Wajib diisi"),
+    cara_pakai: Yup.string().required("Wajib diisi"),
+    peringatan: Yup.string().required("Wajib diisi"),
+  });
+
+  const validationSchema2 = Yup.object({
+    stock: Yup.number().required("Wajib diisi").min(1, "Kuantitas min. 1"),
+    satuan: Yup.string().required("Wajib diisi"),
+    kemasan: Yup.string().required("Wajib diisi"),
+    price: Yup.number().required("Wajib diisi").min(1, "Nilai Barang min. 1"),
+    modal: Yup.number().required("Wajib diisi").min(1, "Nilai Jual min. 1"),
+    promo: Yup.number().required("Wajib diisi").min(1, "Potongan Promo min. 1"),
+    berat: Yup.number().required("Wajib diisi").min(1, "Berat min. 1"),
   });
 
   const cancelAdd = () => {
     closeModalAdd();
     setmodalState(1);
+  };
+
+  const onSubmit1 = (values) => {
+    console.log(values);
+    setmodalState(2);
+  };
+  const onSubmit2 = (values) => {
+    console.log(values);
+    setmodalState(3);
   };
 
   const printForm = (state) => {
@@ -96,9 +98,9 @@ function ModalAddProduct(props) {
                   </button>
                 </Dialog.Title>
                 <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  // onSubmit={submitProcess}
+                  initialValues={initialValues1}
+                  validationSchema={validationSchema1}
+                  onSubmit={onSubmit1}
                 >
                   {(formik) => {
                     const {
@@ -108,9 +110,11 @@ function ModalAddProduct(props) {
                       handleBlur,
                       errors,
                       touched,
+                      values,
+                      resetForm,
                     } = formik;
                     return (
-                      <Form>
+                      <Form id="form1">
                         <div className="w-full h-[427px] flex flex-col">
                           <div className="h-16 border flex items-center">
                             <div className="text-md breadcrumbs">
@@ -127,6 +131,12 @@ function ModalAddProduct(props) {
                                   </span>
                                   Detail Kuantitas & Harga
                                 </li>
+                                <li className="w-full flex items-center gap-x-2">
+                                  <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                                    3
+                                  </span>
+                                  Gambar Produk
+                                </li>
                               </ul>
                             </div>
                           </div>
@@ -141,13 +151,14 @@ function ModalAddProduct(props) {
                               </thead>
                               <tbody className="">
                                 <tr>
-                                  <th>Nama Produk</th>
+                                  <th>
+                                    Nama Produk{" "}
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="name"
-                                      placeholder="Masukkan nama produk"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
+                                      placeholder="Masukkan Nama Produk"
                                       type="text"
                                       className={`field-input h-8 rounded ${
                                         errors.name && touched.name
@@ -161,13 +172,14 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>No. BPOM</th>
+                                  <th>
+                                    No. BPOM
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="NIE"
                                       placeholder="Masukkan No. BPOM"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-8 rounded ${
                                         errors.NIE && touched.NIE
@@ -181,13 +193,14 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Kategori</th>
+                                  <th>
+                                    Kategori
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="category"
                                       placeholder="Masukkan Kategori"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-8 rounded ${
                                         errors.category && touched.category
@@ -203,13 +216,14 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Golongan</th>
+                                  <th>
+                                    Golongan
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="golongan"
-                                      placeholder="Masukkan golongan"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
+                                      placeholder="Masukkan Golongan"
                                       type="text"
                                       className={`field-input h-8 rounded ${
                                         errors.golongan && touched.golongan
@@ -225,13 +239,14 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Tgl. Kadaluarsa</th>
+                                  <th>
+                                    Tgl. Kadaluarsa
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="tgl_kadaluarsa"
                                       placeholder="1 STRIP @ 10 KAPSUL"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="date"
                                       className={`field-input h-8 rounded ${
                                         errors.tgl_kadaluarsa &&
@@ -243,36 +258,16 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Satuan</th>
+                                  <th>
+                                    Indikasi
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
-                                      name="satuan"
-                                      placeholder="Masukkan satuan"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
-                                      type="text"
-                                      className={`field-input h-8 rounded ${
-                                        errors.satuan && touched.satuan
-                                          ? "outline-red-700"
-                                          : null
-                                      }`}
-                                    />
-                                  </td>
-                                  <td className="text-red-600 pl-5">
-                                    {errors.satuan &&
-                                      touched.satuan &&
-                                      errors.satuan}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Indikasi</th>
-                                  <td className="py-2">
-                                    <textarea
+                                    <Field
+                                      as="textarea"
                                       rows={3}
                                       name="indikasi"
                                       placeholder="Masukkan indikasi"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-auto rounded py-2 ${
                                         errors.indikasi && touched.indikasi
@@ -288,14 +283,16 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Komposisi</th>
+                                  <th>
+                                    Komposisi
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <textarea
+                                    <Field
+                                      as="textarea"
                                       rows={3}
                                       name="komposisi"
                                       placeholder="Masukkan komposisi"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-auto rounded py-2 ${
                                         errors.komposisi && touched.komposisi
@@ -310,37 +307,18 @@ function ModalAddProduct(props) {
                                       errors.komposisi}
                                   </td>
                                 </tr>
+
                                 <tr>
-                                  <th>Kemasan</th>
+                                  <th>
+                                    Cara Penyimpanan
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
-                                      name="kemasan"
-                                      placeholder="1 STRIP @ 10 KAPSUL"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
-                                      type="text"
-                                      className={`field-input h-8 rounded ${
-                                        errors.kemasan && touched.kemasan
-                                          ? "outline-red-700"
-                                          : null
-                                      }`}
-                                    />
-                                  </td>
-                                  <td className="text-red-600 pl-5">
-                                    {errors.kemasan &&
-                                      touched.kemasan &&
-                                      errors.kemasan}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Cara Penyimpanan</th>
-                                  <td className="py-2">
-                                    <textarea
+                                    <Field
+                                      as="textarea"
                                       rows={3}
                                       name="cara_penyimpanan"
                                       placeholder="Masukkan cara penyimpanan"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-auto rounded py-2 ${
                                         errors.cara_penyimpanan &&
@@ -357,13 +335,14 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Principal</th>
+                                  <th>
+                                    Principal
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
+                                    <Field
                                       name="principal"
                                       placeholder="Masukkan Principal"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-8 rounded ${
                                         errors.principal && touched.principal
@@ -379,14 +358,16 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Cara Pakai</th>
+                                  <th>
+                                    Cara Pakai
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <textarea
+                                    <Field
+                                      as="textarea"
                                       rows={3}
                                       name="cara_pakai"
                                       placeholder="Masukkan cara pakai"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-auto rounded py-2 ${
                                         errors.cara_pakai && touched.cara_pakai
@@ -402,14 +383,16 @@ function ModalAddProduct(props) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Peringatan</th>
+                                  <th>
+                                    Peringatan
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <textarea
+                                    <Field
+                                      as="textarea"
                                       rows={3}
                                       name="peringatan"
                                       placeholder="Masukkan peringatan"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
                                       type="text"
                                       className={`field-input h-auto rounded py-2 ${
                                         errors.peringatan && touched.peringatan
@@ -430,10 +413,10 @@ function ModalAddProduct(props) {
                         </div>
                         <div className="w-full flex justify-end h-20 items-center border-t-2">
                           <button
+                            form="form1"
                             type="submit"
                             className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-                            // disabled={!isValid}
-                            onClick={() => setmodalState(2)}
+                            disabled={!isValid}
                           >
                             Lanjutkan
                           </button>
@@ -473,9 +456,9 @@ function ModalAddProduct(props) {
                   </button>
                 </Dialog.Title>
                 <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  // onSubmit={submitProcess}
+                  initialValues={initialValues2}
+                  validationSchema={validationSchema2}
+                  onSubmit={onSubmit2}
                 >
                   {(formik) => {
                     const {
@@ -485,9 +468,10 @@ function ModalAddProduct(props) {
                       handleBlur,
                       errors,
                       touched,
+                      values,
                     } = formik;
                     return (
-                      <Form>
+                      <Form id="form2">
                         <div className="w-full h-[427px] flex flex-col">
                           <div className="h-16 border flex items-center">
                             <div className="text-md breadcrumbs">
@@ -504,6 +488,12 @@ function ModalAddProduct(props) {
                                   </span>
                                   Detail Kuantitas & Harga
                                 </li>
+                                <li className="w-full flex items-center gap-x-2">
+                                  <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                                    3
+                                  </span>
+                                  Gambar Produk
+                                </li>
                               </ul>
                             </div>
                           </div>
@@ -518,23 +508,164 @@ function ModalAddProduct(props) {
                               </thead>
                               <tbody className="">
                                 <tr>
-                                  <th>Nama Produk</th>
+                                  <th>
+                                    Kuantitas
+                                    <span className="text-red-700">*</span>
+                                  </th>
                                   <td className="py-2">
-                                    <input
-                                      name="name"
-                                      placeholder="Masukkan nama produk"
-                                      onBlur={handleBlur}
-                                      onChange={(e) => handleChange(e)}
-                                      type="text"
+                                    <Field
+                                      name="stock"
+                                      placeholder="Masukkan kuantitas"
+                                      type="number"
                                       className={`field-input h-8 rounded ${
-                                        errors.name && touched.name
+                                        errors.stock && touched.stock
                                           ? "outline-red-700"
                                           : null
                                       }`}
                                     />
                                   </td>
                                   <td className="text-red-600 pl-5">
-                                    {errors.name && touched.name && errors.name}
+                                    {errors.stock &&
+                                      touched.stock &&
+                                      errors.stock}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    Satuan
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <select
+                                      name="satuan"
+                                      placeholder="Masukkan satuan"
+                                      className={`field-input h-8 rounded ${
+                                        errors.satuan && touched.satuan
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    ></select>
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.satuan &&
+                                      touched.satuan &&
+                                      errors.satuan}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    Kemasan
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <Field
+                                      autoComplete={false}
+                                      name="kemasan"
+                                      placeholder="1 STRIP @ 10 KAPSUL"
+                                      type="text"
+                                      className={`field-input h-8 rounded ${
+                                        errors.kemasan && touched.kemasan
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    />
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.kemasan &&
+                                      touched.kemasan &&
+                                      errors.kemasan}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    {`Nilai Barang (Rp)`}
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <Field
+                                      name="price"
+                                      placeholder="Masukkan Nilai Barang (Rp)"
+                                      type="number"
+                                      className={`field-input h-8 rounded ${
+                                        errors.price && touched.price
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    />
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.price &&
+                                      touched.price &&
+                                      errors.price}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    {`Nilai Jual (Rp)`}
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <Field
+                                      name="modal"
+                                      placeholder="Masukkan Nilai Jual (Rp)"
+                                      type="number"
+                                      className={`field-input h-8 rounded ${
+                                        errors.modal && touched.modal
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    />
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.modal &&
+                                      touched.modal &&
+                                      errors.modal}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    {`Potongan Promo (Rp)`}
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <Field
+                                      name="promo"
+                                      placeholder="Masukkan Potongan Promo (Rp)"
+                                      type="number"
+                                      className={`field-input h-8 rounded ${
+                                        errors.promo && touched.promo
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    />
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.promo &&
+                                      touched.promo &&
+                                      errors.promo}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    {`Berat (gram)`}
+                                    <span className="text-red-700">*</span>
+                                  </th>
+                                  <td className="py-2">
+                                    <Field
+                                      name="berat"
+                                      placeholder="Masukkan Berat (gram)"
+                                      type="number"
+                                      className={`field-input h-8 rounded ${
+                                        errors.berat && touched.berat
+                                          ? "outline-red-700"
+                                          : null
+                                      }`}
+                                    />
+                                  </td>
+                                  <td className="text-red-600 pl-5">
+                                    {errors.berat &&
+                                      touched.berat &&
+                                      errors.berat}
                                   </td>
                                 </tr>
                               </tbody>
@@ -543,15 +674,15 @@ function ModalAddProduct(props) {
                         </div>
 
                         <div className="w-full flex justify-end h-20 items-center border-t-2 gap-x-5">
-                          <button
-                            type="button"
+                          <div
                             className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
                             // disabled={!isValid}
                             onClick={() => setmodalState(1)}
                           >
                             Kembali
-                          </button>
+                          </div>
                           <button
+                            form="form2"
                             type="submit"
                             className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
                             disabled={!isValid}
@@ -568,6 +699,103 @@ function ModalAddProduct(props) {
           </div>
         );
 
+      case 3:
+        return (
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-[800px] h-full flex flex-col gap-y-2 transform overflow-hidden px-8 py-4 rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="div"
+                  className="h-10 w-full flex justify-center text-2xl items-center relative"
+                >
+                  <h1 className="font-bold">Tambah Produk</h1>
+
+                  <button
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    onClick={cancelAdd}
+                  >
+                    ✕
+                  </button>
+                </Dialog.Title>
+                <Formik
+                  initialValues={initialValues2}
+                  validationSchema={validationSchema2}
+                  onSubmit={onSubmit2}
+                >
+                  {(formik) => {
+                    const {
+                      handleChange,
+                      isSubmitting,
+                      isValid,
+                      handleBlur,
+                      errors,
+                      touched,
+                      values,
+                    } = formik;
+                    return (
+                      <Form id="form3">
+                        <div className="w-full h-[427px] flex flex-col">
+                          <div className="h-16 border flex items-center">
+                            <div className="text-md breadcrumbs">
+                              <ul>
+                                <li className="w-full flex items-center gap-x-2">
+                                  <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                                    1
+                                  </span>
+                                  Detail Obat
+                                </li>
+                                <li className="w-full flex items-center gap-x-2">
+                                  <span className="rounded-full bg-neutral-gray  font-bold text-white h-6 aspect-square text-center">
+                                    2
+                                  </span>
+                                  Detail Kuantitas & Harga
+                                </li>
+                                <li className="w-full flex items-center gap-x-2">
+                                  <span className="rounded-full bg-primary font-bold text-white h-6 aspect-square text-center">
+                                    3
+                                  </span>
+                                  Gambar Produk
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="overflow-y-scroll h-full"></div>
+                        </div>
+
+                        <div className="w-full flex justify-end h-20 items-center border-t-2 gap-x-5">
+                          <div
+                            className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
+                            // disabled={!isValid}
+                            onClick={() => setmodalState(2)}
+                          >
+                            Kembali
+                          </div>
+                          <button
+                            form="form2"
+                            type="button"
+                            className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
+                            disabled={!isValid}
+                            onClick={onSubmit2}
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        );
       default:
         return null;
     }

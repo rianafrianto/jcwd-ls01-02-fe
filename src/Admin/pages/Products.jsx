@@ -35,7 +35,6 @@ function Products() {
       });
       setProducts(res.data.data.products);
       setTotal(res.data.data.total);
-      console.log(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -82,7 +81,6 @@ function Products() {
   const printButtons = () => {
     let pages = [];
     let totalPages = Math.ceil(total / limit);
-    console.log(totalPages);
     for (let i = 0; i < totalPages; i++) {
       pages.push("");
     }
