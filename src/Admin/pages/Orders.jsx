@@ -11,6 +11,9 @@ function Orders() {
   const { status } = params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
 
   const getOrders = async () => {
     try {
@@ -30,9 +33,34 @@ function Orders() {
     });
   };
 
+  const printButtons = () => {
+    let pages = [];
+    let totalPages = Math.ceil(total / limit);
+    console.log(totalPages);
+    for (let i = 0; i < totalPages; i++) {
+      pages.push("");
+    }
+    return pages.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className={`btn-plain px-5 py-2 ${page === i ? "bg-primary" : ""}`}
+          onClick={async () => {
+            if (page !== i) {
+              setPage(i);
+            }
+          }}
+        >
+          {i + 1}
+        </button>
+      );
+    });
+  };
+
   useEffect(() => {
     getOrders();
-  }, [status]);
+    return () => {};
+  }, [status, limit, page]);
 
   return (
     <div className="min-h-screen w-full flex bg-[#f1f5fc]">
@@ -86,8 +114,13 @@ function Orders() {
                 <option value="">15</option>
               </select>
             </div>
-            <div className="w-60 pt-3 text-center bg-green-500 border">
+            {/* <div className="w-60 pt-3 text-center bg-green-500 border">
               Paginate
+            </div> */}
+            <div className="min-w-min h-full border">
+              <div className="bg-primary/20 rounded-lg overflow-hidden">
+                {loading ? "" : printButtons()}
+              </div>
             </div>
           </div>
           <div className="w-full">
