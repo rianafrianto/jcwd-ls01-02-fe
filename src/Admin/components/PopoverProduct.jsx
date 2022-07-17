@@ -5,7 +5,8 @@ import { DotsVerticalIcon } from "@heroicons/react/outline";
 import trashIcon from "../../Assets/trash-icon.png";
 import editIcon from "../../Assets/edit-icon.png";
 
-function PopoverProduct() {
+function PopoverProduct(props) {
+  const { openModalEdit, id, setEditId } = props;
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -18,16 +19,20 @@ function PopoverProduct() {
               <Popover.Panel
                 as={motion.div}
                 static
-                initial={{ width: 0 }}
-                animate={{ width: "auto" }}
-                exit={{ width: 0 }}
-                transition={{ duration: 0.1, type: "tween" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, type: "tween" }}
                 className="absolute right-9 -top-2 z-10 bg-putih rounded focus:outline-none shadow-xl shadow-black/20 overflow-hidden bg-white flex p-2 gap-x-2"
               >
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                   onClick={() => {
+                    setEditId(id);
                     close();
+                    setTimeout(() => {
+                      openModalEdit();
+                    }, 500);
                   }}
                 >
                   <img src={editIcon} alt="" className="h-4" />

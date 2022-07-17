@@ -7,6 +7,7 @@ import AddDetails1 from "./AddDetails1";
 import AddDetails2 from "./AddDetails2";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
+import { XIcon } from "@heroicons/react/outline";
 
 function ModalAddProduct(props) {
   const initialState1 = {
@@ -138,10 +139,10 @@ function ModalAddProduct(props) {
                   <h1 className="font-bold">Tambah Produk</h1>
 
                   <button
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-2 py-2 absolute right-0"
                     onClick={cancelAdd}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 {printForm(modalState)}
