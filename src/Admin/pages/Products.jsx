@@ -6,6 +6,8 @@ import API_URL from "../../Helpers/API_URL";
 import formatToCurrency from "../../Helpers/formatToCurrency";
 import Loading from "../../User/Component/Loading";
 import ModalAddProduct from "../components/ModalAddProduct";
+import { categoryList, golonganList } from "../../Helpers/categoryList";
+import PopoverProduct from "../components/PopoverProduct";
 
 function Products() {
   const [loading, setLoading] = useState(false);
@@ -33,9 +35,9 @@ function Products() {
       const res = await axios.get(`${API_URL}/admin/products`, {
         params: { terms, category, golongan, page, limit, order },
       });
+      console.log(res.data.data.products[0]);
       setProducts(res.data.data.products);
       setTotal(res.data.data.total);
-      console.log(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,14 +45,25 @@ function Products() {
     }
   };
 
+  const resetFilter = () => {
+    setTerms("");
+    setCategory("all");
+    setGolongan("all");
+  };
+  let newListCat = categoryList.map((val, i) => {
+    return { content: val.cardText, value: `${i + 1}` };
+  });
+  const listCat = [{ content: "Semua", value: "all" }, ...newListCat];
+  const listGol = [{ content: "Semua", value: "all" }, ...golonganList];
+
   const printRow = (data) => {
     if (!loading)
       return data.map((val, i) => {
         return (
-          <tr key={i} className="w-full h-full text-center border-b">
+          <tr key={i} className="w-full h-full text-center">
             <th>{page * limit + i + 1}</th>
             <td>{val.name}</td>
-            <td>{val.product_code}</td>
+            <td>{val.no_produk}</td>
             <td>{val.NIE}</td>
             <td>{val.category}</td>
             <td>{val.golongan}</td>
@@ -59,19 +72,14 @@ function Products() {
             <td>{formatToCurrency(val.price)}</td>
             <td>{formatToCurrency(val.modal)}</td>
             <td>
-              <div className="h-full flex justify-center items-center gap-x-2 px-2">
+              <div className="h-full flex justify-center items-center gap-x-2 px-2 py-2">
                 <button
                   className="button-primary h-8 w-full"
                   onClick={() => {}}
                 >
                   Lihat Detail
                 </button>
-                <button
-                  className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
-                  onClick={() => {}}
-                >
-                  <DotsVerticalIcon className="h-5" />
-                </button>
+                <PopoverProduct />
               </div>
             </td>
           </tr>
@@ -82,7 +90,6 @@ function Products() {
   const printButtons = () => {
     let pages = [];
     let totalPages = Math.ceil(total / limit);
-    console.log(totalPages);
     for (let i = 0; i < totalPages; i++) {
       pages.push("");
     }
@@ -106,7 +113,7 @@ function Products() {
   useEffect(() => {
     getProducts();
     return () => {};
-  }, [limit, page]);
+  }, [limit, page, category, golongan]);
 
   return (
     <>
@@ -123,54 +130,92 @@ function Products() {
                 <button className="button-outline w-32 h-full">Excel</button>
               </div>
             </div>
-            <div className="w-full h-[800px] border shadow-lg rounded-lg overflow-hidden shadow-black/20 p-8 flex flex-col gap-y-9">
-              <div className="h-11 w-full flex justify-between">
-                <div className="w-full flex gap-x-4">
-                  <div className="w-80 flex rounded-lg overflow-hidden border bg-white">
-                    <input
-                      type="text"
-                      className="w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none"
-                      placeholder="Cari nama obat"
-                    />
-                    <button className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary">
-                      <img
-                        src={searchIcon}
-                        alt=""
-                        className="h-full scale-50"
+            <div className="w-full h-[800px] border shadow-lg rounded-lg overflow-hidden shadow-black/20 p-8 flex flex-col gap-y-5">
+              <div className="h-20 w-full flex justify-between items-end">
+                <div className="w-full flex gap-x-4 items-end">
+                  <div className="flex flex-col gap-y-2">
+                    <label htmlFor="terms">Cari Nama Obat</label>
+                    <div className="w-80 flex h-10 rounded-lg overflow-hidden border bg-white">
+                      <input
+                        type="text"
+                        name="terms"
+                        id="terms"
+                        className="w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none"
+                        placeholder="Masukkan Nama Obat"
+                        value={terms}
+                        onChange={(e) => setTerms(e.target.value)}
                       />
-                    </button>
+                      <button
+                        className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"
+                        onClick={getProducts}
+                      >
+                        <img
+                          src={searchIcon}
+                          alt=""
+                          className="h-full scale-50"
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <select
-                    className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
-                    onChange={(e) => {}}
-                  >
-                    <option
-                      value="ORDER BY name ASC"
-                      className="hover:bg-primary"
+                  <div className="flex flex-col gap-y-2">
+                    <label htmlFor="category">Kategori</label>
+                    <select
+                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
+                      name="category"
+                      id="category"
+                      value={category}
+                      onChange={(e) => {
+                        setCategory(e.target.value);
+                        setPage(0);
+                      }}
                     >
-                      A-Z
-                    </option>
-                    <option value="ORDER BY name DESC">Z-A</option>
-                    <option value="ORDER BY price ASC">Harga Terendah</option>
-                    <option value="ORDER BY price DESC">Harga Tertinggi</option>
-                  </select>
-                  <select
-                    className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
-                    onChange={(e) => {}}
-                  >
-                    <option
-                      value="ORDER BY name ASC"
-                      className="hover:bg-primary"
+                      {listCat.map((val, i) => {
+                        return (
+                          <option
+                            key={i}
+                            value={val.value}
+                            defaultValue={i === 0}
+                          >
+                            {val.content}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-y-2">
+                    <label htmlFor="golongan">Golongan</label>
+                    <select
+                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
+                      name="golongan"
+                      id="golongan"
+                      value={golongan}
+                      onChange={(e) => {
+                        setGolongan(e.target.value);
+                        setPage(0);
+                      }}
                     >
-                      A-Z
-                    </option>
-                    <option value="ORDER BY name DESC">Z-A</option>
-                    <option value="ORDER BY price ASC">Harga Terendah</option>
-                    <option value="ORDER BY price DESC">Harga Tertinggi</option>
-                  </select>
+                      {listGol.map((val, i) => {
+                        return (
+                          <option
+                            key={i}
+                            value={val.value}
+                            defaultValue={i === 0}
+                          >
+                            {val.content}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <button
+                    className="button-outline px-3 h-9"
+                    onClick={resetFilter}
+                  >
+                    Reset
+                  </button>
                 </div>
                 <button
-                  className="button-primary w-40 h-full"
+                  className="button-primary w-40 h-9"
                   onClick={openModalAdd}
                 >
                   Tambah Produk
