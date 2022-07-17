@@ -39,8 +39,6 @@ function ModalAddProduct(props) {
   const cancelAdd = () => {
     closeModalAdd();
     setmodalState(1);
-    setDetails1(initialState1);
-    setDetails2(initialState2);
   };
 
   const finalSubmit = async () => {
@@ -84,9 +82,34 @@ function ModalAddProduct(props) {
 
       case 3:
         return (
+          // <div className="flex min-h-full items-center justify-center p-4 text-center">
+          //   <Transition.Child
+          //   // as={Fragment}
+          //   // enter="ease-out duration-300"
+          //   // enterFrom="opacity-0 scale-95"
+          //   // enterTo="opacity-100 scale-100"
+          //   // leave="ease-in duration-200"
+          //   // leaveFrom="opacity-100 scale-100"
+          //   // leaveTo="opacity-0 scale-95"
+          //   >
+          //     <Dialog.Panel className="w-[800px] h-full flex flex-col gap-y-2 transform overflow-hidden px-8 py-4 rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+          //       <Dialog.Title
+          //         as="div"
+          //         className="h-10 w-full flex justify-center text-2xl items-center relative"
+          //       >
+          //         <h1 className="font-bold">Tambah Produk</h1>
+
+          //         <button
+          //           className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+          //           onClick={cancelAdd}
+          //         >
+          //           ✕
+          //         </button>
+          //       </Dialog.Title>
           <div className="w-full flex justify-end h-20 items-center border-t-2 gap-x-5">
             <div
               className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
+              // disabled={!isValid}
               onClick={() => setmodalState(2)}
             >
               Kembali
@@ -99,6 +122,9 @@ function ModalAddProduct(props) {
               Lanjutkan
             </button>
           </div>
+          //     </Dialog.Panel>
+          //   </Transition.Child>
+          // </div>
         );
       default:
         return null;

@@ -123,7 +123,7 @@ function Orders() {
               </div>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-y-5">
             {loading ? <Loading className="pt-56" /> : printOrders(data)}
           </div>
         </div>
