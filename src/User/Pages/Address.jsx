@@ -37,10 +37,10 @@ function Address() {
     label: Yup.string().required("Wajib diisi"),
     nama_depan: Yup.string()
       .required("Wajib diisi")
-      .matches(/^[A-Za-z]+$/, "Hanya menggunakan huruf"),
+      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
     nama_belakang: Yup.string()
       .required("Wajib diisi")
-      .matches(/^[A-Za-z]+$/, "Hanya menggunakan huruf"),
+      .matches(/^[a-zA-Z ]*$/, "Hanya menggunakan huruf"),
     nomor_hp: Yup.string()
       .required("Wajib diisi")
       .matches(/^[0-9]*$/, "Hanya menggunakan angka"),
