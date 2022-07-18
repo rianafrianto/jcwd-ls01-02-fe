@@ -65,11 +65,11 @@ function Prescription() {
       let formData = new FormData();
       formData.append("prescription_photo", selectedImage.file);
       let token = Cookies.get("token");
-      await axios.post(`${API_URL}/transaction/prescription-photo`, formData, {
-        headers: {
-          authorization: token,
-        },
-      });
+      // await axios.post(`${API_URL}/transaction/prescription-photo`, formData, {
+      //   headers: {
+      //     authorization: token,
+      //   },
+      // });
 
       if (selectedImage.file.length == 0) {
         throw "Please select images to submit!";
