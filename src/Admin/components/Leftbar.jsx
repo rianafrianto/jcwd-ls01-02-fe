@@ -69,7 +69,6 @@ function Leftbar() {
           }`}
           onClick={() => {
             setTransaksiDisclosure(!transaksiDisclosure);
-            setSalesDisclosure(false);
           }}
         >
           <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
@@ -190,7 +189,6 @@ function Leftbar() {
           }`}
           onClick={() => {
             setSalesDisclosure(!salesDisclosure);
-            setTransaksiDisclosure(false);
           }}
         >
           <div className="flex w-full gap-x justify-start items-center gap-x-2">
