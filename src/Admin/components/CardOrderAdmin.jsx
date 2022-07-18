@@ -10,7 +10,6 @@ function CardOrderAdmin({ data }) {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState(data.status);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(data);
 
   function closeModal() {
     setIsOpen(false);
