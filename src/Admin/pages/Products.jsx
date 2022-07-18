@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import searchIcon from "../../Assets/search-icon.png";
-import { ChevronDownIcon, DotsVerticalIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  SearchIcon,
+} from "@heroicons/react/outline";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import formatToCurrency from "../../Helpers/formatToCurrency";
@@ -8,25 +12,44 @@ import Loading from "../../User/Component/Loading";
 import ModalAddProduct from "../components/ModalAddProduct";
 import { categoryList, golonganList } from "../../Helpers/categoryList";
 import PopoverProduct from "../components/PopoverProduct";
+import ModalEditProduct from "../components/ModalEditProduct";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/solid";
 
 function Products() {
   const [loading, setLoading] = useState(false);
   const [modalAdd, setModalAdd] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("all");
   const [golongan, setGolongan] = useState("all");
   const [terms, setTerms] = useState("");
   const [order, setOrder] = useState("ORDER BY p.id ASC");
-  const [page, setPage] = useState(0);
+  let [page, setPage] = useState(0);
+  const [minPage, setMinPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
 
+  console.log({ page });
   function closeModalAdd() {
     setModalAdd(false);
   }
+  console.log({ editId });
 
   function openModalAdd() {
     setModalAdd(true);
+  }
+  function closeModalEdit() {
+    setModalEdit(false);
+  }
+
+  function openModalEdit() {
+    setModalEdit(true);
   }
 
   const getProducts = async () => {
@@ -38,6 +61,12 @@ function Products() {
       console.log(res.data.data.products[0]);
       setProducts(res.data.data.products);
       setTotal(res.data.data.total);
+      setTotalPages(() => Math.ceil(res.data.data.total / limit));
+      setMinPage(0);
+      setMaxPage(() => {
+        if (totalPages > 5) return 4;
+        return totalPages - 1;
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -79,7 +108,11 @@ function Products() {
                 >
                   Lihat Detail
                 </button>
-                <PopoverProduct />
+                <PopoverProduct
+                  openModalEdit={openModalEdit}
+                  id={val.id}
+                  setEditId={setEditId}
+                />
               </div>
             </td>
           </tr>
@@ -89,15 +122,27 @@ function Products() {
 
   const printButtons = () => {
     let pages = [];
-    let totalPages = Math.ceil(total / limit);
-    for (let i = 0; i < totalPages; i++) {
+    let buttonsTotal = totalPages;
+    for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
+    console.log({ buttonsTotal });
+    // let startIndex;
+    // if (total - maxPage - page + 1 >= 0) {
+    //   startIndex = page;
+    //   startIndex--;
+    // } else {
+    //   startIndex = totalPages - 5;
+    // }
+
     return pages.map((val, i) => {
+      // startIndex++;
       return (
         <button
           key={i}
-          className={`btn-plain px-5 py-2 ${page === i ? "bg-primary" : ""}`}
+          className={`btn-plain h-8 aspect-square rounded-full ${
+            page === i ? "bg-primary text-white" : ""
+          }`}
           onClick={async () => {
             if (page !== i) {
               setPage(i);
@@ -118,11 +163,16 @@ function Products() {
   return (
     <>
       <ModalAddProduct modalAdd={modalAdd} closeModalAdd={closeModalAdd} />
+      <ModalEditProduct
+        modalEdit={modalEdit}
+        closeModalEdit={closeModalEdit}
+        editId={editId}
+      />
       <div className="bg-admin h-full w-full justify-center flex">
         <div className="w-full pt-16 pl-64">
           <div className="w-full px-12 py-8 flex flex-col gap-y-9">
             <div className="w-full h-8 flex justify-between">
-              <h1 className="text-xl font-bold">Daftar Obat</h1>
+              <h1 className="text-xl font-bold text-secondary">Daftar Obat</h1>
               <div className="flex gap-4">
                 <button className="button-outline w-32 h-full">
                   Unduh PDF
@@ -147,20 +197,21 @@ function Products() {
                       />
                       <button
                         className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"
-                        onClick={getProducts}
+                        onClick={() => {
+                          if (terms !== "") {
+                            setPage(0);
+                            getProducts();
+                          }
+                        }}
                       >
-                        <img
-                          src={searchIcon}
-                          alt=""
-                          className="h-full scale-50"
-                        />
+                        <SearchIcon className="h-full scale-50 text-white" />
                       </button>
                     </div>
                   </div>
                   <div className="flex flex-col gap-y-2">
                     <label htmlFor="category">Kategori</label>
                     <select
-                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
+                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary cursor-pointer"
                       name="category"
                       id="category"
                       value={category}
@@ -185,7 +236,7 @@ function Products() {
                   <div className="flex flex-col gap-y-2">
                     <label htmlFor="golongan">Golongan</label>
                     <select
-                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary"
+                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary cursor-pointer"
                       name="golongan"
                       id="golongan"
                       value={golongan}
@@ -221,9 +272,9 @@ function Products() {
                   Tambah Produk
                 </button>
               </div>
-              <div className="border w-full" />
-              <div className="w-full h-[628px] border flex flex-col">
-                <div className="h-[572px] overflow-scroll relative">
+              <div className="w-full" />
+              <div className="w-full h-[628px] flex flex-col">
+                <div className="h-[572px] border-l overflow-scroll relative">
                   {loading && (
                     <div className="w-full absolute flex items-center h-full">
                       <Loading className="" />
@@ -291,10 +342,43 @@ function Products() {
                       </ul>
                     </div>
                   </div>
-                  <div className="min-w-min h-full border">
-                    <div className="bg-primary/20 rounded-lg overflow-hidden">
-                      {loading ? "" : printButtons()}
+                  <div className="h-8 min-w-min flex items-center gap-x-2">
+                    <button
+                      className="button-outline h-7 aspect-square rounded-full"
+                      onClick={() => setPage(0)}
+                    >
+                      <ChevronDoubleLeftIcon className="h-5" />
+                    </button>
+                    <button
+                      className="button-primary h-full aspect-square rounded-full"
+                      disabled={page === minPage}
+                      onClick={() => setPage((prev) => prev - 1)}
+                    >
+                      <ChevronLeftIcon className="h-7" />
+                    </button>
+                    <div className="h-full w-full flex gap-x-2">
+                      {loading && !total ? (
+                        <div className="w-[250px] h-full rounded-lg bg-neutral-gray button-loading flex justify-center items-center">
+                          Loading ...
+                        </div>
+                      ) : (
+                        printButtons()
+                      )}
                     </div>
+
+                    <button
+                      className="button-primary h-full aspect-square rounded-full"
+                      disabled={page === totalPages - 1}
+                      onClick={() => setPage((prev) => prev + 1)}
+                    >
+                      <ChevronRightIcon className="h-7" />
+                    </button>
+                    <button
+                      className="button-outline h-7 aspect-square rounded-full"
+                      onClick={() => setPage(totalPages - 1)}
+                    >
+                      <ChevronDoubleRightIcon className="h-5" />
+                    </button>
                   </div>
                 </div>
               </div>

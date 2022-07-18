@@ -55,7 +55,7 @@ function Address() {
       let data = res.data.data.map((val) => {
         return { value: val.id, content: val.province };
       });
-      setProvinces([{ content: "Provinsi", value: 0 }, , ...data]);
+      setProvinces([{ content: "Provinsi", value: 0 }, ...data]);
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +68,7 @@ function Address() {
       let data = res.data.data.map((val) => {
         return { value: val.id, content: val.city, kode_pos: val.postal_code };
       });
-      setCities([{ content: "Kota/Kabupaten", value: 0 }, , ...data]);
+      setCities([{ content: "Kota/Kabupaten", value: 0 }, ...data]);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +95,8 @@ function Address() {
     if (cityId)
       setKodePos(() => {
         for (let val of cities) {
-          if (val?.value == cityId) {
+          // === atau == ????
+          if (val?.value === cityId) {
             return val.kode_pos;
           }
         }
