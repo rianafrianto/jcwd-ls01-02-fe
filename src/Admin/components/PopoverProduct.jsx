@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
@@ -6,6 +6,16 @@ import trashIcon from "../../Assets/trash-icon.png";
 import editIcon from "../../Assets/edit-icon.png";
 
 function PopoverProduct() {
+  const [deleteProducts, setDeleteProducts] = useState([]);
+  const deleteProduct = (i) => {
+    setDeleteProducts((prev) => {
+      console.log(prev);
+      let result = [...prev];
+      result.splice(i, 1);
+      return result;
+    });
+  };
+
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -34,9 +44,7 @@ function PopoverProduct() {
                 </button>
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
-                  onClick={() => {
-                    close();
-                  }}
+                  onClick={() => deleteProduct()}
                 >
                   <img src={trashIcon} alt="" className="h-5" />
                 </button>
