@@ -1,15 +1,14 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
-import FormikControl from "../../User/Component/Formik/FormikControl";
 import AddDetails1 from "./AddDetails1";
 import AddDetails2 from "./AddDetails2";
-import axios from "axios";
-import API_URL from "../../Helpers/API_URL";
 import { XIcon } from "@heroicons/react/outline";
+import AddImage from "./AddImage";
+import DetailsPreview from "./DetailsPreview";
+import { toast } from "react-toastify";
 
 function ModalAddProduct(props) {
+  const { modalAdd, closeModalAdd } = props;
   const initialState1 = {
     name: "",
     NIE: "",
@@ -32,31 +31,41 @@ function ModalAddProduct(props) {
     promo: "",
     berat: "",
   };
-  const { modalAdd, closeModalAdd } = props;
-  const [modalState, setmodalState] = useState(1);
+  const initialState3 = {
+    photo: { file: null, filePreview: null },
+  };
+
+  const [modalState, setModalState] = useState(1);
   const [details1, setDetails1] = useState(initialState1);
   const [details2, setDetails2] = useState(initialState2);
+  const [detailImage, setDetailImage] = useState(initialState3);
+  const [loading, setLoading] = useState(false);
 
-  const cancelAdd = () => {
+  const cancel = () => {
     closeModalAdd();
-    setmodalState(1);
+    setModalState(1);
     setDetails1(initialState1);
     setDetails2(initialState2);
+    setDetailImage(initialState3);
   };
 
   const finalSubmit = async () => {
-    console.log(details1);
-    console.log(details2);
     try {
       const insertData = {
         ...details1,
         ...details2,
-        photo: null,
+        ...detailImage,
       };
-      await axios.post(`${API_URL}/admin/new-product`, insertData);
-      cancelAdd();
+      console.log(insertData);
+      //   await axios.post(`${API_URL}/admin/new-product`, insertData);
+      toast.success(`Produk berhasil ditambahkan`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
+      cancel();
       setDetails1(initialState1);
       setDetails2(initialState2);
+      setDetailImage(initialState3);
     } catch (error) {
       console.log(error);
     }
@@ -68,38 +77,35 @@ function ModalAddProduct(props) {
         return (
           <AddDetails1
             details1={details1}
-            cancelAdd={cancelAdd}
-            setmodalState={setmodalState}
             setDetails1={setDetails1}
+            setModalState={setModalState}
           />
         );
       case 2:
         return (
           <AddDetails2
             details2={details2}
-            cancelAdd={cancelAdd}
-            setmodalState={setmodalState}
             setDetails2={setDetails2}
+            setModalState={setModalState}
           />
         );
-
       case 3:
         return (
-          <div className="w-full flex justify-end h-20 items-center border-t-2 gap-x-5">
-            <div
-              className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-              onClick={() => setmodalState(2)}
-            >
-              Kembali
-            </div>
-            <button
-              type="button"
-              className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-              onClick={finalSubmit}
-            >
-              Lanjutkan
-            </button>
-          </div>
+          <AddImage
+            detailImage={detailImage}
+            setDetailImage={setDetailImage}
+            setModalState={setModalState}
+          />
+        );
+      case 4:
+        return (
+          <DetailsPreview
+            details1={details1}
+            details2={details2}
+            detailImage={detailImage}
+            setModalState={setModalState}
+            finalSubmit={finalSubmit}
+          />
         );
       default:
         return null;
@@ -121,7 +127,7 @@ function ModalAddProduct(props) {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center p-4 text-center duration-500">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -131,7 +137,7 @@ function ModalAddProduct(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-[800px] h-full flex flex-col gap-y-2 transform overflow-hidden px-8 py-4 rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-[800px] h-full flex flex-col gap-y-2 transform overflow-hidden px-8 py-4 rounded-2xl bg-white text-left align-middle shadow-xl transition-all duration-300">
                 <Dialog.Title
                   as="div"
                   className="h-10 w-full flex justify-center text-2xl items-center relative"
@@ -140,7 +146,7 @@ function ModalAddProduct(props) {
 
                   <button
                     className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-2 py-2 absolute right-0"
-                    onClick={cancelAdd}
+                    onClick={cancel}
                   >
                     <XIcon className="h-5" />
                   </button>

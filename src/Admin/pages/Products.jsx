@@ -37,11 +37,11 @@ function Products() {
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
 
-  console.log({ page });
+  // console.log({ page });
   function closeModalAdd() {
     setModalAdd(false);
   }
-  console.log({ editId });
+  // console.log({ editId });
 
   function openModalAdd() {
     setModalAdd(true);
@@ -128,7 +128,7 @@ function Products() {
     for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
-    console.log({ buttonsTotal });
+    // console.log({ buttonsTotal });
     // let startIndex;
     // if (total - maxPage - page + 1 >= 0) {
     //   startIndex = page;
@@ -169,6 +169,7 @@ function Products() {
         modalEdit={modalEdit}
         closeModalEdit={closeModalEdit}
         editId={editId}
+        setEditId={setEditId}
       />
       <div className="bg-admin h-full w-full justify-center flex">
         <div className="w-full pt-16 pl-64">

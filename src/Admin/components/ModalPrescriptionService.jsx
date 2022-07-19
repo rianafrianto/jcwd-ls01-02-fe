@@ -12,6 +12,7 @@ import { dateGenerator } from "../../Helpers/dateGenerator";
 import axios from "axios";
 import * as Yup from "yup";
 import FormikControl from "../../User/Component/Formik/FormikControl";
+import { toast } from "react-toastify";
 
 function ModalPrescriptionService(props) {
   const { isOpen, closeModal, data } = props;
@@ -87,6 +88,10 @@ function ModalPrescriptionService(props) {
       console.log(insertData);
 
       await axios.post(`${API_URL}/admin/order/valid-prescription`, insertData);
+      toast.success(`Pesanan berhasil diproses`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
       cancelService();
       setLoadingSubmit(false);
     } catch (error) {
@@ -168,6 +173,7 @@ function ModalPrescriptionService(props) {
         <button
           className="btn-plain w-full text-left border-b hover:bg-gray-300 cursor-pointer px-2"
           key={i}
+          type="button"
           tabIndex={0}
           onClick={() => {
             setTerms(val.name);
@@ -196,12 +202,14 @@ function ModalPrescriptionService(props) {
           <td>
             <div className="h-full flex justify-center items-center gap-x-2 px-2">
               <button
+                type="button"
                 className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                 onClick={() => editCartOrder(i)}
               >
                 <img src={editIcon} alt="" className="h-4" />
               </button>
               <button
+                type="button"
                 className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                 onClick={() => deleteCartOrder(i)}
               >
@@ -248,6 +256,7 @@ function ModalPrescriptionService(props) {
                   <h1 className="font-bold">Buat Salinan Resep</h1>
 
                   <button
+                    type="button"
                     className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
                     onClick={cancelService}
                   >

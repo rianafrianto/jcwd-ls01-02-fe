@@ -5,7 +5,7 @@ import { satuanList } from "../../Helpers/categoryList";
 import { toast } from "react-toastify";
 
 function AddDetails2(props) {
-  const { setmodalState, cancelAdd, details2, setDetails2 } = props;
+  const { setModalState, details2, setDetails2, editId } = props;
   let { stock, satuan, kemasan, price, modal, promo, berat } = details2;
   const initialValues2 = {
     stock,
@@ -19,7 +19,9 @@ function AddDetails2(props) {
   const listSatuan = [{ content: "Satuan", value: "" }, ...satuanList];
 
   const validationSchema2 = Yup.object({
-    stock: Yup.number().required("Wajib diisi").min(1, "Kuantitas min. 1"),
+    stock: editId
+      ? ""
+      : Yup.number().required("Wajib diisi").min(1, "Kuantitas min. 1"),
     satuan: Yup.string().required("Wajib diisi"),
     kemasan: Yup.string().required("Wajib diisi"),
     price: Yup.number().required("Wajib diisi").min(1, "Nilai Barang min. 1"),
@@ -41,7 +43,7 @@ function AddDetails2(props) {
       berat,
     };
     setDetails2(insertData);
-    setmodalState(3);
+    setModalState(3);
   };
 
   return (
@@ -84,6 +86,12 @@ function AddDetails2(props) {
                       </span>
                       Gambar Produk
                     </li>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                        4
+                      </span>
+                      Konfirmasi
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -99,13 +107,23 @@ function AddDetails2(props) {
                   <tbody className="">
                     <tr>
                       <th>
-                        Kuantitas
-                        <span className="text-red-700">*</span>
+                        {editId ? (
+                          "Tambah Kuantitas"
+                        ) : (
+                          <>
+                            Kuantitas
+                            <span className="text-red-700">*</span>
+                          </>
+                        )}
                       </th>
                       <td className="py-2">
                         <Field
                           name="stock"
-                          placeholder="Masukkan kuantitas"
+                          placeholder={
+                            editId
+                              ? "Masukkan tambahan kuantitas"
+                              : "Masukkan kuantitas"
+                          }
                           type="number"
                           className={`field-input h-8 rounded ${
                             errors.stock && touched.stock
@@ -271,7 +289,7 @@ function AddDetails2(props) {
               <div
                 role="button"
                 className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-                onClick={() => setmodalState(1)}
+                onClick={() => setModalState(1)}
               >
                 Kembali
               </div>

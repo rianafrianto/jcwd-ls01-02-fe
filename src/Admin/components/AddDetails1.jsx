@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { categoryList, golonganList } from "../../Helpers/categoryList";
 import { toast } from "react-toastify";
 
 function AddDetails1(props) {
-  const { setmodalState, cancelAdd, details1, setDetails1 } = props;
+  const { setModalState, details1, setDetails1 } = props;
   let {
     name,
     NIE,
@@ -84,7 +83,7 @@ function AddDetails1(props) {
       peringatan,
     };
     setDetails1(insertData);
-    setmodalState(2);
+    setModalState(2);
   };
 
   return (
@@ -129,6 +128,12 @@ function AddDetails1(props) {
                         3
                       </span>
                       Gambar Produk
+                    </li>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                        4
+                      </span>
+                      Konfirmasi
                     </li>
                   </ul>
                 </div>
@@ -457,9 +462,6 @@ function AddDetails1(props) {
         );
       }}
     </Formik>
-    //     </Dialog.Panel>
-    //   </Transition.Child>
-    // </div>
   );
 }
 
