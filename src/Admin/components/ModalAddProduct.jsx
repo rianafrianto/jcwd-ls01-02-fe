@@ -6,6 +6,8 @@ import { XIcon } from "@heroicons/react/outline";
 import AddImage from "./AddImage";
 import DetailsPreview from "./DetailsPreview";
 import { toast } from "react-toastify";
+import axios from "axios";
+import API_URL from "../../Helpers/API_URL";
 
 function ModalAddProduct(props) {
   const { modalAdd, closeModalAdd } = props;
@@ -54,10 +56,13 @@ function ModalAddProduct(props) {
       const insertData = {
         ...details1,
         ...details2,
-        ...detailImage,
       };
+      let formData = new FormData();
+      formData.append("product_photo", detailImage.photo.file);
+      formData.append("data", JSON.stringify(insertData));
+
       console.log(insertData);
-      //   await axios.post(`${API_URL}/admin/new-product`, insertData);
+      await axios.post(`${API_URL}/admin/new-product`, formData);
       toast.success(`Produk berhasil ditambahkan`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },

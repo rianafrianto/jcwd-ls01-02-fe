@@ -7,7 +7,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import Loading from "../../User/Component/Loading";
 
 function AddImage(props) {
-  const { setModalState, detailImage, setDetailImage } = props;
+  const { setModalState, detailImage, setDetailImage, editId } = props;
   let { photo } = detailImage;
   const initialCrop = { x: 0, y: 0 };
   const photoRef = useRef();
@@ -29,7 +29,6 @@ function AddImage(props) {
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
-
   const onFileChange = (e) => {
     console.log(e.target.files[0]);
     setSubmitClicked(false);
@@ -50,13 +49,17 @@ function AddImage(props) {
       if (!selectedImage.filePreview) {
         throw { message: "Wajib unggah gambar produk" };
       }
+      if (!selectedImage.file) {
+        setModalState(4);
+        return;
+      }
       console.log(data);
       setLoading(true);
       const { url, file } = await getCroppedImg(
         data.filePreview,
         croppedAreaPixels
       );
-      var newFile = new File([file], "image", { type: "image/jpeg" });
+      var newFile = new File([file], "image.jpeg", { type: "image/jpeg" });
       setDetailImage({ photo: { file: newFile, filePreview: url } });
       setLoading(false);
       setModalState(4);

@@ -31,7 +31,6 @@ function AddDetails2(props) {
   });
 
   const onSubmit2 = (values) => {
-    console.log(values);
     const { stock, satuan, kemasan, price, modal, promo, berat } = values;
     const insertData = {
       stock,

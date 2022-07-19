@@ -135,11 +135,16 @@ function ModalEditProduct(props) {
       const insertData = {
         ...details1,
         ...details2,
-        ...detailImage,
         id: editId,
       };
       console.log(insertData);
-      // await axios.patch(`${API_URL}/admin/edit-product`, insertData);
+      let formData = new FormData();
+      if (detailImage.photo.file) {
+        formData.append("product_photo", detailImage.photo.file);
+      }
+      formData.append("data", JSON.stringify(insertData));
+
+      await axios.patch(`${API_URL}/admin/edit-product`, formData);
       toast.success(`Produk berhasil diubah`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
@@ -188,6 +193,7 @@ function ModalEditProduct(props) {
             detailImage={detailImage}
             setModalState={setModalState}
             finalSubmit={finalSubmit}
+            editId={editId}
           />
         );
       default:

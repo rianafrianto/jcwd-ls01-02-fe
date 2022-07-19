@@ -55,7 +55,6 @@ function AddDetails1(props) {
   });
 
   const onSubmit1 = (values) => {
-    console.log(values);
     const {
       name,
       NIE,
@@ -452,6 +451,7 @@ function AddDetails1(props) {
                   if (!isValid)
                     return toast.error("Data belum lengkap!", {
                       theme: "colored",
+                      style: { backgroundColor: "#DC2626" },
                     });
                 }}
               >

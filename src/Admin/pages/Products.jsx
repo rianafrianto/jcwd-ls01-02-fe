@@ -19,56 +19,67 @@ import {
 } from "@heroicons/react/solid";
 import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import SelectCustom from "../components/SelectCustom";
+import ModalDetails from "../components/ModalDetails";
 
 function Products() {
+  const initialTerms = "";
   const [loading, setLoading] = useState(false);
   const [modalAdd, setModalAdd] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
+  const [modalDetails, setModalDetails] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [detailsId, setDetailsId] = useState(null);
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("all");
-  const [golongan, setGolongan] = useState("all");
-  const [terms, setTerms] = useState("");
+  const [category, setCategory] = useState("Semua");
+  const [golongan, setGolongan] = useState("Semua");
+  const [terms, setTerms] = useState(initialTerms);
   const [order, setOrder] = useState("ORDER BY p.id ASC");
   let [page, setPage] = useState(0);
-  const [minPage, setMinPage] = useState(0);
-  const [maxPage, setMaxPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
 
-  // console.log({ page });
   function closeModalAdd() {
     setModalAdd(false);
   }
-  // console.log({ editId });
-
   function openModalAdd() {
     setModalAdd(true);
   }
   function closeModalEdit() {
     setModalEdit(false);
   }
-
   function openModalEdit() {
     setModalEdit(true);
   }
+  function closeModalDetails() {
+    setModalDetails(false);
+  }
+  function openModalDetails() {
+    setModalDetails(true);
+  }
 
-  const getProducts = async () => {
+  const getProducts = async (reset) => {
     try {
       setLoading(true);
       const res = await axios.get(`${API_URL}/admin/products`, {
-        params: { terms, category, golongan, page, limit, order },
+        params: {
+          terms: reset ? "" : terms,
+          category: category === "Semua" ? "all" : category,
+          golongan: golongan === "Semua" ? "all" : golongan,
+          page,
+          limit,
+          order,
+        },
       });
-      console.log(res.data.data.products[0]);
       setProducts(res.data.data.products);
       setTotal(res.data.data.total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
-      setMinPage(0);
-      setMaxPage(() => {
-        if (totalPages > 5) return 4;
-        return totalPages - 1;
-      });
+      // setMinPage(0);
+      // setMaxPage(() => {
+      //   if (totalPages > 5) return 4;
+      //   return totalPages - 1;
+      // });
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,10 +88,14 @@ function Products() {
   };
 
   const resetFilter = () => {
-    setTerms("");
+    setTerms(initialTerms);
     setCategory("all");
     setGolongan("all");
+    setPage(0);
+
+    getProducts(1);
   };
+
   let newListCat = categoryList.map((val, i) => {
     return { content: val.cardText, value: `${i + 1}` };
   });
@@ -106,7 +121,10 @@ function Products() {
               <div className="h-full flex justify-center items-center gap-x-2 px-2 py-2">
                 <button
                   className="button-primary h-8 w-full"
-                  onClick={() => {}}
+                  onClick={() => {
+                    openModalDetails();
+                    setDetailsId(val.id);
+                  }}
                 >
                   Lihat Detail
                 </button>
@@ -122,40 +140,74 @@ function Products() {
       });
   };
 
-  const printButtons = () => {
-    let pages = [];
-    let buttonsTotal = totalPages;
-    for (let i = 0; i < buttonsTotal; i++) {
-      pages.push("");
-    }
-    // console.log({ buttonsTotal });
-    // let startIndex;
-    // if (total - maxPage - page + 1 >= 0) {
-    //   startIndex = page;
-    //   startIndex--;
-    // } else {
-    //   startIndex = totalPages - 5;
-    // }
-
-    return pages.map((val, i) => {
-      // startIndex++;
+  const printCatOptions = () => {
+    return listCat.map((val, i) => {
       return (
         <button
           key={i}
-          className={`btn-plain h-8 aspect-square rounded-full ${
-            page === i ? "bg-primary text-white" : ""
-          }`}
-          onClick={async () => {
-            if (page !== i) {
-              setPage(i);
-            }
+          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          onClick={() => {
+            setPage(0);
+            setCategory(val.content);
           }}
         >
-          {i + 1}
+          {val.content}
         </button>
       );
     });
   };
+
+  const printGolOptions = () => {
+    return listGol.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          onClick={() => {
+            setPage(0);
+            setGolongan(val.content);
+          }}
+        >
+          {val.content}
+        </button>
+      );
+    });
+  };
+
+  // const printButtons = () => {
+  //   let pages = [];
+  //   let buttonsTotal = totalPages;
+  //   for (let i = 0; i < buttonsTotal; i++) {
+  //     pages.push("");
+  //   }
+  // console.log({ buttonsTotal });
+  // let startIndex;
+  // if (total - maxPage - page + 1 >= 0) {
+  //   startIndex = page;
+  //   startIndex--;
+  // } else {
+  //   startIndex = totalPages - 5;
+  // }
+
+  //   return pages.map((val, i) => {
+  //     // startIndex++;
+  //     return (
+  //       <button
+  //         key={i}
+  //         className={`btn-plain h-8 aspect-square rounded-full ${
+  //           page === i ? "bg-primary text-white" : ""
+  //         }`}
+  //         onClick={async () => {
+  //           if (page !== i) {
+  //             setPage(i);
+  //           }
+  //         }}
+  //       >
+  //         {i + 1}
+  //       </button>
+  //     );
+  //   });
+  // };
 
   useEffect(() => {
     getProducts();
@@ -170,6 +222,12 @@ function Products() {
         closeModalEdit={closeModalEdit}
         editId={editId}
         setEditId={setEditId}
+      />
+      <ModalDetails
+        modalDetails={modalDetails}
+        closeModalDetails={closeModalDetails}
+        detailsId={detailsId}
+        setDetailsId={setDetailsId}
       />
       <div className="bg-admin h-full w-full justify-center flex">
         <div className="w-full pt-16 pl-64">
@@ -186,17 +244,22 @@ function Products() {
             <div className="w-full h-[800px] border shadow-lg rounded-lg overflow-hidden shadow-black/20 p-8 flex flex-col gap-y-5">
               <div className="h-20 w-full flex justify-between items-end">
                 <div className="w-full flex gap-x-4 items-end">
-                  <div className="flex flex-col gap-y-2">
-                    <label htmlFor="terms">Cari Nama Obat</label>
+                  <div className="flex flex-col gap-y-2 h-full">
+                    <label htmlFor="terms" className="font-bold text-secondary">
+                      Cari Nama Obat
+                    </label>
                     <div className="w-80 flex h-10 rounded-lg overflow-hidden border bg-white">
                       <input
                         type="text"
                         name="terms"
                         id="terms"
-                        className="w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none"
+                        className="filter-search-bar"
                         placeholder="Masukkan Nama Obat"
                         value={terms}
                         onChange={(e) => setTerms(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") getProducts();
+                        }}
                       />
                       <button
                         className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"
@@ -211,55 +274,23 @@ function Products() {
                       </button>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-y-2">
-                    <label htmlFor="category">Kategori</label>
-                    <select
-                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary cursor-pointer"
-                      name="category"
-                      id="category"
-                      value={category}
-                      onChange={(e) => {
-                        setCategory(e.target.value);
-                        setPage(0);
-                      }}
-                    >
-                      {listCat.map((val, i) => {
-                        return (
-                          <option
-                            key={i}
-                            value={val.value}
-                            defaultValue={i === 0}
-                          >
-                            {val.content}
-                          </option>
-                        );
-                      })}
-                    </select>
+                  <div className="flex flex-col gap-y-2 h-full">
+                    <label className="font-bold text-secondary">Kategori</label>
+                    <SelectCustom
+                      buttonStyle="w-52 h-10"
+                      panelStyle="w-52 h-10"
+                      optionsFunc={printCatOptions}
+                      stateValue={category}
+                    />
                   </div>
                   <div className="flex flex-col gap-y-2">
-                    <label htmlFor="golongan">Golongan</label>
-                    <select
-                      className="h-full w-44 border border-neutral-gray p-2 rounded-lg focus:outline-primary cursor-pointer"
-                      name="golongan"
-                      id="golongan"
-                      value={golongan}
-                      onChange={(e) => {
-                        setGolongan(e.target.value);
-                        setPage(0);
-                      }}
-                    >
-                      {listGol.map((val, i) => {
-                        return (
-                          <option
-                            key={i}
-                            value={val.value}
-                            defaultValue={i === 0}
-                          >
-                            {val.content}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    <label className="font-bold text-secondary">Golongan</label>
+                    <SelectCustom
+                      buttonStyle="w-52 h-10"
+                      panelStyle="w-52 h-10"
+                      optionsFunc={printGolOptions}
+                      stateValue={golongan}
+                    />
                   </div>
                   <button
                     className="button-outline px-3 h-9"
@@ -285,48 +316,37 @@ function Products() {
                   )}
                   <table className="w-full rounded-t-lg overflow-hidden table-fixed table-zebra">
                     <thead className="rounded-t-lg h-12">
-                      <tr className="text-center font-normal bg-secondary rounded-t-lg">
-                        <th className="font-medium text-white w-12">No</th>
-                        <th className="font-medium text-white w-44">
-                          Nama Produk
-                        </th>
-                        <th className="font-medium text-white w-36">
-                          No. Produk
-                        </th>
-                        <th className="font-medium text-white w-36">
-                          No. BPOM
-                        </th>
-                        <th className="font-medium text-white w-32">
-                          Kategori
-                        </th>
-                        <th className="font-medium text-white w-32">
-                          Golongan
-                        </th>
-                        <th className="font-medium text-white w-28">Stok</th>
-                        <th className="font-medium text-white w-24">Satuan</th>
-                        <th className="font-medium text-white w-40">
-                          Nilai Barang
-                        </th>
-                        <th className="font-medium text-white w-36">
-                          Nilai Jual
-                        </th>
-                        <th className="font-medium text-white w-36">Atur</th>
+                      <tr className="text-center bg-secondary rounded-t-lg font-medium text-white">
+                        <th className="w-12">No</th>
+                        <th className="w-44">Nama Produk</th>
+                        <th className="w-36">No. Produk</th>
+                        <th className="w-36">No. BPOM</th>
+                        <th className="w-32">Kategori</th>
+                        <th className="w-32">Golongan</th>
+                        <th className="w-28">Stok</th>
+                        <th className="w-24">Satuan</th>
+                        <th className="w-40">Nilai Barang</th>
+                        <th className="w-36">Nilai Jual</th>
+                        <th className="w-36">Atur</th>
                       </tr>
                     </thead>
                     <tbody>{printRow(products)}</tbody>
                   </table>
                 </div>
                 <div className="w-full h-14  flex justify-between items-center px-4 py-3">
-                  <span className="">
-                    Menampilkan {limit} dari {total} produk
-                  </span>
+                  <span className="">Total {total} produk ditemukan</span>
                   <div className="w-56 flex  h-full items-center gap-x-2">
                     Baris per halaman
                     <Popover className="relative">
                       {({ open, close }) => (
                         <>
-                          <Popover.Button className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer">
-                            {limit} <ChevronDownIcon className={`h-5`} />
+                          <Popover.Button className="btn-plain h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex justify-between cursor-pointer px-2">
+                            {limit}{" "}
+                            <ChevronDownIcon
+                              className={`h-5 rotate-180 duration-300 ${
+                                open && "rotate-[360deg] text-primary"
+                              }`}
+                            />
                           </Popover.Button>
                           <AnimatePresence>
                             {open && (
@@ -336,11 +356,11 @@ function Products() {
                                 initial={{ height: 0 }}
                                 animate={{ height: "auto" }}
                                 exit={{ height: 0 }}
-                                transition={{ duration: 0.5, type: "spring" }}
-                                className="absolute bottom-9 z-10 bg-putih rounded focus:outline-none shadow-xl shadow-black/20 bg-white overflow-hidden flex flex-col w-20"
+                                transition={{ duration: 0.3, type: "spring" }}
+                                className="absolute bottom-9 z-10 bg-putih rounded focus:outline-none shadow-md shadow-black/20 bg-white overflow-hidden flex flex-col w-20"
                               >
                                 <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
+                                  className="btn-plain py-2 hover:bg-primary hover:text-white"
                                   onClick={() => {
                                     setPage(0);
                                     setLimit(30);
@@ -350,7 +370,7 @@ function Products() {
                                   30
                                 </button>
                                 <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
+                                  className="btn-plain py-2 hover:bg-primary hover:text-white"
                                   onClick={() => {
                                     setPage(0);
                                     setLimit(20);
@@ -360,7 +380,7 @@ function Products() {
                                   20
                                 </button>
                                 <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
+                                  className="btn-plain py-2 hover:bg-primary hover:text-white"
                                   onClick={() => {
                                     setPage(0);
                                     setLimit(10);
@@ -385,18 +405,21 @@ function Products() {
                     </button>
                     <button
                       className="button-primary h-full aspect-square rounded-full"
-                      disabled={page === minPage}
+                      disabled={page === 0}
                       onClick={() => setPage((prev) => prev - 1)}
                     >
                       <ChevronLeftIcon className="h-7" />
                     </button>
                     <div className="h-full w-full flex gap-x-2">
                       {loading && !total ? (
-                        <div className="w-[250px] h-full rounded-lg bg-neutral-gray button-loading flex justify-center items-center">
+                        <span className="h-full w-64 flex items-center justify-center px-5 button-loading">
                           Loading ...
-                        </div>
+                        </span>
                       ) : (
-                        printButtons()
+                        <span className="h-full w-72 flex items-center justify-center">
+                          Produk nomor {page * limit + 1} hingga{" "}
+                          {page * limit + products.length}
+                        </span>
                       )}
                     </div>
 

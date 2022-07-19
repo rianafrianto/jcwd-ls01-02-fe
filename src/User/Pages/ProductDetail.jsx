@@ -20,7 +20,6 @@ function ProductDetail() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [image, setImage] = useState("");
   let [tab, setTab] = useState("DESKRIPSI");
 
   const [qty, setQty] = useState(1);
@@ -31,16 +30,14 @@ function ProductDetail() {
 
   const fetchProductDetails = async () => {
     try {
+      setLoading(true);
       product_name = product_name.split("_").join(" ");
-      console.log(product_name);
       let res = await axios.get(
         `${API_URL}/product/product-details/${product_name}`
       );
       setData(res.data.data);
-      await axios.get(API_URL + res.data.data.image);
-      setImage(API_URL + res.data.data.image);
     } catch (error) {
-      setImage(defaultProduct);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -138,7 +135,10 @@ function ProductDetail() {
           <div className="flex flex-col w-full items-center">
             <div className="w-[400px] flex flex-col items-center gap-5">
               <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
-                <img src={image} alt="" />
+                <img
+                  src={data.photo ? API_URL + data.photo : defaultProduct}
+                  alt=""
+                />
               </figure>
               <div className="hidden lg:flex gap-x-2 w-full px-5 h-11">
                 <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">

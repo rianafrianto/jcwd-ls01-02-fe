@@ -9,7 +9,14 @@ import {
 import { shortDateGenerator } from "../../Helpers/dateGenerator";
 
 function DetailsPreview(props) {
-  const { details1, details2, detailImage, setModalState, finalSubmit } = props;
+  const {
+    details1,
+    details2,
+    detailImage,
+    setModalState,
+    finalSubmit,
+    detailsId,
+  } = props;
   const {
     name,
     NIE,
@@ -40,51 +47,54 @@ function DetailsPreview(props) {
       setLoading(false);
     }
   };
-
   return (
     <>
-      <div
-        className={`${
-          loading ? "h-[200px]" : ""
-        } w-full flex flex-col justify-center duration-500 `}
-      >
+      <div className={`${loading ? "h-[200px]" : ""} w-full flex flex-col`}>
         {loading ? (
           <Loading className={``} />
         ) : (
           <>
-            <div className="h-16 border-b-2 flex items-center">
-              <div className="text-md breadcrumbs">
-                <ul>
-                  <li className="w-full flex items-center gap-x-2">
-                    <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                      1
-                    </span>
-                    Detail Obat
-                  </li>
-                  <li className="w-full flex items-center gap-x-2">
-                    <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                      2
-                    </span>
-                    Detail Kuantitas & Harga
-                  </li>
-                  <li className="w-full flex items-center gap-x-2">
-                    <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                      3
-                    </span>
-                    Gambar Produk
-                  </li>
-                  <li className="w-full flex items-center gap-x-2">
-                    <span className="rounded-full bg-primary font-bold text-white h-6 aspect-square text-center">
-                      4
-                    </span>
-                    Konfirmasi
-                  </li>
-                </ul>
+            {detailsId ? (
+              ""
+            ) : (
+              <div className="h-16 border-b-2 flex items-center">
+                <div className="text-md breadcrumbs">
+                  <ul>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                        1
+                      </span>
+                      Detail Obat
+                    </li>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                        2
+                      </span>
+                      Detail Kuantitas & Harga
+                    </li>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
+                        3
+                      </span>
+                      Gambar Produk
+                    </li>
+                    <li className="w-full flex items-center gap-x-2">
+                      <span className="rounded-full bg-primary font-bold text-white h-6 aspect-square text-center">
+                        4
+                      </span>
+                      Konfirmasi
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-y-3 items-center pt-3">
-              <figure className="w-52 h-52 border border-primary rounded-lg overflow-hidden">
-                <img src={photo.filePreview} alt="" className="h-full" />
+            )}
+            <div className="h-[600px] overflow-scroll flex flex-col gap-y-3 items-center pt-3">
+              <figure className="w-52 h-52 border border-primary rounded-lg">
+                <img
+                  src={photo.filePreview}
+                  alt=""
+                  className="h-full rounded-lg"
+                />
               </figure>
               <div className="w-full flex">
                 <span className="w-2/5 font-bold">Nama Produk</span>
@@ -132,10 +142,14 @@ function DetailsPreview(props) {
                 <span className="w-2/5 font-bold">Peringatan</span>
                 <span className="w-3/5">{peringatan}</span>
               </div>
-              <div className="w-full flex">
-                <span className="w-2/5 font-bold">Kuantitas</span>
-                <span className="w-3/5">{stock}</span>
-              </div>
+              {stock ? (
+                <div className="w-full flex">
+                  <span className="w-2/5 font-bold">Kuantitas Tambahan</span>
+                  <span className="w-3/5">{stock}</span>
+                </div>
+              ) : (
+                ""
+              )}
               <div className="w-full flex">
                 <span className="w-2/5 font-bold">Satuan</span>
                 <span className="w-3/5">{satList[satuan]}</span>
@@ -163,27 +177,29 @@ function DetailsPreview(props) {
             </div>
           </>
         )}
-      </div>
-      {loading ? (
-        ""
-      ) : (
-        <div className="w-full flex justify-end h-20 items-center border-t-2 gap-x-5">
-          <div
-            role="button"
-            className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-            onClick={() => setModalState(3)}
-          >
-            Kembali
+        {detailsId ? (
+          <div className="h-10 w-full" />
+        ) : loading ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end h-20 items-center gap-x-5">
+            <div
+              role="button"
+              className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
+              onClick={() => setModalState(3)}
+            >
+              Kembali
+            </div>
+            <button
+              type="button"
+              className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
+              onClick={onSubmit}
+            >
+              Konfirmasi
+            </button>
           </div>
-          <button
-            type="button"
-            className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${""}`}
-            onClick={onSubmit}
-          >
-            Konfirmasi
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }
