@@ -106,343 +106,309 @@ function AddDetails1(props) {
         } = formik;
         return (
           <Form id="form1">
-            <div className="w-full h-[427px] flex flex-col">
-              <div className="h-16 border-b-2 flex items-center">
-                <div className="text-md breadcrumbs">
-                  <ul>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-primary font-bold text-white h-6 aspect-square text-center">
-                        1
-                      </span>
-                      Detail Obat
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        2
-                      </span>
-                      Detail Kuantitas & Harga
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        3
-                      </span>
-                      Gambar Produk
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        4
-                      </span>
-                      Konfirmasi
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="overflow-y-scroll h-full">
-                <table>
-                  <thead>
-                    <tr>
-                      <th className="w-48"></th>
-                      <th className="w-96"></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody className="">
-                    <tr>
-                      <th>
-                        Nama Produk <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          name="name"
-                          placeholder="Masukkan Nama Produk"
-                          type="text"
-                          className={`field-input h-8 rounded ${
-                            errors.name && touched.name
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.name && touched.name && errors.name}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        No. BPOM
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          name="NIE"
-                          placeholder="Masukkan No. BPOM"
-                          type="text"
-                          className={`field-input h-8 rounded ${
-                            errors.NIE && touched.NIE ? "outline-red-700" : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.NIE && touched.NIE && errors.NIE}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Kategori
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <select
-                          name="category"
-                          id="category"
-                          placeholder="Masukkan Kategori"
-                          type="text"
-                          value={values.category}
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
-                          onBlur={handleBlur}
-                          className={`field-input h-8 rounded ${
-                            errors.category && touched.category
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        >
-                          {listCat.map((val, i) => {
-                            return (
-                              <option
-                                key={i}
-                                value={val.value}
-                                disabled={i === 0}
-                              >
-                                {val.content}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.category && touched.category
-                          ? errors.category
-                          : ""}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Golongan
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <select
-                          name="golongan"
-                          id="golongan"
-                          placeholder="Masukkan Golongan"
-                          type="text"
-                          value={values.golongan}
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
-                          onBlur={handleBlur}
-                          className={`field-input h-8 rounded ${
-                            errors.golongan && touched.golongan
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        >
-                          {listGol.map((val, i) => {
-                            return (
-                              <option
-                                key={i}
-                                value={val.value}
-                                disabled={i === 0}
-                              >
-                                {val.content}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.golongan && touched.golongan
-                          ? errors.golongan
-                          : ""}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Tgl. Kadaluarsa
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          name="tgl_kadaluarsa"
-                          placeholder="1 STRIP @ 10 KAPSUL"
-                          type="date"
-                          className={`field-input h-8 rounded ${
-                            errors.tgl_kadaluarsa && touched.tgl_kadaluarsa
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.tgl_kadaluarsa &&
-                          touched.tgl_kadaluarsa &&
-                          errors.tgl_kadaluarsa}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Indikasi
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          as="textarea"
-                          rows={3}
-                          name="indikasi"
-                          placeholder="Masukkan indikasi"
-                          type="text"
-                          className={`field-input h-auto rounded py-2 ${
-                            errors.indikasi && touched.indikasi
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.indikasi && touched.indikasi && errors.indikasi}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Komposisi
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          as="textarea"
-                          rows={3}
-                          name="komposisi"
-                          placeholder="Masukkan komposisi"
-                          type="text"
-                          className={`field-input h-auto rounded py-2 ${
-                            errors.komposisi && touched.komposisi
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.komposisi &&
-                          touched.komposisi &&
-                          errors.komposisi}
-                      </td>
-                    </tr>
+            <div className="overflow-y-scroll border-y w-full h-[400px] flex flex-co">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="w-48"></th>
+                    <th className="w-96"></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody className="">
+                  <tr>
+                    <th>
+                      Nama Produk <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        name="name"
+                        placeholder="Masukkan Nama Produk"
+                        type="text"
+                        className={`field-input h-8 rounded ${
+                          errors.name && touched.name ? "outline-red-700" : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.name && touched.name && errors.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      No. BPOM
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        name="NIE"
+                        placeholder="Masukkan No. BPOM"
+                        type="text"
+                        className={`field-input h-8 rounded ${
+                          errors.NIE && touched.NIE ? "outline-red-700" : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.NIE && touched.NIE && errors.NIE}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Kategori
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <select
+                        name="category"
+                        id="category"
+                        placeholder="Masukkan Kategori"
+                        type="text"
+                        value={values.category}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
+                        onBlur={handleBlur}
+                        className={`field-input h-8 rounded ${
+                          errors.category && touched.category
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      >
+                        {listCat.map((val, i) => {
+                          return (
+                            <option
+                              key={i}
+                              value={val.value}
+                              disabled={i === 0}
+                            >
+                              {val.content}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.category && touched.category
+                        ? errors.category
+                        : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Golongan
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <select
+                        name="golongan"
+                        id="golongan"
+                        placeholder="Masukkan Golongan"
+                        type="text"
+                        value={values.golongan}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
+                        onBlur={handleBlur}
+                        className={`field-input h-8 rounded ${
+                          errors.golongan && touched.golongan
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      >
+                        {listGol.map((val, i) => {
+                          return (
+                            <option
+                              key={i}
+                              value={val.value}
+                              disabled={i === 0}
+                            >
+                              {val.content}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.golongan && touched.golongan
+                        ? errors.golongan
+                        : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Tgl. Kadaluarsa
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        name="tgl_kadaluarsa"
+                        placeholder="1 STRIP @ 10 KAPSUL"
+                        type="date"
+                        className={`field-input h-8 rounded ${
+                          errors.tgl_kadaluarsa && touched.tgl_kadaluarsa
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.tgl_kadaluarsa &&
+                        touched.tgl_kadaluarsa &&
+                        errors.tgl_kadaluarsa}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Indikasi
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        as="textarea"
+                        rows={3}
+                        name="indikasi"
+                        placeholder="Masukkan indikasi"
+                        type="text"
+                        className={`field-input h-auto rounded py-2 ${
+                          errors.indikasi && touched.indikasi
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.indikasi && touched.indikasi && errors.indikasi}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Komposisi
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        as="textarea"
+                        rows={3}
+                        name="komposisi"
+                        placeholder="Masukkan komposisi"
+                        type="text"
+                        className={`field-input h-auto rounded py-2 ${
+                          errors.komposisi && touched.komposisi
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.komposisi &&
+                        touched.komposisi &&
+                        errors.komposisi}
+                    </td>
+                  </tr>
 
-                    <tr>
-                      <th>
-                        Cara Penyimpanan
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          as="textarea"
-                          rows={3}
-                          name="cara_penyimpanan"
-                          placeholder="Masukkan cara penyimpanan"
-                          type="text"
-                          className={`field-input h-auto rounded py-2 ${
-                            errors.cara_penyimpanan && touched.cara_penyimpanan
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.cara_penyimpanan &&
-                          touched.cara_penyimpanan &&
-                          errors.cara_penyimpanan}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Principal
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          name="principal"
-                          placeholder="Masukkan Principal"
-                          type="text"
-                          className={`field-input h-8 rounded ${
-                            errors.principal && touched.principal
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.principal &&
-                          touched.principal &&
-                          errors.principal}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Cara Pakai
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          as="textarea"
-                          rows={3}
-                          name="cara_pakai"
-                          placeholder="Masukkan cara pakai"
-                          type="text"
-                          className={`field-input h-auto rounded py-2 ${
-                            errors.cara_pakai && touched.cara_pakai
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.cara_pakai &&
-                          touched.cara_pakai &&
-                          errors.cara_pakai}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>
-                        Peringatan
-                        <span className="text-red-700">*</span>
-                      </th>
-                      <td className="py-2">
-                        <Field
-                          as="textarea"
-                          rows={3}
-                          name="peringatan"
-                          placeholder="Masukkan peringatan"
-                          type="text"
-                          className={`field-input h-auto rounded py-2 ${
-                            errors.peringatan && touched.peringatan
-                              ? "outline-red-700"
-                              : null
-                          }`}
-                        />
-                      </td>
-                      <td className="text-red-600 pl-5">
-                        {errors.peringatan &&
-                          touched.peringatan &&
-                          errors.peringatan}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  <tr>
+                    <th>
+                      Cara Penyimpanan
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        as="textarea"
+                        rows={3}
+                        name="cara_penyimpanan"
+                        placeholder="Masukkan cara penyimpanan"
+                        type="text"
+                        className={`field-input h-auto rounded py-2 ${
+                          errors.cara_penyimpanan && touched.cara_penyimpanan
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.cara_penyimpanan &&
+                        touched.cara_penyimpanan &&
+                        errors.cara_penyimpanan}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Principal
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        name="principal"
+                        placeholder="Masukkan Principal"
+                        type="text"
+                        className={`field-input h-8 rounded ${
+                          errors.principal && touched.principal
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.principal &&
+                        touched.principal &&
+                        errors.principal}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Cara Pakai
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        as="textarea"
+                        rows={3}
+                        name="cara_pakai"
+                        placeholder="Masukkan cara pakai"
+                        type="text"
+                        className={`field-input h-auto rounded py-2 ${
+                          errors.cara_pakai && touched.cara_pakai
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.cara_pakai &&
+                        touched.cara_pakai &&
+                        errors.cara_pakai}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Peringatan
+                      <span className="text-red-700">*</span>
+                    </th>
+                    <td className="py-2">
+                      <Field
+                        as="textarea"
+                        rows={3}
+                        name="peringatan"
+                        placeholder="Masukkan peringatan"
+                        type="text"
+                        className={`field-input h-auto rounded py-2 ${
+                          errors.peringatan && touched.peringatan
+                            ? "outline-red-700"
+                            : null
+                        }`}
+                      />
+                    </td>
+                    <td className="text-red-600 pl-5">
+                      {errors.peringatan &&
+                        touched.peringatan &&
+                        errors.peringatan}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div className="w-full flex justify-end h-20 items-center border-t-2">
+            <div className="w-full flex justify-end h-20 items-center">
               <button
                 form="form1"
                 type="submit"

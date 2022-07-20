@@ -54,41 +54,7 @@ function DetailsPreview(props) {
           <Loading className={``} />
         ) : (
           <>
-            {detailsId ? (
-              ""
-            ) : (
-              <div className="h-16 border-b-2 flex items-center">
-                <div className="text-md breadcrumbs">
-                  <ul>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        1
-                      </span>
-                      Detail Obat
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        2
-                      </span>
-                      Detail Kuantitas & Harga
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-neutral-gray font-bold text-white h-6 aspect-square text-center">
-                        3
-                      </span>
-                      Gambar Produk
-                    </li>
-                    <li className="w-full flex items-center gap-x-2">
-                      <span className="rounded-full bg-primary font-bold text-white h-6 aspect-square text-center">
-                        4
-                      </span>
-                      Konfirmasi
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )}
-            <div className="h-[600px] overflow-scroll flex flex-col gap-y-3 items-center pt-3">
+            <div className="h-[600px] overflow-scroll flex flex-col gap-y-3 items-center pt-3 border-t">
               <figure className="w-52 h-52 border border-primary rounded-lg">
                 <img
                   src={photo.filePreview}

@@ -25,7 +25,7 @@ function Home() {
   const [firstScroll, setFirstScroll] = useState(true);
 
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, []);
 
   return (

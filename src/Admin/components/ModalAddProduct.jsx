@@ -41,14 +41,15 @@ function ModalAddProduct(props) {
   const [details1, setDetails1] = useState(initialState1);
   const [details2, setDetails2] = useState(initialState2);
   const [detailImage, setDetailImage] = useState(initialState3);
-  const [loading, setLoading] = useState(false);
 
   const cancel = () => {
     closeModalAdd();
-    setModalState(1);
-    setDetails1(initialState1);
-    setDetails2(initialState2);
-    setDetailImage(initialState3);
+    setTimeout(() => {
+      setModalState(1);
+      setDetails1(initialState1);
+      setDetails2(initialState2);
+      setDetailImage(initialState3);
+    }, 500);
   };
 
   const finalSubmit = async () => {
@@ -156,6 +157,52 @@ function ModalAddProduct(props) {
                     <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
+                <div className="h-16 flex items-center">
+                  <div className="text-md breadcrumbs">
+                    <ul>
+                      <li className="w-full flex items-center gap-x-2">
+                        <span
+                          className={`${
+                            modalState === 1 ? "bg-primary" : "bg-neutral-gray"
+                          } duration-300 rounded-full font-bold text-white h-6 aspect-square text-center`}
+                        >
+                          1
+                        </span>
+                        Detail Obat
+                      </li>
+                      <li className="w-full flex items-center gap-x-2">
+                        <span
+                          className={`${
+                            modalState === 2 ? "bg-primary" : "bg-neutral-gray"
+                          } duration-300 rounded-full font-bold text-white h-6 aspect-square text-center`}
+                        >
+                          2
+                        </span>
+                        Detail Kuantitas & Harga
+                      </li>
+                      <li className="w-full flex items-center gap-x-2">
+                        <span
+                          className={`${
+                            modalState === 3 ? "bg-primary" : "bg-neutral-gray"
+                          } duration-300 rounded-full font-bold text-white h-6 aspect-square text-center`}
+                        >
+                          3
+                        </span>
+                        Gambar Produk
+                      </li>
+                      <li className="w-full flex items-center gap-x-2">
+                        <span
+                          className={`${
+                            modalState === 4 ? "bg-primary" : "bg-neutral-gray"
+                          } duration-300 rounded-full font-bold text-white h-6 aspect-square text-center`}
+                        >
+                          4
+                        </span>
+                        Konfirmasi
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 {printForm(modalState)}
               </Dialog.Panel>
             </Transition.Child>

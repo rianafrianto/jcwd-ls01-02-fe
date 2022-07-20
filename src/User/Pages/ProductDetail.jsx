@@ -142,15 +142,11 @@ function ProductDetail() {
               </figure>
               <div className="hidden lg:flex gap-x-2 w-full px-5 h-11">
                 <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">
-                  <img
-                    src={chatDetailIcon}
-                    alt=""
-                    className="h-full scale-50"
-                  />
+                  <img src={chatDetailIcon} alt="" className="h-full " />
                   <span>Chat Admin</span>
                 </button>
                 <button className="button-primary rounded-full text-white w-1/2 flex gap-x-1 text-sm">
-                  <img src={bagikanIcon} alt="" className="h-full scale-50" />
+                  <img src={bagikanIcon} alt="" className="h-full " />
                   <span>Bagikan</span>
                 </button>
               </div>
@@ -266,7 +262,7 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-        <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex py-28 relative">
+        <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex pt-28 relative">
           <h1 className="absolute left-3 top-10 text-2xl text-secondary font-bold">
             Produk Terkait
           </h1>

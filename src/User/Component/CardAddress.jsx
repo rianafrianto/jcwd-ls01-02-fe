@@ -14,7 +14,7 @@ function CardAddress({ data, className }) {
   } = data;
   return (
     <div
-      className={`w-full h-full flex flex-col items-start border-neutral-gray text-sm gap-y-3 p-2 ${className}`}
+      className={`w-full h-full flex flex-col items-start border-neutral-gray text-sm gap-y-3 ${className}`}
     >
       <h1 className="font-bold text-secondary">{`${nama_depan} ${nama_belakang}, +62${nomor_hp}`}</h1>
       <div>

@@ -8,7 +8,8 @@ import profileIcon from "../../Assets/profile-icon.png";
 import emailIcon from "../../Assets/email-icon.png";
 import passwordIcon from "../../Assets/password-icon.png";
 import signupImage from "../../Assets/signup-image.png";
-import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import logo from "../../Assets/logo.png";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import facebookIcon from "../../Assets/facebook-icon.png";
 import googleIcon from "../../Assets/google-icon.png";
 import FormikControl from "../Component/Formik/FormikControl";
@@ -88,14 +89,15 @@ function SignUp() {
     };
   }, []);
 
+  console.log({ changed, message });
   return (
     <div className="w-screen h-screen flex bg-white">
       <div className="w-1/2 h-full flex justify-center items-center relative">
         <i
-          className="w-1/6 min-h-min border border-neutral-gray border-1 z-10 hover:bg-white cursor-pointer absolute left-10 top-10"
-          onClick={() => navigate("/home")}
+          className="btn-plain w-1/6 min-h-min z-10 cursor-pointer absolute left-10 top-10"
+          onClick={() => navigate("/")}
         >
-          Logo
+          <img src={logo} alt="" />
         </i>
         <img
           src={signupImage}
@@ -179,6 +181,7 @@ function SignUp() {
                   {/* Username */}
                   <div className="w-full relative flex flex-col justify-between gap-y-2">
                     <FormikControl
+                      autoFocus={true}
                       control="INPUT"
                       label="Username"
                       name="username"
@@ -264,9 +267,9 @@ function SignUp() {
                       onClick={() => setVisible(!visible)}
                     >
                       {visible ? (
-                        <BsFillEyeFill className="w-full" />
+                        <BsEyeFill className="w-full" />
                       ) : (
-                        <BsFillEyeSlashFill className="w-full" />
+                        <BsEyeSlashFill className="w-full" />
                       )}
                     </button>
                     <img
@@ -300,9 +303,9 @@ function SignUp() {
                       onClick={() => setVisibleConf(!visibleConf)}
                     >
                       {visibleConf ? (
-                        <BsFillEyeFill className="w-full" />
+                        <BsEyeFill className="w-full" />
                       ) : (
-                        <BsFillEyeSlashFill className="w-full" />
+                        <BsEyeSlashFill className="w-full" />
                       )}
                     </button>
                     <img
@@ -327,14 +330,14 @@ function SignUp() {
                       Saya setuju dengan{" "}
                       <label
                         htmlFor="termsAndCondition"
-                        className="text-primary bg-white cursor-pointer hover:underline"
+                        className="span-general text-primary bg-white cursor-pointer hover:underline"
                       >
                         persyaratan
                       </label>{" "}
                       dan{" "}
                       <label
                         htmlFor="termsAndCondition"
-                        className="text-primary bg-white cursor-pointer hover:underline"
+                        className="span-general text-primary bg-white cursor-pointer hover:underline"
                       >
                         persetujuan
                       </label>
@@ -411,7 +414,7 @@ function SignUp() {
                       </label>
                     </label>
                     {errors.termsCondition && touched.termsCondition && (
-                      <div className="absolute text-red-600 -bottom-4 text-sm">
+                      <div className="absolute text-red-600 -bottom-4 text-sm ml-9">
                         {errors.termsCondition}
                       </div>
                     )}
@@ -419,13 +422,11 @@ function SignUp() {
                   <Button
                     type="submit"
                     buttonContent={
-                      isSubmitting
-                        ? "Loading.."
-                        : !isValid
-                        ? "Cek Kembali Data Kamu!"
-                        : "Daftar"
+                      isSubmitting ? "Mendaftarkan akun..." : "Daftar"
                     }
-                    disabled={!isValid || isSubmitting}
+                    disabled={
+                      isSubmitting || (!changed && (message[0] || message[1]))
+                    }
                     className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
                       isSubmitting && "button-loading"
                     }`}

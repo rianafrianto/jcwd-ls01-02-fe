@@ -93,7 +93,6 @@ function ModalDetails(props) {
           filePreview: photo ? `${API_URL}/${photo}` : null,
         },
       });
-      console.log(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -134,7 +133,7 @@ function ModalDetails(props) {
               <Dialog.Panel className="w-[800px] h-full flex flex-col  transform overflow-hidden px-8 py-4 rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="div"
-                  className="h-10 w-full flex justify-center text-2xl items-center relative border-b"
+                  className="h-10 w-full flex justify-center text-2xl items-center relative mb-2"
                 >
                   <h1 className="font-bold">Detail Produk</h1>
 

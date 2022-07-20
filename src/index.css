@@ -5,7 +5,10 @@
 
 @layer components {
   .button-general {
-    @apply py-2 rounded-lg flex justify-center items-center btn-plain cursor-pointer text-sm;
+    @apply py-2 rounded-lg flex justify-center items-center btn-plain cursor-pointer text-sm  focus:outline-black focus:outline-2;
+  }
+  .span-general {
+    @apply btn-plain cursor-pointer text-sm  focus:underline;
   }
   .button-primary {
     @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain cursor-pointer text-sm focus:outline-black focus:outline-2;

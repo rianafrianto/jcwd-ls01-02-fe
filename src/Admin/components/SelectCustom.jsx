@@ -10,7 +10,7 @@ function SelectCustom(props) {
       {({ open, close }) => (
         <>
           <Popover.Button
-            className={`btn-plain h-full border border-neutral-gray bg-white flex justify-between items-center rounded-lg truncate focus:outline-primary px-2 cursor-pointer relative ${buttonStyle}`}
+            className={`${buttonStyle} btn-plain h-full border border-neutral-gray bg-white flex justify-between items-center rounded-lg truncate focus:outline-primary px-2 cursor-pointer relative`}
           >
             {stateValue}{" "}
             <ChevronDownIcon
@@ -28,7 +28,7 @@ function SelectCustom(props) {
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
                 transition={{ duration: 0.3, type: "spring" }}
-                className={`absolute top-10 z-10 bg-putih rounded focus:outline-none shadow-xl shadow-black/20 bg-white overflow-hidden flex flex-col w-20 ${panelStyle}`}
+                className={`${panelStyle} absolute top-10 z-10 bg-putih rounded focus:outline-none shadow-xl shadow-black/20 bg-white overflow-hidden flex flex-col`}
                 onClick={close}
               >
                 {optionsFunc()}

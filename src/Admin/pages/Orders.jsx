@@ -32,7 +32,7 @@ function Orders() {
 
   const printOrders = (data) => {
     return data.map((val, i) => {
-      return <CardOrderAdmin data={val} key={i} />;
+      return <CardOrderAdmin data={val} key={i} getOrders={getOrders} />;
     });
   };
 

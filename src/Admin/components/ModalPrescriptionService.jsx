@@ -15,7 +15,7 @@ import FormikControl from "../../User/Component/Formik/FormikControl";
 import { toast } from "react-toastify";
 
 function ModalPrescriptionService(props) {
-  const { isOpen, closeModal, data } = props;
+  const { isOpen, closeModal, data, getOrders } = props;
   const initialTerms = "";
   const initialQty = 1;
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -93,9 +93,10 @@ function ModalPrescriptionService(props) {
         style: { backgroundColor: "#009B90" },
       });
       cancelService();
-      setLoadingSubmit(false);
+      getOrders();
     } catch (error) {
       console.log(error);
+    } finally {
       setLoadingSubmit(false);
     }
   };
@@ -355,7 +356,7 @@ function ModalPrescriptionService(props) {
                                   control="INPUT"
                                   label="Nama Pasien"
                                   name="namaPasien"
-                                  placeholder="John Doe"
+                                  placeholder="Masukkan nama pasien"
                                   onChange={(e) => {
                                     handleChange(e);
                                     setNamaPasien(e);
@@ -374,7 +375,7 @@ function ModalPrescriptionService(props) {
                                   control="INPUT"
                                   label="Nama Dokter"
                                   name="namaDokter"
-                                  placeholder="Dr. Johnny Sins"
+                                  placeholder="Masukkan nama dokter"
                                   onChange={(e) => {
                                     handleChange(e);
                                     setNamaDokter(e);
@@ -408,7 +409,7 @@ function ModalPrescriptionService(props) {
                                     <div className="w-1/5 flex flex-col gap-y-2 relative z-0">
                                       Kuantitas
                                       <div
-                                        className={`w-full flex justify-center items-center bg-primary/10 rounded-lg overflow-hidden outline ${
+                                        className={`w-full flex justify-center items-center outline-1 bg-primary/10 rounded-lg overflow-hidden outline ${
                                           errors.qty && touched.qty
                                             ? "outline-red-700"
                                             : "outline-primary"
@@ -540,13 +541,15 @@ function ModalPrescriptionService(props) {
                         </div>
                         <div className="w-full flex justify-end mt-2">
                           <button
-                            disabled={!cartOrder[0] || !isValid}
+                            disabled={
+                              !cartOrder[0] || !isValid || loadingSubmit
+                            }
                             type="submit"
                             className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${
                               loadingSubmit ? "button-loading" : ""
                             }`}
                           >
-                            {loadingSubmit ? "Loading..." : "Selesai"}
+                            {loadingSubmit ? "Memproses..." : "Selesai"}
                           </button>
                         </div>
                       </Form>

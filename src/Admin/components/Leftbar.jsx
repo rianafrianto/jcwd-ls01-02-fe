@@ -9,6 +9,7 @@ import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
 import salesIcon from "../../Assets/sales-admin.png";
 import salesActiveIcon from "../../Assets/sales-admin-active.png";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import logo from "../../Assets/logo.png";
 
 function Leftbar() {
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ function Leftbar() {
   const [salesDisclosure, setSalesDisclosure] = useState(false);
   return (
     <div className="h-full flex flex-col w-64 fixed top-0 z-20 bg-white overflow-hidden shadow-xl shadow-black/50">
-      <div className="w-full h-16 flex justify-center items-center bg-white z-10">
-        <i>Logo</i>
+      <div className="w-full h-16 flex justify-center items-center bg-white z-10 p-10">
+        <img src={logo} alt="logo" className="w-full" />
       </div>
       <Link
         to="/admin/dashboard"

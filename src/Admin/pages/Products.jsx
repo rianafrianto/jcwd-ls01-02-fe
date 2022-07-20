@@ -145,7 +145,7 @@ function Products() {
       return (
         <button
           key={i}
-          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          className="btn-plain py-2 w-52 hover:bg-primary hover:text-white"
           onClick={() => {
             setPage(0);
             setCategory(val.content);
@@ -162,7 +162,7 @@ function Products() {
       return (
         <button
           key={i}
-          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          className="btn-plain py-2 w-52 hover:bg-primary hover:text-white"
           onClick={() => {
             setPage(0);
             setGolongan(val.content);
