@@ -17,8 +17,6 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
-import { Popover } from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
 
 function Products() {
   const [loading, setLoading] = useState(false);
@@ -321,59 +319,28 @@ function Products() {
                   </span>
                   <div className="w-56 flex  h-full items-center gap-x-2">
                     Baris per halaman
-                    <Popover className="relative">
-                      {({ open, close }) => (
-                        <>
-                          <Popover.Button className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer">
-                            {limit} <ChevronDownIcon className={`h-5`} />
-                          </Popover.Button>
-                          <AnimatePresence>
-                            {open && (
-                              <Popover.Panel
-                                as={motion.div}
-                                static
-                                initial={{ height: 0 }}
-                                animate={{ height: "auto" }}
-                                exit={{ height: 0 }}
-                                transition={{ duration: 0.5, type: "spring" }}
-                                className="absolute bottom-9 z-10 bg-putih rounded focus:outline-none shadow-xl shadow-black/20 bg-white overflow-hidden flex flex-col w-20"
-                              >
-                                <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
-                                  onClick={() => {
-                                    setPage(0);
-                                    setLimit(30);
-                                    close();
-                                  }}
-                                >
-                                  30
-                                </button>
-                                <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
-                                  onClick={() => {
-                                    setPage(0);
-                                    setLimit(20);
-                                    close();
-                                  }}
-                                >
-                                  20
-                                </button>
-                                <button
-                                  className="btn-plain py-2 hover:bg-neutral-gray"
-                                  onClick={() => {
-                                    setPage(0);
-                                    setLimit(10);
-                                    close();
-                                  }}
-                                >
-                                  10
-                                </button>
-                              </Popover.Panel>
-                            )}
-                          </AnimatePresence>
-                        </>
-                      )}
-                    </Popover>
+                    <div className="dropdown dropdown-top dropdown-end">
+                      <label
+                        tabIndex="0"
+                        className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer"
+                      >
+                        {limit} <ChevronDownIcon className={`h-5`} />
+                      </label>
+                      <ul
+                        tabIndex="0"
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
+                      >
+                        <li>
+                          <button onClick={() => setLimit(10)}>10</button>
+                        </li>
+                        <li>
+                          <button onClick={() => setLimit(20)}>20</button>
+                        </li>
+                        <li>
+                          <button onClick={() => setLimit(30)}>30</button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                   <div className="h-8 min-w-min flex items-center gap-x-2">
                     <button

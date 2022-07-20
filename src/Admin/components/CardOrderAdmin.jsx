@@ -1,4 +1,5 @@
 import { ClockIcon } from "@heroicons/react/outline";
+import axios from "axios";
 import React, { useState } from "react";
 import chatIcon from "../../Assets/chat-icon.png";
 import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
@@ -19,6 +20,14 @@ function CardOrderAdmin({ data }) {
     setIsOpen(true);
   }
 
+  const cancelOrder = async (id) => {
+    try {
+      console.log(id);
+      await axios.patch(`${API_URL}/transaction/order/reject?id=${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <ModalPrescriptionService
@@ -120,7 +129,10 @@ function CardOrderAdmin({ data }) {
             <div className="h-full flex gap-x-5 w-1/3">
               {(status == "Pengecekan-Resep" || "Diproses") && (
                 <>
-                  <button className="button-outline w-1/2" onClick={() => {}}>
+                  <button
+                    className="button-outline w-1/2"
+                    onClick={() => cancelOrder(data.id)}
+                  >
                     Tolak Pesanan
                   </button>
                   {status == "Pengecekan-Resep" && (

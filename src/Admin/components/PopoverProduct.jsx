@@ -4,18 +4,21 @@ import { AnimatePresence, motion } from "framer-motion";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
 import trashIcon from "../../Assets/trash-icon.png";
 import editIcon from "../../Assets/edit-icon.png";
+import axios from "axios";
+import API_URL from "../../Helpers/API_URL";
 
 function PopoverProduct(props) {
   const { openModalEdit, id, setEditId } = props;
-  const [deleteProducts, setDeleteProducts] = useState([]);
-  const deleteProduct = (i) => {
-    setDeleteProducts((prev) => {
-      console.log(prev);
-      let result = [...prev];
-      result.splice(i, 1);
-      return result;
-    });
+  const [deleteProduct, setDeleteProduct] = useState([]);
+
+  const deleteSubmit = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/admin/delete-product`);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -48,7 +51,7 @@ function PopoverProduct(props) {
                 </button>
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
-                  onClick={() => deleteProduct()}
+                  onClick={() => deleteSubmit()}
                 >
                   <img src={trashIcon} alt="" className="h-5" />
                 </button>
