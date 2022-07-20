@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "./DropdownProfile";
 import Button from "./Button";
 import searchIcon from "../../Assets/search-icon.png";
+import logo from "../../Assets/logo.png";
+import cartNavbar from "../../Assets/cart-navbar.png";
+import notifNavbar from "../../Assets/notif-navbar.png";
 import Cookies from "js-cookie";
 
 function Navbar() {
@@ -19,47 +22,45 @@ function Navbar() {
       {dropdown && <Dropdown dropdown={dropdown} setDropdown={setDropdown} />}
       <div className="container h-full flex justify-between items-center px-20 gap-x-6 lg:gap-x-16">
         <div className="w-5/6 h-11 flex items-center gap-x-9">
-          <i
-            className="hidden lg:block w-1/6 h-full border border-neutral-gray border-1 hover:bg-white cursor-pointer"
-            onClick={() => navigate("/home")}
+          <button
+            className="hidden lg:block btn-plain object-cover w-44"
+            onClick={() => navigate("/")}
           >
-            Logo
-          </i>
-          <div className="w-full h-full relative">
+            <img src={logo} alt="logo" className="w-full" />
+          </button>
+          <div className="w-full h-full relative outline outline-neutral-gray outline-1 rounded-lg overflow-hidden flex">
             <input
               type="text"
               placeholder="Cari Obat, Suplemen, Vitamin, Produk Kesehatan"
-              className="w-full h-full px-5 outline outline-neutral-gray outline-1 rounded-lg overflow-hidden focus:outline focus:outline-1 focus:outline-primary :"
+              className="w-full h-full px-5 focus:outline-none"
             />
-            <img
-              src={searchIcon}
-              alt=""
-              className="h-6 aspect-square absolute right-6 top-2"
-            />
+            <button className="btn-plain h-full aspect-square flex items-center justify-center">
+              <img src={searchIcon} alt="" className="h-6" />
+            </button>
           </div>
         </div>
         {isLogin ? (
           <ul className="w-1/6 h-11 flex gap-x-6">
-            <li className="w-full h-full">
+            <li className="w-full h-full flex items-center justify-center">
               <button
-                className="w-full h-11 border border-white hover:bg-white"
+                className="btn-plain h-8 border border-white hover:bg-white"
                 onClick={() => navigate("/cart")}
               >
-                Cart
+                <img src={cartNavbar} alt="" className="h-8" />
               </button>
             </li>
-            <li className="w-full h-full dropdown">
+            <li className="w-full h-full flex items-center justify-center">
               <button
                 tabIndex="0"
-                className="w-full h-11 border border-white hover:bg-white"
+                className="btn-plain h-8 border border-white hover:bg-white"
                 onClick={() => {}}
               >
-                Notif
+                <img src={notifNavbar} alt="" className="h-8" />
               </button>
             </li>
             <li className="hidden lg:block w-full h-full dropdown dropdown-end">
               <button
-                className="btn rounded-btn btn-ghost border-primary hover:bg-primary"
+                className="btn-plain h-11"
                 // onClick={() => setDropdown(true)}
               >
                 {username}
@@ -69,7 +70,7 @@ function Navbar() {
                 className="menu dropdown-content p-2 shadow bg-white rounded-box w-52 mt-4 z-60 flex-col gap-y-2"
               >
                 <button
-                  className="border border-primary px-5 py-2 flex items-center justify-center hover:bg-primary rounded-lg duration-300"
+                  className="btn-plain border border-primary px-5 py-2 flex items-center justify-center hover:bg-primary hover:text-white rounded-lg duration-300"
                   onClick={() => {
                     setDropdown(false);
                     navigate("/myaccount/profile");
@@ -78,7 +79,7 @@ function Navbar() {
                   My Account
                 </button>
                 <button
-                  className="border border-red-700 px-5 py-2 flex items-center justify-center hover:bg-red-700 rounded-lg duration-300"
+                  className="btn-plain border border-red-700 px-5 py-2 flex items-center justify-center hover:bg-red-700 hover:text-white rounded-lg duration-300"
                   onClick={() => {
                     setDropdown(false);
                     Cookies.remove("token");

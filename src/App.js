@@ -17,11 +17,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verification from "./User/Pages/Verification";
 import ResetPassword from "./User/Pages/ResetPassword";
-
 import Admin from "./User/Pages/Admin";
 import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import gradientBg from "./Assets/gradient-bg.png";
 
 function App() {
   const location = useLocation();
@@ -52,7 +52,11 @@ function App() {
   window.addEventListener("online", statusOnline);
   //
   return (
-    <>
+    <div className="min-h-screen">
+      {/* <div className="fixed">
+        <img src={gradientBg} />{" "}
+      </div> */}
+
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
@@ -97,7 +101,7 @@ function App() {
         hideProgressBar={true}
         newestOnTop={true}
       />
-    </>
+    </div>
   );
 }
 
