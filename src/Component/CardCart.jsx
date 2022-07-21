@@ -3,26 +3,38 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import API_URL from "../Helpers/API_URL";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function CardCart({ data }) {
+  const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const { cart, value } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const deleteCart = async () => {
+  const deleteCart = async (id) => {
     try {
       let token = Cookies.get("token");
       setLoadingProducts(true);
-      let res = await axios.delete(
-        `${API_URL}/transaction/deleteproduct`,
+      const res = await axios.delete(
+        `${API_URL}/transaction/deleteproduct?productId=${id}`,
         {
-          productId: data.id,
-        },
-        { headers: { authorization: token } }
+          headers: { authorization: token },
+        }
       );
-      console.log(res, ">>>>>>RESPON DELETE PRODUCT");
-      // console.log(data, ">>>>>>>>>>>> CONSOLEEE LOGGGG DATAAA");
-      // const { data } = res.data;
+      dispatch({ type: "DELETECART", payload: id });
+      toast.success("Product berhasil dihapus!", {
+        theme: "colored",
+        position: "top-center",
+        style: { backgroundColor: "#009B90" },
+      });
+
+      const { data } = res.data;
       setProducts(data);
+      // setProducts(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,22 +42,27 @@ function CardCart({ data }) {
     }
   };
 
-  useEffect(() => {
-    deleteCart();
-  }, []);
+  const editQuantity = async () => {
+    try {
+      let token = Cookies.get("token");
+      setLoadingProducts(true);
+      const res = await axios.patch(`${API_URL}/transaction/editquantity`, {
+        headers: { authorization: token },
+      });
+      console.log(res, "RESPONNNN EDITT QUANTITY>>>>>>>>>>>>>>>");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
 
-  // const printProducts = () => {
-  //   if (loadingProducts) {
-  //     return <Loading className="pt-28 h-full" />;
-  //   }
-  //   return (
-  //     <div className="">
-  //       {products.map((val, i) => {
-  //         return <CardCart key={i} data={val} />;
-  //       })}
-  //     </div>
-  //   );
-  // };
+  const incrementQuantity = () => setQuantity(quantity + 1);
+  let decrementQuantity = () => setQuantity(quantity - 1);
+
+  if (quantity <= 1) {
+    decrementQuantity = () => setQuantity(1);
+  }
 
   return (
     <div className="h-47 w-full border border-green-900 flex gap-x-6">
@@ -57,6 +74,7 @@ function CardCart({ data }) {
             src={API_URL + data.photo}
             alt=""
           />
+          {/* <div>{data.id}</div> */}
           <div className="w-1/4 border">{data.name}</div>
           <div className="w-1/4 border">{data.price}</div>
         </div>
@@ -67,17 +85,23 @@ function CardCart({ data }) {
           <button className="w-10 h-8 justify-center flex mt-9 pt-2">
             <RiDeleteBin5Fill
               className="text-teal-600 text-lg hover:text-teal-700"
-              onClick={deleteCart}
+              onClick={() => deleteCart(data.id)}
             />
           </button>
           <div className="flex w-1/3 justify-center pt-10">
-            <button className="w-10 h-6 text-teal-600 border rounded-sm bg-gray-100 font-bold hover:text-teal-700">
+            <button
+              className="w-10 h-6 text-teal-600 border rounded-sm bg-gray-100 font-bold hover:text-teal-700"
+              onClick={decrementQuantity}
+            >
               -
             </button>
             <div className="w-10 h-6 text-teal-600 text-center border rounded-sm bg-gray-100 text-sm">
-              {data.qty}
+              {quantity}
             </div>
-            <button className="w-10 h-6 text-teal-600 border rounded-sm bg-gray-100 font-bold hover:text-teal-700">
+            <button
+              className="w-10 h-6 text-teal-600 border rounded-sm bg-gray-100 font-bold hover:text-teal-700"
+              onClick={incrementQuantity}
+            >
               +
             </button>
           </div>

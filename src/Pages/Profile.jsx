@@ -121,6 +121,7 @@ function Profile() {
       setloadingSubmit(false);
     }
   };
+
   const sendEmail = async () => {
     try {
       setLoadingEmail(true);

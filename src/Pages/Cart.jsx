@@ -10,7 +10,7 @@ import Loading from "../Component/Loading";
 
 function Cart() {
   const navigate = useNavigate();
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, cart } = useSelector((state) => state.user);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [products, setProducts] = useState([]);
 
@@ -33,7 +33,7 @@ function Cart() {
   useEffect(() => {
     if (!isLogin) navigate("/home");
     getCart();
-  }, [isLogin]);
+  }, [isLogin, cart]);
 
   const printProducts = () => {
     if (loadingProducts) {

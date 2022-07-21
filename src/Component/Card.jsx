@@ -30,6 +30,11 @@ function Card({ data }) {
         },
         { headers: { authorization: token } }
       );
+      toast.success("Product berhasil dimasukan kedalam Cart!", {
+        theme: "colored",
+        position: "top-center",
+        style: { backgroundColor: "#009B90" },
+      });
       console.log(res, ">>>>>>>>>>> RESPON DATA RES");
     } catch (error) {
       console.log(error);
