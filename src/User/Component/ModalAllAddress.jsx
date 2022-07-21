@@ -20,9 +20,11 @@ function ModalAllAddress(props) {
     setTotal,
     isOpen,
     closeModal,
+    setDestinationId,
+    setCourierShow,
   } = props;
+
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const [loadingAllAddress, setLoadingAllAddress] = useState(false);
   const [dataAddresses, setDataAddresses] = useState([]);
   const [editAddress, setEditAddress] = useState(false);
@@ -38,6 +40,7 @@ function ModalAllAddress(props) {
       await axios.patch(`${API_URL}/profile/change-primary-address`, data, {
         headers: { authorization: token },
       });
+
       dispatch({ type: "CHANGEADDRESS", payload: data.id });
       toast.success(`Alamat utama telah diganti`, {
         theme: "colored",
@@ -76,6 +79,22 @@ function ModalAllAddress(props) {
     closeModal();
   };
 
+  const getAllAddresses = async () => {
+    try {
+      let token = Cookies.get("token");
+      setLoadingAllAddress(true);
+      const res = await axios.get(`${API_URL}/transaction/all-addresses`, {
+        headers: { authorization: token },
+      });
+      console.log(res.data.data);
+      setDataAddresses(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingAllAddress(false);
+    }
+  };
+
   const printAddresses = () => {
     return dataAddresses.map((val, i) => {
       return (
@@ -88,7 +107,12 @@ function ModalAllAddress(props) {
           <CardAddress data={val} className="border-0 p-0" />
           {selectedAddress?.id === val.id ? null : (
             <button
-              onClick={() => changeAddress(val)}
+              onClick={() => {
+                setCourier("");
+                setCourierShow("Pilih Kurir");
+                changeAddress(val);
+                setDestinationId(val.destination);
+              }}
               className="button-primary px-5 absolute right-2 top-2"
             >
               Pilih Alamat
@@ -123,24 +147,9 @@ function ModalAllAddress(props) {
     });
   };
 
-  const getAllAddresses = async () => {
-    try {
-      let token = Cookies.get("token");
-      setLoadingAllAddress(true);
-      const res = await axios.get(`${API_URL}/transaction/all-addresses`, {
-        headers: { authorization: token },
-      });
-      setDataAddresses(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingAllAddress(false);
-    }
-  };
-
   useEffect(() => {
-    getAllAddresses();
-  }, []);
+    if (isOpen) getAllAddresses();
+  }, [isOpen]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

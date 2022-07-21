@@ -12,9 +12,10 @@ import { dateGenerator } from "../../Helpers/dateGenerator";
 import axios from "axios";
 import * as Yup from "yup";
 import FormikControl from "../../User/Component/Formik/FormikControl";
+import { toast } from "react-toastify";
 
 function ModalPrescriptionService(props) {
-  const { isOpen, closeModal, data } = props;
+  const { isOpen, closeModal, data, getOrders } = props;
   const initialTerms = "";
   const initialQty = 1;
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -87,10 +88,15 @@ function ModalPrescriptionService(props) {
       console.log(insertData);
 
       await axios.post(`${API_URL}/admin/order/valid-prescription`, insertData);
+      toast.success(`Pesanan berhasil diproses`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
       cancelService();
-      setLoadingSubmit(false);
+      getOrders();
     } catch (error) {
       console.log(error);
+    } finally {
       setLoadingSubmit(false);
     }
   };
@@ -168,6 +174,7 @@ function ModalPrescriptionService(props) {
         <button
           className="btn-plain w-full text-left border-b hover:bg-gray-300 cursor-pointer px-2"
           key={i}
+          type="button"
           tabIndex={0}
           onClick={() => {
             setTerms(val.name);
@@ -196,12 +203,14 @@ function ModalPrescriptionService(props) {
           <td>
             <div className="h-full flex justify-center items-center gap-x-2 px-2">
               <button
+                type="button"
                 className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                 onClick={() => editCartOrder(i)}
               >
                 <img src={editIcon} alt="" className="h-4" />
               </button>
               <button
+                type="button"
                 className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                 onClick={() => deleteCartOrder(i)}
               >
@@ -248,6 +257,7 @@ function ModalPrescriptionService(props) {
                   <h1 className="font-bold">Buat Salinan Resep</h1>
 
                   <button
+                    type="button"
                     className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
                     onClick={cancelService}
                   >
@@ -346,7 +356,7 @@ function ModalPrescriptionService(props) {
                                   control="INPUT"
                                   label="Nama Pasien"
                                   name="namaPasien"
-                                  placeholder="John Doe"
+                                  placeholder="Masukkan nama pasien"
                                   onChange={(e) => {
                                     handleChange(e);
                                     setNamaPasien(e);
@@ -365,7 +375,7 @@ function ModalPrescriptionService(props) {
                                   control="INPUT"
                                   label="Nama Dokter"
                                   name="namaDokter"
-                                  placeholder="Dr. Johnny Sins"
+                                  placeholder="Masukkan nama dokter"
                                   onChange={(e) => {
                                     handleChange(e);
                                     setNamaDokter(e);
@@ -399,7 +409,7 @@ function ModalPrescriptionService(props) {
                                     <div className="w-1/5 flex flex-col gap-y-2 relative z-0">
                                       Kuantitas
                                       <div
-                                        className={`w-full flex justify-center items-center bg-primary/10 rounded-lg overflow-hidden outline ${
+                                        className={`w-full flex justify-center items-center outline-1 bg-primary/10 rounded-lg overflow-hidden outline ${
                                           errors.qty && touched.qty
                                             ? "outline-red-700"
                                             : "outline-primary"
@@ -531,13 +541,15 @@ function ModalPrescriptionService(props) {
                         </div>
                         <div className="w-full flex justify-end mt-2">
                           <button
-                            disabled={!cartOrder[0] || !isValid}
+                            disabled={
+                              !cartOrder[0] || !isValid || loadingSubmit
+                            }
                             type="submit"
                             className={`button-primary px-10 text-lg disabled:bg-gray-500 disabled:cursor-not-allowed ${
                               loadingSubmit ? "button-loading" : ""
                             }`}
                           >
-                            {loadingSubmit ? "Loading..." : "Selesai"}
+                            {loadingSubmit ? "Memproses..." : "Selesai"}
                           </button>
                         </div>
                       </Form>

@@ -47,7 +47,6 @@ function Profile() {
   if (fullname == null) {
     fullname = "";
   }
-  console.log(tab);
   const [loadingVerify, setloadingVerify] = useState(false);
   const [loadingSubmit, setloadingSubmit] = useState(false);
   const [profilePicture, setProfilePicture] = useState({

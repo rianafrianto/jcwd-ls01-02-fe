@@ -6,7 +6,7 @@ import API_URL from "../../Helpers/API_URL";
 import { fullDateGenerator } from "../../Helpers/dateGenerator";
 import ModalPrescriptionService from "./ModalPrescriptionService";
 
-function CardOrderAdmin({ data }) {
+function CardOrderAdmin({ data, getOrders }) {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState(data.status);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +25,7 @@ function CardOrderAdmin({ data }) {
         isOpen={isOpen}
         closeModal={closeModal}
         data={data}
+        getOrders={getOrders}
       />
       <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
         <div

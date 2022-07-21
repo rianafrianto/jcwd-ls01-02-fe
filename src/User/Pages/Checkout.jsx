@@ -14,6 +14,7 @@ import formatToCurrency from "../../Helpers/formatToCurrency";
 import jneIcon from "../../Assets/jne-icon.png";
 import posIcon from "../../Assets/pos-icon.png";
 import tikiIcon from "../../Assets/tiki-icon.png";
+import SelectCustom from "../../Admin/components/SelectCustom";
 
 function Checkout() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [weight, setWeight] = useState(1000);
   const [courier, setCourier] = useState("");
+  const [courierShow, setCourierShow] = useState("Pilih Kurir");
   const [courierImage, setCourierImage] = useState(null);
   const [deliveryMethod, setDeliveryMethod] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -34,6 +36,13 @@ function Checkout() {
   const [dataAddress, setDataAddress] = useState("");
   const [dataMethod, setDataMethod] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const originId = "152";
+  const listCourier = [
+    { content: "Pilih Kurir", value: "" },
+    { content: "JNE", value: "jne" },
+    { content: "TIKI", value: "tiki" },
+    { content: "POS Indonesia", value: "pos" },
+  ];
 
   function closeModal() {
     setIsOpen(false);
@@ -42,8 +51,6 @@ function Checkout() {
   function openModal() {
     setIsOpen(true);
   }
-
-  const originId = "152";
 
   const getPrimaryAddress = async (data) => {
     try {
@@ -133,6 +140,25 @@ function Checkout() {
       );
     });
   };
+
+  const printCourierOptions = () => {
+    return listCourier.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          disabled={i === 0}
+          onClick={() => {
+            setCourier(val.value);
+            setCourierShow(val.content);
+          }}
+        >
+          {val.content}
+        </button>
+      );
+    });
+  };
+
   const createAddress = (data) => {
     return `${data.nama_depan} ${data.nama_belakang}, +62${data.nomor_hp}\n${data.label}\n${data.alamat}, ${data.kota}, ${data.provinsi}, ${data.kode_pos}`;
   };
@@ -157,13 +183,15 @@ function Checkout() {
     <>
       <ModalAllAddress
         isOpen={isOpen}
+        selectedAddress={selectedAddress}
         closeModal={closeModal}
         setSelectedAddress={setSelectedAddress}
-        selectedAddress={selectedAddress}
         setCourier={setCourier}
+        setCourierShow={setCourierShow}
         setSelectedMethod={setSelectedMethod}
         setSelectedMethodCost={setSelectedMethodCost}
         setTotal={setTotal}
+        setDestinationId={setDestinationId}
       />
       <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
@@ -175,7 +203,7 @@ function Checkout() {
                 </h1>
                 <div className="border-b border-neutral-gray w-full" />
                 {!selectedAddress ? null : (
-                  <div className="h-32 w-full relative">
+                  <div className="min-h-min w-full p-2 relative">
                     {loadingPrimaryAddress ? (
                       <Loading className="h-full" />
                     ) : (
@@ -188,11 +216,11 @@ function Checkout() {
                         >
                           Pilih alamat lain
                         </button>
-                        <div className="border-b border-neutral-gray w-full" />
                       </>
                     )}
                   </div>
                 )}
+                <div className="border-b border-neutral-gray w-full" />
                 <button
                   className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg"
                   onClick={() => navigate("/address")}
@@ -212,22 +240,13 @@ function Checkout() {
                   Pilih Metode Pengiriman{" "}
                 </h1>
                 <div className="w-full h-full flex justify-start items-center gap-x-5 border-y border-neutral-gray py-3">
-                  <select
-                    className="select select-primary h-full w-44 border border-neutral-gray p-2 rounded-lg"
-                    value={courier}
-                    onChange={(e) => {
-                      setCourier(e.target.value);
-                    }}
-                  >
-                    <option value="" disabled defaultValue>
-                      Pilih Kurir
-                    </option>
-                    <option value="jne" className="hover:bg-primary">
-                      JNE
-                    </option>
-                    <option value="tiki">TIKI</option>
-                    <option value="pos">POS Indonesia</option>
-                  </select>
+                  <SelectCustom
+                    buttonStyle="w-44 h-10"
+                    panelStyle="w-44 h-10"
+                    optionsFunc={printCourierOptions}
+                    stateValue={courierShow}
+                  />
+
                   {courier && (
                     <img
                       src={courierImage}
@@ -296,6 +315,7 @@ function Checkout() {
                     } else {
                       toast.error("Lengkapi pemesanan mu dulu yuk!", {
                         theme: "colored",
+                        style: { backgroundColor: "#DC2626" },
                       });
                     }
                   }}

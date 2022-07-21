@@ -20,8 +20,7 @@ function ProdCatCarousel({ category }) {
       const res = await axios.get(
         `${API_URL}/product/products/${category}?order=${order}&page=${page}&limit=${limit}`
       );
-      console.log(res.data.data);
-      setData(res.data.data);
+      setData(res.data.data.products);
     } catch (error) {
       console.log(error);
     } finally {

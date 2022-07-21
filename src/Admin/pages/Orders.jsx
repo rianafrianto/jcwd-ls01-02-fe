@@ -32,7 +32,7 @@ function Orders() {
 
   const printOrders = (data) => {
     return data.map((val, i) => {
-      return <CardOrderAdmin data={val} key={i} />;
+      return <CardOrderAdmin data={val} key={i} getOrders={getOrders} />;
     });
   };
 
@@ -47,7 +47,6 @@ function Orders() {
     if (sinceDate || toDate) getOrders();
   }, [sinceDate, toDate]);
 
-  console.log(sinceDate);
   return (
     <div className="min-h-screen w-full flex bg-[#f1f5fc]">
       <div className="w-full pt-16 pl-64">
@@ -71,10 +70,13 @@ function Orders() {
                   type="text"
                   name="terms"
                   id="terms"
-                  className="w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none"
+                  className="filter-search-bar"
                   placeholder="Nama Pelanggan / No. Transaksi"
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") getOrders();
+                  }}
                 />
                 <button
                   className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"

@@ -17,6 +17,7 @@ export const registerAction = (data) => {
       console.log(error);
       toast.error("Coba cek data kamu!", {
         theme: "colored",
+        style: { backgroundColor: "#DC2626" },
       });
       dispatch({
         type: "ERROR",

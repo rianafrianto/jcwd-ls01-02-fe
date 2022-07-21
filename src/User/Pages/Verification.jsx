@@ -7,18 +7,21 @@ import API_URL from "../../Helpers/API_URL";
 import Button from "../Component/Button";
 import signupImage from "../../Assets/signup-image.png";
 import successImage from "../../Assets/success-image.png";
+import logo from "../../Assets/logo.png";
 import Cookies from "js-cookie";
 
 function Verification() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { username, id, email, verified } = useSelector((state) => state.user);
   const { token } = useParams();
   const [loading, setLoading] = useState(true);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [verification, setVerification] = useState(false);
+  const [doneVerify, setdoneVerify] = useState(false);
   const [failed, setFailed] = useState(false);
-  const { username, id, email, verified } = useSelector((state) => state.user);
+  const [timer, setTimer] = useState(0);
 
   const verifying = async () => {
     try {
@@ -33,14 +36,17 @@ function Verification() {
       });
       dispatch({ type: "LOGIN", payload: res.data });
       setVerification(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 5000);
+      setTimer(10);
     } catch (error) {
       setFailed(true);
       console.log(error);
+      toast.error(error.response.data.message, {
+        theme: "colored",
+        style: { backgroundColor: "#DC2626" },
+      });
     } finally {
       setLoading(false);
+      setdoneVerify(true);
     }
   };
 
@@ -52,7 +58,10 @@ function Verification() {
         username,
         email,
       });
-      toast.success("Email sent!");
+      toast.success(`Email verifikasi telah dikirim!`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -60,10 +69,24 @@ function Verification() {
     }
   };
 
+  const timerCountdown = () => {
+    setTimer(timer - 1);
+  };
+
   useEffect(() => {
-    verifying();
+    if (!doneVerify) verifying();
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(timerCountdown, 1000);
+    }
+    if (timer === 0 && verification) {
+      navigate("/");
+    }
+    return () => {
+      clearInterval(interval);
+    };
     // eslint-disable-next-line
-  }, []);
+  }, [timer]);
 
   const changeAccount = () => {
     Cookies.remove("token");
@@ -74,11 +97,8 @@ function Verification() {
   return (
     <div className="w-screen h-screen flex bg-white">
       <div className="w-1/2 h-full flex justify-center items-center relative">
-        <i
-          className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
-          onClick={() => navigate("/home")}
-        >
-          Logo
+        <i className="w-1/6 min-h-min absolute left-10 top-10">
+          <img src={logo} alt="logo" className="w-full" />
         </i>
         {loading && (
           <img
@@ -133,8 +153,9 @@ function Verification() {
               <div className="w-full flex gap-x-5">
                 <div className="w-full flex flex-col gap-y-2">
                   <p className="text-center text-sm">
-                    Kamu akan diarahkan ke beranda sebentar lagi! <br /> Atau
-                    tekan tombol di bawah untuk langsung ke Beranda!
+                    Kamu akan diarahkan ke beranda dalam{" "}
+                    <span className="font-bold text-primary">{timer}</span>{" "}
+                    <br /> Atau tekan tombol di bawah untuk langsung ke Beranda!
                   </p>
                   <Button
                     disabled={loadingEmail}
