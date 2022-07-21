@@ -17,13 +17,10 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
-<<<<<<< HEAD
-=======
 import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectCustom from "../components/SelectCustom";
 import ModalDetails from "../components/ModalDetails";
->>>>>>> 7443af6b9bc3aa91da6c444266a0c2f67d7e7d48
 
 function Products() {
   const initialTerms = "";
@@ -340,7 +337,6 @@ function Products() {
                   <span className="">Total {total} produk ditemukan</span>
                   <div className="w-56 flex  h-full items-center gap-x-2">
                     Baris per halaman
-<<<<<<< HEAD
                     <div className="dropdown dropdown-top dropdown-end">
                       <label
                         tabIndex="0"
@@ -363,7 +359,6 @@ function Products() {
                         </li>
                       </ul>
                     </div>
-=======
                     <Popover className="relative">
                       {({ open, close }) => (
                         <>
@@ -422,7 +417,6 @@ function Products() {
                         </>
                       )}
                     </Popover>
->>>>>>> 7443af6b9bc3aa91da6c444266a0c2f67d7e7d48
                   </div>
                   <div className="h-8 min-w-min flex items-center gap-x-2">
                     <button

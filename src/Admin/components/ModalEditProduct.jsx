@@ -158,11 +158,6 @@ function ModalEditProduct(props) {
     }
   };
 
-  const deleteSubmit = async () => {
-    try {
-    } catch (error) {}
-  };
-
   const printForm = (state) => {
     switch (state) {
       case 1:

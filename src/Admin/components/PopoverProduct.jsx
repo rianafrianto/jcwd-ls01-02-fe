@@ -13,7 +13,8 @@ function PopoverProduct(props) {
 
   const deleteSubmit = async (id) => {
     try {
-      await axios.delete(`${API_URL}/admin/delete-product`);
+      console.log(id);
+      await axios.delete(`${API_URL}/admin/delete-product?id=${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +52,7 @@ function PopoverProduct(props) {
                 </button>
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
-                  onClick={() => deleteSubmit()}
+                  onClick={() => deleteSubmit(id)}
                 >
                   <img src={trashIcon} alt="" className="h-5" />
                 </button>
