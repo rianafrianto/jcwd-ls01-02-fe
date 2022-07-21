@@ -1,24 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap")
-html {
-  scroll-behavior: smooth;
-}
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @layer components {
   .button-general {
-    @apply py-2 rounded-lg outline outline-2 flex justify-center items-center btn-plain cursor-pointer text-sm;
+    @apply py-2 rounded-lg flex justify-center items-center btn-plain cursor-pointer text-sm  focus:outline-black focus:outline-2;
+  }
+  .span-general {
+    @apply btn-plain cursor-pointer text-sm  focus:underline;
   }
   .button-primary {
-    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain cursor-pointer text-sm;
+    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-primary hover:bg-primary-dark text-white font-bold btn-plain cursor-pointer text-sm focus:outline-black focus:outline-2;
   }
   .button-outline {
-    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-white hover:bg-primary/20 text-primary font-bold btn-plain cursor-pointer text-sm;
+    @apply py-2 rounded-lg outline outline-2 outline-primary flex justify-center items-center bg-white hover:bg-primary/20 text-primary font-bold btn-plain cursor-pointer text-sm focus:outline-black focus:outline-2;
   }
   .field-input {
     @apply w-full h-11 px-5 outline outline-1 outline-neutral-gray rounded-lg;
   }
+  .button-left-bar {
+    @apply btn-plain hover:bg-gray-200 w-full h-20 flex justify-between items-center bg-white text-xl font-bold text-gray-400;
+  }
+  .sub-button-left-bar {
+    @apply btn-plain hover:bg-gray-200 w-full h-12 flex justify-start px-4 items-center bg-white font-semibold text-gray-400 pointer-events-auto;
+  }
+  .filter-search-bar {
+    @apply w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 ::-webkit-scrollbar {
@@ -57,7 +81,7 @@ code {
 .btn-plain:active:hover,
 .btn-plain:active:focus {
   animation: none;
-  transform: scale(var(--btn-focus-scale, 0.95));
+  transform: scale(var(--btn-focus-scale, 0.9));
 }
 
 .button-loading:before {
@@ -98,4 +122,13 @@ code {
     -2px -2px 2px rgba(190, 190, 190, 0.08),
     -4px -4px 4px rgba(190, 190, 190, 0.06),
     8px 8px 4px rgba(190, 190, 190, 0.06);
+}
+
+.bg-admin {
+  background: linear-gradient(
+    155.7deg,
+    #d6f5f3 -45.88%,
+    #f7fcfc 45.77%,
+    #f1f5fc 117.72%
+  );
 }

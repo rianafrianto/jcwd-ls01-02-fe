@@ -17,6 +17,7 @@ export const registerAction = (data) => {
       console.log(error);
       toast.error("Coba cek data kamu!", {
         theme: "colored",
+        style: { backgroundColor: "#DC2626" },
       });
       dispatch({
         type: "ERROR",
@@ -31,13 +32,23 @@ export const newAddressAction = (data) => {
   return async (dispatch) => {
     try {
       let token = Cookies.get("token");
-      await axios.post(`${API_URL}/profile/new-address`, data, {
+      const res = await axios.post(`${API_URL}/profile/new-address`, data, {
         headers: { authorization: token },
       });
       toast.success(`berhasil`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
+      if (data.primaryAddress) {
+        console.log("ada primary");
+        console.log(res);
+        dispatch({
+          type: "CHANGEADDRESS",
+          payload: res.data.data?.address_id,
+        });
+        console.log("ubah ada primary");
+      }
+      return res;
     } catch (error) {
       throw new Error(error);
     }
@@ -60,5 +71,34 @@ export const getPrimaryAddress = (data) => {
     } catch (error) {
       throw new Error(error);
     }
+  };
+};
+
+export const loginAction = ({ ...values }) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: "LOADING" });
+      let res = await axios.post(`${API_URL}/auth/login`, {
+        username: values.personId,
+        email: values.personId,
+        password: values.password,
+      });
+      Cookies.set("token", res.headers["x-token-access"]);
+      dispatch({ type: "LOGIN", payload: res.data });
+    } catch (error) {
+      dispatch({
+        type: "ERROR",
+        payload: error.response.data.message || "Network Error",
+      });
+    } finally {
+      dispatch({ type: "DONE" });
+    }
+  };
+};
+
+export const logoutAction = () => {
+  Cookies.remove("token");
+  return {
+    type: "LOGOUT",
   };
 };
