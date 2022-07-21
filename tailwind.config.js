@@ -14,6 +14,7 @@ module.exports = {
         danger: "#FF6B6B",
         "neutral-gray": "#CCCCCC",
         facebook: "#527BCB",
+        peach: "#FFB156",
       },
     },
   },

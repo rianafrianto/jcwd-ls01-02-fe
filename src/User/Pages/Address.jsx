@@ -18,7 +18,7 @@ function Address() {
   const [cities, setCities] = useState([
     { content: "Kota/Kabupaten", value: 0 },
   ]);
-  const [cityId, setCityId] = useState(null);
+  const [cityId, setCityId] = useState(0);
   const [kodePos, setKodePos] = useState("");
 
   const initialValues = {
@@ -46,6 +46,7 @@ function Address() {
       .matches(/^[0-9]*$/, "Hanya menggunakan angka"),
     provinsi: Yup.string().required("Wajib diisi"),
     kota: Yup.string().required("Wajib diisi"),
+    kode_pos: Yup.string().required("Wajib diisi"),
     alamat: Yup.string().required("Wajib diisi"),
   });
 
@@ -122,6 +123,7 @@ function Address() {
                 handleBlur,
                 errors,
                 touched,
+                values,
               } = formik;
               if (kodePos) formik.values.kode_pos = kodePos;
               return (
@@ -218,11 +220,14 @@ function Address() {
                         onChange={(e) => {
                           handleChange(e);
                           setProvinceId(e.target.value);
+                          setCityId(0);
+                          values.kota = 0;
                         }}
                         options={provinces}
+                        value={values.provinsi}
                         onBlur={handleBlur}
                         type="text"
-                        className={`${
+                        className={`cursor-pointer ${
                           errors.provinsi && touched.provinsi
                             ? "outline-red-700"
                             : null
@@ -241,36 +246,33 @@ function Address() {
                           setCityId(e.target.value);
                         }}
                         options={cities}
+                        value={values.kota}
                         disabled={!provinceId}
                         onBlur={handleBlur}
                         type="text"
-                        className={`${
+                        className={`cursor-pointer disabled:cursor-not-allowed ${
                           errors.kota && touched.kota ? "outline-red-700" : null
                         }`}
                       />
                     </div>{" "}
                     {/* Kode Pos */}
                     <div className="w-full relative flex flex-col justify-between gap-y-2">
-                      <label htmlFor="kode_pos">Kode Pos</label>
-                      <input
+                      <FormikControl
+                        control="INPUT"
                         label="Kode Pos"
                         name="kode_pos"
                         placeholder="Kode Pos"
-                        disabled={true}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
                         onBlur={handleBlur}
-                        type="text"
-                        className={`field-input ${
+                        type="number"
+                        className={`${
                           errors.kode_pos && touched.kode_pos
                             ? "outline-red-700"
                             : null
                         }`}
-                        defaultValue={kodePos}
                       />
-                      {errors.kode_pos && touched.kode_pos && (
-                        <div className="absolute text-red-600 -bottom-5 right-0 text-sm">
-                          {errors.kode_pos}
-                        </div>
-                      )}
                     </div>
                   </div>
                   {/* Alamat*/}
@@ -307,7 +309,6 @@ function Address() {
                     <Button
                       type="button"
                       buttonContent={`Batalkan`}
-                      disabled={!isValid || isSubmitting}
                       className={`button-outline w-full text-sm leading-5
                     }`}
                       onClick={() => navigate(-1)}
@@ -321,7 +322,7 @@ function Address() {
                           ? "Cek Kembali Data Kamu!"
                           : "Simpan Alamat"
                       }
-                      disabled={!isValid || isSubmitting}
+                      disabled={isSubmitting}
                       className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
                         isSubmitting && "button-loading"
                       }`}

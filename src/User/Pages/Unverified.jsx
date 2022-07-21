@@ -9,11 +9,14 @@ import { useDispatch } from "react-redux";
 import Button from "../Component/Button";
 import API_URL from "../../Helpers/API_URL";
 import signupImage from "../../Assets/signup-image.png";
+import logo from "../../Assets/logo.png";
 
 function Unverified() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { username, id, email, verified } = useSelector((state) => state.user);
+  const { username, id, email, verified, isLogin } = useSelector(
+    (state) => state.user
+  );
   const [loadingEmail, setLoadingEmail] = useState(false);
 
   const sendEmail = async () => {
@@ -24,7 +27,10 @@ function Unverified() {
         username,
         email,
       });
-      toast.success("Email sent!");
+      toast.success(`Email verifikasi telah dikirim!`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -39,7 +45,7 @@ function Unverified() {
   };
 
   useEffect(() => {
-    if (verified) navigate("/");
+    if (verified || !isLogin) navigate("/");
   }, []);
 
   return (
@@ -50,11 +56,8 @@ function Unverified() {
           alt=""
           className="h-full object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         />
-        <i
-          className="w-1/6 min-h-min border border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
-          onClick={() => navigate("/home")}
-        >
-          Logo
+        <i className="w-1/6 min-h-min absolute left-10 top-10">
+          <img src={logo} alt="logo" className="w-full" />
         </i>
         <img
           src={signupImage}

@@ -6,15 +6,31 @@ import FilterLeftBar from "../Component/FilterLeftBar";
 import Loading from "../Component/Loading";
 import API_URL from "../../Helpers/API_URL";
 import { printCategory } from "../../Helpers/categoryList";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import SelectCustom from "../../Admin/components/SelectCustom";
 
 function Category() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [order, setOrder] = useState("ORDER BY name ASC");
+  const [orderShow, setOrderShow] = useState("A-Z");
   const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotal] = useState(0);
   const params = useParams();
   let { category } = params;
   const limit = 24;
+
+  const listOrder = [
+    { content: "A-Z", value: "ORDER BY name ASC" },
+    { content: "Z-A", value: "ORDER BY name DESC" },
+    { content: "Harga Terendah", value: "ORDER BY price ASC" },
+    { content: "Harga Tertinggi", value: "ORDER BY price DESC" },
+  ];
 
   const fetchProducts = async () => {
     try {
@@ -26,8 +42,10 @@ function Category() {
       let res = await axios.get(
         `${API_URL}/product/products/${category}?order=${order}&page=${page}&limit=${limit}`
       );
-      const { data } = res.data;
-      setProducts(data);
+      const { products, total } = res.data.data;
+      setTotal(total);
+      setTotalPages(() => Math.ceil(res.data.data.total / limit));
+      setProducts(products);
     } catch (error) {
       console.log(error);
     } finally {
@@ -35,10 +53,23 @@ function Category() {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchProducts();
-  }, [order, page, category]);
+  const printOrderOptions = () => {
+    return listOrder.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          onClick={() => {
+            setPage(0);
+            setOrder(val.value);
+            setOrderShow(val.content);
+          }}
+        >
+          {val.content}
+        </button>
+      );
+    });
+  };
 
   const printProducts = () => {
     if (loadingProducts) {
@@ -54,18 +85,19 @@ function Category() {
   };
 
   const printButton = () => {
-    const limit = 24;
     let pages = [];
-    let totalPages = Math.ceil(products[0]?.total / limit);
-    for (let i = 0; i < totalPages; i++) {
+    let buttonsTotal = totalPages;
+    for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
     return pages.map((val, i) => {
       return (
         <button
           key={i}
-          className={`btn-plain px-5 py-2 ${page === i ? "bg-primary" : ""}`}
-          onClick={() => {
+          className={`btn-plain h-8 aspect-square rounded-full ${
+            page === i ? "bg-primary text-white" : ""
+          }`}
+          onClick={async () => {
             if (page !== i) {
               setPage(i);
             }
@@ -76,6 +108,11 @@ function Category() {
       );
     });
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    fetchProducts();
+  }, [order, page, category]);
 
   return (
     <div className="h-full w-full pt-20">
@@ -98,7 +135,12 @@ function Category() {
           <div className="w-full mt-9 flex gap-x-12">
             <div className="w-full h-fullflex flex-col">
               <div className="w-full mt-9 flex gap-x-12">
-                <FilterLeftBar category={category} />
+                <FilterLeftBar
+                  category={category}
+                  setPage={setPage}
+                  setOrder={setOrder}
+                  setOrderShow={setOrderShow}
+                />
                 <div className="w-full h-full flex flex-col gap-y-5">
                   <div className="h-11 text-3xl font-bold text-secondary">
                     {category && category === "all"
@@ -108,44 +150,67 @@ function Category() {
                   <div className="w-full border-b border-neutral-gray" />
                   <div className="w-full h-9 mt-2 mb-2 flex justify-between items-center">
                     <div>
-                      {loadingProducts ? "..." : products[0]?.total} Produk{" "}
+                      {loadingProducts ? "..." : total} Produk{" "}
                       {category && category === "all"
                         ? ""
                         : `di ${printCategory(category)}`}
                     </div>
                     <div className="hidden lg:flex gap-x-4 items-center">
-                      <div>Urutkan</div>
-                      <select
-                        className="select select-primary h-full w-44 border border-neutral-gray p-2 rounded-lg"
-                        value={order}
-                        onChange={(e) => {
-                          setOrder(e.target.value);
-                          setPage(0);
-                        }}
-                      >
-                        <option
-                          value="ORDER BY name ASC"
-                          className="hover:bg-primary"
-                        >
-                          A-Z
-                        </option>
-                        <option value="ORDER BY name DESC">Z-A</option>
-                        <option value="ORDER BY price ASC">
-                          Harga Terendah
-                        </option>
-                        <option value="ORDER BY price DESC">
-                          Harga Tertinggi
-                        </option>
-                      </select>
+                      <span>Urutkan</span>
+                      <SelectCustom
+                        buttonStyle="w-44 h-10"
+                        panelStyle="w-44 h-10"
+                        optionsFunc={printOrderOptions}
+                        stateValue={orderShow}
+                      />
                     </div>
                   </div>
                   <div className="w-full h-full bg-white">
                     {printProducts()}
                   </div>
                   <div className="flex justify-end">
-                    <div className="bg-primary/20 rounded-lg overflow-hidden">
-                      {loadingProducts ? "" : printButton()}
-                    </div>
+                    {loadingProducts ? (
+                      ""
+                    ) : (
+                      <div className="h-8 min-w-min flex items-center gap-x-2">
+                        <button
+                          className="button-outline h-7 aspect-square rounded-full"
+                          onClick={() => setPage(0)}
+                        >
+                          <ChevronDoubleLeftIcon className="h-5" />
+                        </button>
+                        <button
+                          className="button-primary h-full aspect-square rounded-full"
+                          disabled={page === 0}
+                          onClick={() => setPage((prev) => prev - 1)}
+                        >
+                          <ChevronLeftIcon className="h-7" />
+                        </button>
+                        <div className="h-full w-full flex gap-x-2">
+                          {loadingProducts ? (
+                            <div className="w-[250px] h-full rounded-lg bg-neutral-gray button-loading flex justify-center items-center">
+                              Loading ...
+                            </div>
+                          ) : (
+                            printButton()
+                          )}
+                        </div>
+
+                        <button
+                          className="button-primary h-full aspect-square rounded-full"
+                          disabled={page === totalPages - 1}
+                          onClick={() => setPage((prev) => prev + 1)}
+                        >
+                          <ChevronRightIcon className="h-7" />
+                        </button>
+                        <button
+                          className="button-outline h-7 aspect-square rounded-full"
+                          onClick={() => setPage(totalPages - 1)}
+                        >
+                          <ChevronDoubleRightIcon className="h-5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
