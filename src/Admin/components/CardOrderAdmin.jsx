@@ -28,6 +28,14 @@ function CardOrderAdmin({ data }) {
       console.log(error);
     }
   };
+  const confirmlOrder = async (id) => {
+    try {
+      console.log(id);
+      await axios.patch(`${API_URL}/transaction/order/confirm?id=${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <ModalPrescriptionService
@@ -144,7 +152,10 @@ function CardOrderAdmin({ data }) {
                     </button>
                   )}
                   {status == "Diproses" && (
-                    <button className="button-primary w-1/2" onClick={() => {}}>
+                    <button
+                      className="button-primary w-1/2"
+                      onClick={() => confirmlOrder(data.id)}
+                    >
                       Terima Pesanan
                     </button>
                   )}
