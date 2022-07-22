@@ -20,15 +20,14 @@ function ModalEditOptions(props) {
     closeModalEditOptions();
     setTimeout(() => {
       openModalEdit();
-    }, 100);
+    }, 500);
   };
   const addStock = () => {
     closeModalEditOptions();
     setTimeout(() => {
       openModalAddStock();
-    }, 100);
+    }, 500);
   };
-  console.log({ editId });
 
   return (
     <Transition appear show={modalEditOptions} as={Fragment}>

@@ -19,7 +19,9 @@ function AddDetails2(props) {
   const listSatuan = [{ content: "Satuan", value: "" }, ...satuanList];
 
   const validationSchema2 = Yup.object({
-    stock: Yup.number().required("Wajib diisi").min(1, "Kuantitas min. 1"),
+    stock: editId
+      ? ""
+      : Yup.number().required("Wajib diisi").min(1, "Kuantitas min. 1"),
     satuan: Yup.string().required("Wajib diisi"),
     kemasan: Yup.string().required("Wajib diisi"),
     price: Yup.number().required("Wajib diisi").min(1, "Nilai Barang min. 1"),

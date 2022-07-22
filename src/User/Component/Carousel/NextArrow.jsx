@@ -5,7 +5,7 @@ function NextArrow(props) {
   const { onClick, height, setFirstScroll, scroll, setScroll } = props;
   return (
     <button
-      className={`-translate-x-20 opacity-0  group-hover:translate-x-0 border shadow-black/20 group-hover:opacity-100 button-general rounded-full h-10 aspect-square absolute z-10 -right-4 shadow-lg bg-white ${height}`}
+      className={`-translate-x-20 opacity-0  group-hover:translate-x-0 border group-hover:opacity-100 button-general rounded-full h-10 aspect-square absolute z-10 -right-4 shadow-custom hover:shadow-primary/50 bg-white ${height}`}
       onClick={() => {
         if (scroll) {
           scroll === 1 && setFirstScroll(false);
