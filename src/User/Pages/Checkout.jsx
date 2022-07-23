@@ -95,7 +95,7 @@ function Checkout() {
     return data.map((val, i) => {
       return (
         <div className="w-full relative" key={i}>
-          <table className="w-full grid grid-col-2 mb-1 border-b border-neutral-gray">
+          <table className="w-full grid grid-col-2 mb-3 pb-3 border-b border-neutral-gray">
             <tbody>
               <tr>
                 <th className="text-left pr-5 text-primary">
@@ -140,13 +140,15 @@ function Checkout() {
       );
     });
   };
-
+  console.log("edit alamat, nge-get dulu pas mau ganti alamat");
   const printCourierOptions = () => {
     return listCourier.map((val, i) => {
       return (
         <button
           key={i}
-          className="btn-plain py-2 hover:bg-primary hover:text-white"
+          className={`py-2 ${
+            i !== 0 ? "btn-plain hover:bg-primary hover:text-white" : ""
+          }`}
           disabled={i === 0}
           onClick={() => {
             setCourier(val.value);

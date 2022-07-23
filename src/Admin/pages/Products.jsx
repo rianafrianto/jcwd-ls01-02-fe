@@ -367,28 +367,6 @@ function Products() {
                   <span className="">Total {total} produk ditemukan</span>
                   <div className="w-56 flex  h-full items-center gap-x-2">
                     Baris per halaman
-                    <div className="dropdown dropdown-top dropdown-end">
-                      <label
-                        tabIndex="0"
-                        className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer"
-                      >
-                        {limit} <ChevronDownIcon className={`h-5`} />
-                      </label>
-                      <ul
-                        tabIndex="0"
-                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
-                      >
-                        <li>
-                          <button onClick={() => setLimit(10)}>10</button>
-                        </li>
-                        <li>
-                          <button onClick={() => setLimit(20)}>20</button>
-                        </li>
-                        <li>
-                          <button onClick={() => setLimit(30)}>30</button>
-                        </li>
-                      </ul>
-                    </div>
                     <Popover className="relative">
                       {({ open, close }) => (
                         <>

@@ -37,11 +37,15 @@ function ModalAllAddress(props) {
     try {
       let token = Cookies.get("token");
       setLoadingAllAddress(true);
-      await axios.patch(`${API_URL}/profile/change-primary-address`, data, {
-        headers: { authorization: token },
-      });
-
+      const res = await axios.patch(
+        `${API_URL}/profile/change-primary-address`,
+        data,
+        {
+          headers: { authorization: token },
+        }
+      );
       dispatch({ type: "CHANGEADDRESS", payload: data.id });
+      setDataAddresses(res.data.data);
       toast.success(`Alamat utama telah diganti`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
