@@ -9,25 +9,18 @@ import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import formatToCurrency from "../../Helpers/formatToCurrency";
 import Loading from "../../User/Component/Loading";
-import ModalAddProduct from "../components/ModalAddProduct";
-import { categoryList, golonganList } from "../../Helpers/categoryList";
 import PopoverProduct from "../components/PopoverProduct";
-import ModalEditProduct from "../components/ModalEditProduct";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
 
 function Report() {
+  const initialTerms = "";
   const [loading, setLoading] = useState(false);
-  const [modalAdd, setModalAdd] = useState(false);
-  const [modalEdit, setModalEdit] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("all");
-  const [golongan, setGolongan] = useState("all");
-  const [terms, setTerms] = useState("");
-  const [order, setOrder] = useState("ORDER BY p.id ASC");
+  const [report, setReport] = useState([]);
+  const [terms, setTerms] = useState(initialTerms);
+  const [order, setOrder] = useState("ORDER BY id ASC");
   let [page, setPage] = useState(0);
   const [minPage, setMinPage] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
@@ -36,31 +29,14 @@ function Report() {
   const [total, setTotal] = useState(0);
   const [sinceDate, setSinceDate] = useState("");
 
-  console.log({ page });
-  function closeModalAdd() {
-    setModalAdd(false);
-  }
-  console.log({ editId });
-
-  function openModalAdd() {
-    setModalAdd(true);
-  }
-  function closeModalEdit() {
-    setModalEdit(false);
-  }
-
-  function openModalEdit() {
-    setModalEdit(true);
-  }
-
-  const getProducts = async () => {
+  const getReport = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/admin/products`, {
-        params: { terms, category, golongan, page, limit, order },
+      const res = await axios.get(`${API_URL}/admin/report`, {
+        params: { terms, page, limit, order },
       });
-      console.log(res.data.data.products[0]);
-      setProducts(res.data.data.products);
+      console.log(res.data.data.report);
+      setReport(res.data.data.report);
       setTotal(res.data.data.total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
       setMinPage(0);
@@ -74,7 +50,6 @@ function Report() {
       setLoading(false);
     }
   };
-
   const printRow = (data) => {
     if (!loading)
       return data.map((val, i) => {
@@ -82,10 +57,10 @@ function Report() {
           <tr key={i} className="w-full h-full text-center">
             <th>{page * limit + i + 1}</th>
             <td>{val.date}</td>
-            <td>{val.atktivitas}</td>
-            <td>{formatToCurrency(val.price)}</td>
-            <td>{formatToCurrency(val.modal)}</td>
-            <td>{formatToCurrency(val.modal)}</td>
+            <td>{val.aktivitas}</td>
+            <td>{formatToCurrency(val.masuk)}</td>
+            <td>{formatToCurrency(val.keluar)}</td>
+            <td>{formatToCurrency(val.saldo)}</td>
             <td>
               <div className="h-full flex justify-center items-center gap-x-2 px-2 py-2">
                 <button
@@ -129,11 +104,10 @@ function Report() {
   };
 
   useEffect(() => {
-    getProducts();
+    getReport();
     setSinceDate("");
-
     return () => {};
-  }, [limit, page, category, golongan]);
+  }, [limit, page]);
 
   return (
     <div className="bg-admin h-full w-full justify-center flex">
@@ -181,7 +155,7 @@ function Report() {
                       onClick={() => {
                         if (terms !== "") {
                           setPage(0);
-                          getProducts();
+                          getReport();
                         }
                       }}
                     >
@@ -214,7 +188,7 @@ function Report() {
                       <th className="font-medium text-white w-36">Atur</th>
                     </tr>
                   </thead>
-                  <tbody>{printRow(products)}</tbody>
+                  <tbody>{printRow(report)}</tbody>
                 </table>
               </div>
               <div className="w-full h-14  flex justify-between items-center px-4 py-3">
