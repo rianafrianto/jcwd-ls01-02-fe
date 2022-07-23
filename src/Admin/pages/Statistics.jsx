@@ -1,583 +1,314 @@
+// use recart js
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+} from "recharts";
 import API_URL from "../../Helpers/API_URL";
 
+const data = [
+  {
+    name: "Januari",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Februari",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Maret",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "April",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "Mei",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Juni",
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Juli",
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "Agustus",
+    uv: 5000,
+    pv: 4500,
+    amt: 2500,
+  },
+  {
+    name: "September",
+    uv: 4500,
+    pv: 4300,
+    amt: 2900,
+  },
+  {
+    name: "Oktober",
+    uv: 4300,
+    pv: 4500,
+    amt: 2000,
+  },
+  {
+    name: "November",
+    uv: 3000,
+    pv: 4600,
+    amt: 6100,
+  },
+  {
+    name: "Desember",
+    uv: 5090,
+    pv: 6700,
+    amt: 2100,
+  },
+];
+const data2 = [
+  {
+    name: "Dibatalkan Otomatis",
+    uv: 4000,
+
+    amt: 2400,
+  },
+  {
+    name: "Ditolak Apotik",
+    uv: 3000,
+
+    amt: 2210,
+  },
+  {
+    name: "Permintaan Pembeli",
+    uv: 2000,
+
+    amt: 2290,
+  },
+];
+
 function Statistics() {
-  // const data = [
-  //   {
-  //     product_id: 9,
-  //     tgl_kadaluarsa: "2023-02-15",
-  //     stock: 30,
-  //   },
-  //   {
-  //     product_id: 14,
-  //     tgl_kadaluarsa: "2023-06-20",
-  //     stock: 30,
-  //   },
-  //   {
-  //     product_id: 19,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 30,
-  //   },
-  //   {
-  //     product_id: 116,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 117,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 118,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 119,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 120,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 121,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 122,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 123,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 124,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 125,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 126,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 127,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 128,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 129,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 130,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 131,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 132,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 133,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 134,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 135,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 136,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 137,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 138,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 139,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 140,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 141,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 142,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 143,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 144,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 145,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 146,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 147,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 148,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 149,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 150,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 151,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 152,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 153,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 154,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 155,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 156,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 157,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 158,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 159,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 160,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 161,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 162,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 163,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 164,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 165,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 166,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 167,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 168,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 169,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 170,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 171,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 172,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 173,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 174,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 175,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 176,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 177,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 178,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 179,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 180,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 181,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 182,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 183,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 184,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 185,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 186,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 187,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 188,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 189,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 190,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 191,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 192,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 193,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 194,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 195,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 196,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 197,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 198,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 199,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 200,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 201,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 202,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 203,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 204,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 205,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 206,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 207,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 208,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 100,
-  //   },
-  //   {
-  //     product_id: 211,
-  //     tgl_kadaluarsa: "2023-02-01",
-  //     stock: 123,
-  //   },
-  //   {
-  //     product_id: 212,
-  //     tgl_kadaluarsa: "2024-03-06",
-  //     stock: 123,
-  //   },
-  //   {
-  //     product_id: 213,
-  //     tgl_kadaluarsa: "2023-10-17",
-  //     stock: 123,
-  //   },
-  //   {
-  //     product_id: 218,
-  //     tgl_kadaluarsa: "2024-07-10",
-  //     stock: 99999,
-  //   },
-  //   {
-  //     product_id: 226,
-  //     tgl_kadaluarsa: "2023-06-08",
-  //     stock: 100,
-  //   },
-  // ];
+  const [opacity, setOpacity] = useState({
+    uv: 1,
+    pv: 1,
+  });
 
-  // const sementara = async () => {
-  //   try {
-  //     let res = await axios.post(`${API_URL}/admin/stok`, data);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleMouseEnter = useCallback(
+    (o) => {
+      const { dataKey } = o;
 
-  // useEffect(() => {
-  //   sementara();
-  // }, []);
+      setOpacity({ ...opacity, [dataKey]: 0.5 });
+    },
+    [opacity, setOpacity]
+  );
+
+  const handleMouseLeave = useCallback(
+    (o) => {
+      const { dataKey } = o;
+      setOpacity({ ...opacity, [dataKey]: 1 });
+    },
+    [opacity, setOpacity]
+  );
+
+  useEffect(() => {}, []);
 
   return (
-    <div className="bg-red-500 h-full w-full flex">
-      <div className="bg-green-400 w-full h-full pt-16 pl-64">
+    <div className="bg-admin h-full w-full flex">
+      <div className=" w-full h-full pt-16 pl-64">
         <div className="py-8 px-12">
           <div className="flex h-8 w-full">
-            <div className="w-60 pt-1 text-center border mb-1">
+            <div className="w-60 pt-1 text-left mb-2 text-xl text-secondary">
               Ringkasan Statistik
             </div>
             <div className="flex justify-end w-full">
-              <div className="w-40 pt-1 text-center border">Filter</div>
+              <div className="w-40 pt-1 text-center rounded-md text-sm">
+                <select
+                  className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+                  id=""
+                >
+                  <option value="">7 Hari Terakhir</option>
+                  <option value="">14 Hari Terakhir</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div className="border w-52 h-8 mb-4">Update Terakhir</div>
+          <div className="w-full h-8 mb-4 pt-1 text-xs text-gray">
+            Update terakhir: 20 Januari 2022, 14.30 WIB
+          </div>
           <div className="flex h-32">
-            <div className="flex text-center justify-between w-full mb-8">
-              <div className="w-40 pt-8 border">Pesanan Baru</div>
-              <div className="w-40 pt-8 border">Siap Dikirim</div>
-              <div className="w-40 pt-8 border">Sedang Dikirim</div>
-              <div className="w-40 pt-8 border">Selesai</div>
-              <div className="w-40 pt-8 border">Dibatalkan</div>
-              <div className="w-40 pt-8 border">Chat Baru</div>
+            <div className="flex text-center justify-between w-full mb-8 ">
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+                Pesanan Baru
+              </div>
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+                Siap Dikirim
+              </div>
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+                Sedang Dikirim
+              </div>
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+                Selesai
+              </div>
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+                Dibatalkan
+              </div>
+              <div className="w-60 pt-8 rounded-lg shadow-lg bg-white">
+                Chat Baru
+              </div>
             </div>
           </div>
-          <div className="bg-red-300 h-full w-full">
-            <div className="bg-green-600 h-full w-full mt-8 mb-8">
+          <div className="h-full w-full rounded-xl shadow-xl bg-white">
+            <div className="h-full w-full mb-8">
               <div className="flex justify-between pt-8">
                 <div className="w-full flex justify-between">
-                  <div className="w-40 h-10 pt-2 text-center border">
+                  <div className="w-40 h-10 text-center text-lg text-secondary">
                     Penjualan Obat
                   </div>
-                  <div className="w-40 h-10 pt-2 text-center border">
-                    Filter
+                  {/* <div className="w-40 h-10 pt-2 text-center ">Filter</div> */}
+                  <div className="flex justify-end mr-6 w-full">
+                    <div className="w-40 pt-1 text-center rounded-md text-sm">
+                      <select
+                        className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+                        id=""
+                      >
+                        <option value="">Bulanan</option>
+                        <option value="">Bulanan</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="flex">
-                <div className="w-full h-80 border">Grafik</div>
+                <div className="w-full h-full">
+                  <LineChart width={1000} height={400} data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      strokeOpacity={opacity.pv}
+                      stroke="#8884d8"
+                      activeDot={{ r: 8 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="uv"
+                      strokeOpacity={opacity.uv}
+                      stroke="#82ca9d"
+                    />
+                  </LineChart>
+                </div>
                 <div className="flex flex-col">
-                  <div className="h-1/2 w-96 pt-12 text-center border">
-                    Rata Rata
+                  <div className="h-1/3 w-11/12 pt-12 text-center rounded-lg shadow-lg ml-2">
+                    Rata Rata Penjualan Per Bulan
+                    <div className="text-2xl">500</div>
                   </div>
-                  <div className="h-1/2 w-96 pt-12 text-center border">
-                    Keterangan
-                  </div>
+                  <div className="h-1/2 w-96 pt-12 text-center"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex">
-            <div className="w-1/2 h-[283px] border pt-32 text-center">
-              Tren Pendapatan
+          <div className="flex ">
+            <div className="w-1/2 h-full pt-2 rounded-xl shadow-xl mr-3 bg-white">
+              <div className="ml-5 text-xl text-secondary">
+                Tren Pendapatan
+                <div className="flex justify-end w-full">
+                  <div className="w-40 pt-1 text-center rounded-md text-sm mr-7 -mt-7">
+                    <select
+                      className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+                      id=""
+                    >
+                      <option value="">7 Hari Terakhir</option>
+                      <option value="">14 Hari Terakhir</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <AreaChart width={650} height={400} data={data}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="uv"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                  />
+                </AreaChart>
+              </div>
             </div>
-            <div className="w-1/2 h-[283px] border pt-32 text-center">
-              Tren Pembatalan
+            <div className="w-1/2 h-full pt-2 rounded-xl shadow-xl bg-white">
+              <div className="ml-5 text-xl text-secondary">
+                Tren Pembatalan
+                <div className="flex justify-end w-full">
+                  <div className="w-40 pt-1 text-center rounded-md text-sm mr-7 -mt-7">
+                    <select
+                      className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+                      id=""
+                    >
+                      <option value="">Januari</option>
+                      <option value="">Februari</option>
+                      <option value="">Maret</option>
+                      <option value="">April</option>
+                      <option value="">Mei</option>
+                      <option value="">Juni</option>
+                      <option value="">Juli</option>
+                      <option value="">Agustus</option>
+                      <option value="">September</option>
+                      <option value="">Oktober</option>
+                      <option value="">November</option>
+                      <option value="">Agustus</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <AreaChart width={650} height={400} data={data2}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="uv"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                  />
+                </AreaChart>
+              </div>
             </div>
           </div>
         </div>
@@ -587,3 +318,176 @@ function Statistics() {
 }
 
 export default Statistics;
+
+// use chartjs
+
+// import axios from "axios";
+// import React, { useEffect, useState, useCallback } from "react";
+// import BarChart from "../components/BarChart";
+// import LineChart from "../components/LineChart";
+// import { UserData } from "./Data";
+
+// import API_URL from "../../Helpers/API_URL";
+
+// function Statistics() {
+//   const [userData, setUserData] = useState({
+//     labels: UserData.map((data) => data.year),
+//     datasets: [
+//       {
+//         label: "Users Gained",
+//         data: UserData.map((data) => data.userGain),
+//         backgroundColor: [
+//           "rgba(75,192,192,1)",
+//           "#ecf0f1",
+//           "#50AF95",
+//           "#f3ba2f",
+//           "#2a71d0",
+//         ],
+//         borderColor: "black",
+//         borderWidth: 2,
+//       },
+//     ],
+//   });
+//   useEffect(() => {}, []);
+
+//   return (
+//     <div className="bg-admin h-full w-full flex">
+//       <div className=" w-full h-full pt-16 pl-64">
+//         <div className="py-8 px-12">
+//           <div className="flex h-8 w-full">
+//             <div className="w-60 pt-1 text-left mb-2 text-xl text-secondary">
+//               Ringkasan Statistik
+//             </div>
+//             <div className="flex justify-end w-full">
+//               <div className="w-40 pt-1 text-center rounded-md text-sm">
+//                 <select
+//                   className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+//                   id=""
+//                 >
+//                   <option value="">7 Hari Terakhir</option>
+//                   <option value="">14 Hari Terakhir</option>
+//                 </select>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="w-full h-8 mb-4 pt-1 text-xs text-gray">
+//             Update terakhir: 20 Januari 2022, 14.30 WIB
+//           </div>
+//           <div className="flex h-32">
+//             <div className="flex text-center justify-between w-full mb-8 ">
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+//                 Pesanan Baru
+//               </div>
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+//                 Siap Dikirim
+//               </div>
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+//                 Sedang Dikirim
+//               </div>
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+//                 Selesai
+//               </div>
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white mr-3">
+//                 Dibatalkan
+//               </div>
+//               <div className="w-60 pt-8 rounded-lg shadow-lg bg-white">
+//                 Chat Baru
+//               </div>
+//             </div>
+//           </div>
+//           <div className="h-full w-full rounded-xl shadow-xl bg-white">
+//             <div className="h-full w-full mb-8">
+//               <div className="flex justify-between pt-8">
+//                 <div className="w-full flex justify-between">
+//                   <div className="w-40 h-10 text-center text-lg text-secondary">
+//                     Penjualan Obat
+//                   </div>
+//                   {/* <div className="w-40 h-10 pt-2 text-center ">Filter</div> */}
+//                   <div className="flex justify-end mr-6 w-full">
+//                     <div className="w-40 pt-1 text-center rounded-md text-sm">
+//                       <select
+//                         className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+//                         id=""
+//                       >
+//                         <option value="">Bulanan</option>
+//                         <option value="">Bulanan</option>
+//                       </select>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//               <div className="flex">
+//                 <div className="w-full h-full"></div>
+//                 <div className="flex flex-col">
+//                   <div className="h-1/3 w-11/12 pt-12 text-center rounded-lg shadow-lg ml-2">
+//                     Rata Rata Penjualan Per Bulan
+//                     <div className="text-2xl">500</div>
+//                   </div>
+//                   <div className="h-1/2 w-96 pt-12 text-center"></div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="flex ">
+//             <div className="w-1/2 h-full pt-2 rounded-xl shadow-xl mr-3 bg-white">
+//               <div className="ml-5 text-xl text-secondary">
+//                 Tren Pendapatan
+//                 <div className="flex justify-end w-full">
+//                   <div className="w-40 pt-1 text-center rounded-md text-sm mr-7 -mt-7">
+//                     <select
+//                       className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+//                       id=""
+//                     >
+//                       <option value="">7 Hari Terakhir</option>
+//                       <option value="">14 Hari Terakhir</option>
+//                     </select>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <div className="mt-3">
+//                 <div style={{ width: 700 }}>
+//                   <BarChart chartData={userData} />
+//                 </div>
+//               </div>
+//             </div>
+//             <div className="w-1/2 h-full pt-2 rounded-xl shadow-xl bg-white">
+//               <div className="ml-5 text-xl text-secondary">
+//                 Tren Pembatalan
+//                 <div className="flex justify-end w-full">
+//                   <div className="w-40 pt-1 text-center rounded-md text-sm mr-7 -mt-7">
+//                     <select
+//                       className="h-full w-full bg-white border border-neutral-gray p2 rounded-md focus:outline-primary cursor-pointer"
+//                       id=""
+//                     >
+//                       <option value="">Januari</option>
+//                       <option value="">Februari</option>
+//                       <option value="">Maret</option>
+//                       <option value="">April</option>
+//                       <option value="">Mei</option>
+//                       <option value="">Juni</option>
+//                       <option value="">Juli</option>
+//                       <option value="">Agustus</option>
+//                       <option value="">September</option>
+//                       <option value="">Oktober</option>
+//                       <option value="">November</option>
+//                       <option value="">Agustus</option>
+//                     </select>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <div className="mt-3">
+//                 <div style={{ width: 700 }}>
+//                   <LineChart chartData={userData} />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Statistics;

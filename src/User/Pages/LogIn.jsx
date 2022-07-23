@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Form, Formik } from "formik";
+import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
@@ -15,6 +15,7 @@ import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
 import googleIcon from "../../Assets/google-icon.png";
+import FormikControl from "../Component/Formik/FormikControl";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -125,8 +126,9 @@ function LogIn() {
                   <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
                     {/* Email */}
                     <div className="w-full relative flex flex-col justify-between gap-y-2">
-                      <label htmlFor="personId">Email / Username</label>
-                      <input
+                      <FormikControl
+                        control="INPUT"
+                        label="Email/Username"
                         name="personId"
                         placeholder="JohnDoe@gmail.com"
                         onChange={(e) => {
@@ -135,29 +137,30 @@ function LogIn() {
                         }}
                         onBlur={handleBlur}
                         type="text"
-                        className={`field-input pl-14`}
+                        className={` pl-14 ${
+                          (errors.personId && touched.personId) ||
+                          (message[0] && !changed)
+                            ? "outline-red-700"
+                            : null
+                        }`}
                       />
                       <img
                         src={emailIcon}
                         alt=""
                         className="h-5 w-5 absolute left-5 top-11"
                       />
-                      {errors.personId && touched.personId ? (
-                        <div className="absolute text-red-600 -bottom-6">
-                          {errors.personId}
+                      {message[0] && !changed && (
+                        <div className="absolute text-red-600 -bottom-6 right-0 text-sm">
+                          {message[0]}
                         </div>
-                      ) : null}
-                      {message[1] && !changed ? (
-                        <div className="absolute text-red-600 -bottom-6">
-                          {message[1]}
-                        </div>
-                      ) : null}
+                      )}
                     </div>
 
                     {/* Password */}
                     <div className="w-full relative flex flex-col justify-between gap-y-2">
-                      <label htmlFor="">Password</label>
-                      <input
+                      <FormikControl
+                        control="INPUT"
+                        label="Password"
                         name="password"
                         placeholder="***************"
                         onChange={(e) => {
@@ -167,7 +170,11 @@ function LogIn() {
                         }}
                         onBlur={handleBlur}
                         type={visible ? "text" : "password"}
-                        className={`field-input pl-14`}
+                        className={`pl-14 placeholder:translate-y-1 ${
+                          errors.password && touched.password
+                            ? "outline-red-700"
+                            : null
+                        } `}
                       />
                       <button
                         type="button"
@@ -185,41 +192,28 @@ function LogIn() {
                         alt=""
                         className="h-5 w-5 absolute left-5 top-11"
                       />
-                      {errors.password && touched.password ? (
-                        <div className="absolute text-red-600 -bottom-6">
-                          {errors.password}
-                        </div>
-                      ) : null}
-                      {true ? (
-                        <div className="absolute text-red-600 -bottom-6"></div>
-                      ) : null}
                     </div>
 
                     {/* T&C */}
-                    <div className="w-full relative">
-                      <input
-                        name="rememberme"
-                        placeholder="rememberme"
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                        onBlur={handleBlur}
+                    <div className="w-full flex items-center mt-3">
+                      <Field
+                        name="termsCondition"
                         type="checkbox"
+                        className={`checkbox checkbox-primary ${
+                          errors.termsCondition && touched.termsCondition
+                            ? "border-red-600"
+                            : ""
+                        }`}
                       />
-                      <label htmlFor="" className="ml-3">
-                        <span className="text-secondary">Ingat saya</span>
-                      </label>
-                      <label
-                        htmlFor=""
-                        className="ml-3 absolute justify-between"
+
+                      <span className="text-secondary ml-3">Ingat saya</span>
+
+                      <span
+                        className="text-primary cursor-pointer ml-auto"
+                        onClick={() => forgotPasswordModalHandler(true)}
                       >
-                        <span
-                          className="text-primary cursor-pointer justify-between"
-                          onClick={() => forgotPasswordModalHandler(true)}
-                        >
-                          Lupa Kata Sandi?
-                        </span>
-                      </label>
+                        Lupa Kata Sandi?
+                      </span>
                     </div>
                     <Button
                       type="submit"
