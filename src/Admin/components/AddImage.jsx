@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
-import * as Yup from "yup";
-import { Formik, Field, Form } from "formik";
 import getCroppedImg from "../../Helpers/cropImage";
 import Cropper from "react-easy-crop";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import Loading from "../../User/Component/Loading";
+import { toast } from "react-toastify";
 
 function AddImage(props) {
-  const { setModalState, detailImage, setDetailImage, editId } = props;
+  const { setModalState, detailImage, setDetailImage } = props;
   let { photo } = detailImage;
   const initialCrop = { x: 0, y: 0 };
   const photoRef = useRef();
@@ -46,7 +45,7 @@ function AddImage(props) {
       seterrorMessage("");
       setSubmitClicked(true);
       if (!selectedImage.filePreview) {
-        throw { message: "Wajib unggah gambar produk" };
+        throw Object.assign(new Error("Wajib unggah gambar produk"));
       }
       if (!selectedImage.file) {
         setModalState(4);
@@ -59,15 +58,19 @@ function AddImage(props) {
       );
       var newFile = new File([file], "image.jpeg", { type: "image/jpeg" });
       setDetailImage({ photo: { file: newFile, filePreview: url } });
-      setLoading(false);
       setModalState(4);
     } catch (error) {
       console.log(error);
       seterrorMessage(error.message);
+      toast.error(error.message, {
+        theme: "colored",
+        style: { backgroundColor: "#DC2626" },
+      });
+    } finally {
       setLoading(false);
     }
   };
-  console.log(selectedImage?.filePreview);
+
   return (
     <div>
       {loading ? (

@@ -48,7 +48,7 @@ function DetailsPreview(props) {
       setLoading(false);
     }
   };
-  console.log("tambahin stock");
+
   return (
     <>
       <div className={`${loading ? "h-[200px]" : ""} w-full flex flex-col`}>
