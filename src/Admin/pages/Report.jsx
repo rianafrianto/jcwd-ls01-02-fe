@@ -28,6 +28,7 @@ function Report() {
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
   const [sinceDate, setSinceDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const getReport = async () => {
     try {
@@ -121,12 +122,12 @@ function Report() {
             </div>
           </div>
           <div className="w-full h-[800px] border shadow-lg rounded-lg overflow-hidden shadow-black/20 p-8 flex flex-col gap-y-5">
-            <div className="h-20 w-full flex justify-between items-end">
+            <div className="h-20 w-full flex items-end">
               <div className="flex flex-col gap-y-2 w-1/6">
                 <label htmlFor="category">Akun Kas</label>
                 <div className="mt-3">BCA xxxxxxxxxxxxx</div>
               </div>
-              <div className="flex flex-col gap-y-2 w-1/6 ml-10">
+              {/* <div className="flex flex-col gap-y-2 w-1/6 ml-10">
                 <label htmlFor="category">Tanggal</label>
                 <input
                   className={`field-input h-10`}
@@ -136,8 +137,30 @@ function Report() {
                   value={sinceDate}
                   onChange={(e) => setSinceDate(e.target.value)}
                 ></input>
+              </div> */}
+              <div className="flex flex-col gap-2 w-1/6 ">
+                <label htmlFor="sinceDate">Dari Tanggal</label>
+                <input
+                  name="sinceDate"
+                  type="date"
+                  placeholder="calender"
+                  className={`field-input h-10`}
+                  value={sinceDate}
+                  onChange={(e) => setSinceDate(e.target.value)}
+                />
               </div>
-              <div className="w-full flex gap-x-4 items-end ml-10">
+              <div className="flex flex-col gap-y-2 w-1/6 ml-10">
+                <label htmlFor="toDate">Sampai Tanggal</label>
+                <input
+                  name="toDate"
+                  type="date"
+                  placeholder="calender"
+                  className={`field-input h-10`}
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                />
+              </div>
+              {/* <div className="w-full flex gap-4 items-end ml-10">
                 <div className="flex flex-col gap-y-2">
                   <label htmlFor="terms">Cari Nama Obat</label>
                   <div className="w-80 flex h-10 rounded-lg overflow-hidden border bg-white">
@@ -163,7 +186,7 @@ function Report() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="w-full" />
             <div className="w-full h-[628px] flex flex-col">

@@ -65,24 +65,20 @@ function Prescription() {
       let formData = new FormData();
       formData.append("prescription_photo", selectedImage.file);
       let token = Cookies.get("token");
-      // await axios.post(`${API_URL}/transaction/prescription-photo`, formData, {
-      //   headers: {
-      //     authorization: token,
-      //   },
-      // });
-
+      await axios.post(`${API_URL}/transaction/upload-resep`, formData, {
+        headers: {
+          authorization: token,
+        },
+      });
+      toast.success(`Produk berhasil ditambahkan`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
       if (selectedImage.file.length == 0) {
         throw "Please select images to submit!";
       } else {
         setselectedImage({ ...selectedImage, file: [] });
       }
-      setTimeout(() => {
-        setSucceed(true);
-        toast.success("Photo berhasil diunggah!", {
-          theme: "colored",
-          style: { backgroundColor: "#009B90" },
-        });
-      }, 1000);
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -181,21 +177,21 @@ function Prescription() {
                   <label
                     htmlFor="prescription_photo"
                     type="button"
-                    className="w-1/3 mt-5 justify-center border h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
+                    className="w-1/3 justify-center border h-full mb-3 ml-80 bg-primary text-white hover:bg-teal-500 text-center mt-5"
                   >
                     Pilih File
                   </label>
                 </div>
               </div>
+              <div className="flex justify-end mt-5">
+                <Button
+                  type="submit"
+                  buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
+                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 ${"loading"}`}
+                  onClick={() => submitPhoto()}
+                />
+              </div>
             </div>
-          </div>
-          <div className="w-full flex justify-end">
-            <Button
-              type="submit"
-              buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
-              className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-40 mt-6  ${"loading"}`}
-              onClick={() => submitPhoto()}
-            />
           </div>
         </div>
       </div>
