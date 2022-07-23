@@ -76,6 +76,7 @@ function ModalDetails(props) {
         peringatan,
       });
       setDetails2({
+        stock,
         satuan: (() => {
           for (const sat of satuanList) {
             if (satuan === sat.content) return sat.value;

@@ -27,3 +27,11 @@ export const shortDateGenerator = (data) => {
   const year = current.getFullYear();
   return `${date}/${month}/${year}`;
 };
+
+export const newDateGenerator = () => {
+  const current = new Date();
+  const date = ("0" + current.getDate()).slice(-2);
+  const month = ("0" + (current.getMonth() + 1)).slice(-2);
+  const year = current.getFullYear().toString().substring(2);
+  return `${year}/${month}/${date}`;
+};

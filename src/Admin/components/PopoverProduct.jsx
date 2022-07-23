@@ -8,7 +8,7 @@ import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 
 function PopoverProduct(props) {
-  const { openModalEdit, id, setEditId } = props;
+  const { openModalEditOptions, id, setEditId } = props;
   const [deleteProduct, setDeleteProduct] = useState([]);
 
   const deleteSubmit = async (id) => {
@@ -20,6 +20,7 @@ function PopoverProduct(props) {
     }
   };
 
+  // const { openModalEditOptions, id, setEditId } = props;
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -41,11 +42,9 @@ function PopoverProduct(props) {
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                   onClick={() => {
-                    setEditId(id);
                     close();
-                    setTimeout(() => {
-                      openModalEdit();
-                    }, 500);
+                    setEditId(id);
+                    openModalEditOptions();
                   }}
                 >
                   <img src={editIcon} alt="" className="h-4" />

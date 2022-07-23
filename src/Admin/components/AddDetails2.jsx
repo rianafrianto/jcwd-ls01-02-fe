@@ -63,7 +63,7 @@ function AddDetails2(props) {
         } = formik;
         return (
           <Form id="form2">
-            <div className="h-full border-y w-full flex flex-col">
+            <div className="h-[340px] border-y w-full flex flex-col">
               <table>
                 <thead>
                   <tr>
@@ -73,37 +73,33 @@ function AddDetails2(props) {
                   </tr>
                 </thead>
                 <tbody className="">
-                  <tr>
-                    <th>
-                      {editId ? (
-                        "Tambah Kuantitas"
-                      ) : (
-                        <>
-                          Kuantitas
-                          <span className="text-red-700">*</span>
-                        </>
-                      )}
-                    </th>
-                    <td className="py-2">
-                      <Field
-                        name="stock"
-                        placeholder={
-                          editId
-                            ? "Masukkan tambahan kuantitas"
-                            : "Masukkan kuantitas"
-                        }
-                        type="number"
-                        className={`field-input h-8 rounded ${
-                          errors.stock && touched.stock
-                            ? "outline-red-700"
-                            : null
-                        }`}
-                      />
-                    </td>
-                    <td className="text-red-600 pl-5">
-                      {errors.stock && touched.stock && errors.stock}
-                    </td>
-                  </tr>
+                  {editId ? null : (
+                    <tr>
+                      <th>
+                        {`Kuantitas (stok)`}
+                        <span className="text-red-700">*</span>
+                      </th>
+                      <td className="py-2">
+                        <Field
+                          name="stock"
+                          placeholder={
+                            editId
+                              ? "Masukkan tambahan kuantitas"
+                              : "Masukkan kuantitas"
+                          }
+                          type="number"
+                          className={`field-input h-8 rounded ${
+                            errors.stock && touched.stock
+                              ? "outline-red-700"
+                              : null
+                          }`}
+                        />
+                      </td>
+                      <td className="text-red-600 pl-5">
+                        {errors.stock && touched.stock && errors.stock}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <th>
                       Satuan
