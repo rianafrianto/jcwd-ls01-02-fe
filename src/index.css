@@ -5,7 +5,7 @@
 
 @layer components {
   .button-general {
-    @apply py-2 rounded-lg flex justify-center items-center btn-plain cursor-pointer text-sm  focus:outline-black focus:outline-2;
+    @apply py-2 rounded-lg flex justify-center items-center btn-plain cursor-pointer text-sm focus:outline-black focus:outline-2;
   }
   .span-general {
     @apply btn-plain cursor-pointer text-sm  focus:underline;
@@ -131,4 +131,13 @@ code {
     #f7fcfc 45.77%,
     #f1f5fc 117.72%
   );
+}
+
+.bayangan {
+  box-shadow: 0px 2px 3px 2px rgba(0, 0, 0, 0.08),
+    0px 4px 12px 4px rgba(0, 0, 0, 0.08);
+}
+
+.bayangan-none {
+  box-shadow: 0px 0px 0px 0px rgba(96, 33, 33, 0.08);
 }

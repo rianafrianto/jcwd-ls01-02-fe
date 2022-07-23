@@ -32,7 +32,7 @@ function Home() {
     <div className="h-full w-full bg-white flex justify-center pt-20">
       <div className="container h-full flex flex-col px-10 lg:px-24 py-11 gap-y-14">
         <div className="w-full h-60 border border-black">Jumbotron</div>
-        <div className="w-full h-40 bg-white rounded-xl shadow-md border px-7 flex justify-end items-center relative overflow-hidden">
+        <div className="w-full h-40 bg-white rounded-xl shadow-custom-lg border px-7 flex justify-end items-center relative overflow-hidden">
           <img src={uploadResep} alt="" className="absolute left-0 top-0" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/4 flex flex-col gap-y-3">
             <h3 className="text-xl font-bold text-secondary">
@@ -146,7 +146,7 @@ function Home() {
             </div>
           </div>
           <div className="w-full h-full flex gap-x-4">
-            <div className="w-1/3 h-48 rounded-2xl shadow-md border flex justify-center items-center gap-x-9">
+            <div className="w-1/3 h-48 rounded-2xl shadow-custom-lg border flex justify-center items-center gap-x-9">
               <img src={obatAsli} alt="" className="h-20" />
               <div className="h-24 w-52 flex flex-col gap-y-2">
                 <h3 className="font-bold text-secondary text-xl">
@@ -158,7 +158,7 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="w-1/3 h-48 rounded-2xl shadow-md border flex justify-center items-center gap-x-9">
+            <div className="w-1/3 h-48 rounded-2xl shadow-custom-lg border flex justify-center items-center gap-x-9">
               <img src={dijaminHemat} alt="" className="h-24" />
               <div className="h-24 w-44 flex flex-col gap-y-2">
                 <h3 className="font-bold text-secondary text-xl">
@@ -170,7 +170,7 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="w-1/3 h-48 rounded-2xl shadow-md border flex justify-center items-center gap-x-9">
+            <div className="w-1/3 h-48 rounded-2xl shadow-custom-lg border flex justify-center items-center gap-x-9">
               <img src={gratisOngkir} alt="" className="h-14" />
               <div className="h-24 w-48 flex flex-col gap-y-2">
                 <h3 className="font-bold text-secondary text-xl">

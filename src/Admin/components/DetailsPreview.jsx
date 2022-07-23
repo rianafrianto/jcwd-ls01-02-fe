@@ -16,6 +16,7 @@ function DetailsPreview(props) {
     setModalState,
     finalSubmit,
     detailsId,
+    editId,
   } = props;
   const {
     name,
@@ -47,6 +48,7 @@ function DetailsPreview(props) {
       setLoading(false);
     }
   };
+
   return (
     <>
       <div className={`${loading ? "h-[200px]" : ""} w-full flex flex-col`}>
@@ -78,12 +80,14 @@ function DetailsPreview(props) {
                 <span className="w-2/5 font-bold">Golongan Produk</span>
                 <span className="w-3/5">{golList[golongan]}</span>
               </div>
-              <div className="w-full flex">
-                <span className="w-2/5 font-bold">Tanggal Kadaluarsa</span>
-                <span className="w-3/5">
-                  {shortDateGenerator(tgl_kadaluarsa)}
-                </span>
-              </div>
+              {editId || detailsId ? null : (
+                <div className="w-full flex">
+                  <span className="w-2/5 font-bold">Tanggal Kadaluarsa</span>
+                  <span className="w-3/5">
+                    {shortDateGenerator(tgl_kadaluarsa)}
+                  </span>
+                </div>
+              )}
               <div className="w-full flex">
                 <span className="w-2/5 font-bold">Indikasi Produk</span>
                 <span className="w-3/5">{indikasi}</span>
@@ -108,13 +112,11 @@ function DetailsPreview(props) {
                 <span className="w-2/5 font-bold">Peringatan</span>
                 <span className="w-3/5">{peringatan}</span>
               </div>
-              {stock ? (
+              {editId ? null : (
                 <div className="w-full flex">
-                  <span className="w-2/5 font-bold">Kuantitas Tambahan</span>
+                  <span className="w-2/5 font-bold">{`Kuantitas (stok)`}</span>
                   <span className="w-3/5">{stock}</span>
                 </div>
-              ) : (
-                ""
               )}
               <div className="w-full flex">
                 <span className="w-2/5 font-bold">Satuan</span>

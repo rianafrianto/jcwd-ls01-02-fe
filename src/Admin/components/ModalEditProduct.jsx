@@ -13,6 +13,7 @@ import {
   golonganList,
   satuanList,
 } from "../../Helpers/categoryList";
+import Loading from "../../User/Component/Loading";
 
 function ModalEditProduct(props) {
   const { modalEdit, closeModalEdit, editId, setEditId } = props;
@@ -46,6 +47,7 @@ function ModalEditProduct(props) {
   const [details1, setDetails1] = useState(initialState1);
   const [details2, setDetails2] = useState(initialState2);
   const [detailImage, setDetailImage] = useState(initialState3);
+  const [loading, setLoading] = useState(true);
 
   const cancel = () => {
     closeModalEdit();
@@ -60,6 +62,8 @@ function ModalEditProduct(props) {
 
   const getDetails = async () => {
     try {
+      console.log("fetch");
+      setLoading(true);
       const res = await axios.get(`${API_URL}/admin/product-details`, {
         params: { id: editId },
       });
@@ -128,6 +132,8 @@ function ModalEditProduct(props) {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -163,6 +169,7 @@ function ModalEditProduct(props) {
       case 1:
         return (
           <AddDetails1
+            editId={editId}
             details1={details1}
             setDetails1={setDetails1}
             setModalState={setModalState}
@@ -203,8 +210,8 @@ function ModalEditProduct(props) {
   };
 
   useEffect(() => {
-    if (editId) getDetails();
-  }, [editId]);
+    if (editId && modalEdit) getDetails();
+  }, [editId, modalEdit]);
 
   return (
     <Transition appear show={modalEdit} as={Fragment}>
@@ -237,7 +244,7 @@ function ModalEditProduct(props) {
                   as="div"
                   className="h-10 w-full flex justify-center text-2xl items-center relative"
                 >
-                  <h1 className="font-bold">Edit Produk</h1>
+                  <h1 className="font-bold">Ubah Detail Produk</h1>
 
                   <button
                     className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-2 py-2 absolute right-0"
@@ -292,7 +299,7 @@ function ModalEditProduct(props) {
                     </ul>
                   </div>
                 </div>
-                {printForm(modalState)}
+                {loading ? <Loading /> : printForm(modalState)}
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -197,7 +197,7 @@ function Checkout() {
         <div className="container h-full flex flex-col px-24 py-11">
           <div className="w-full flex gap-x-16">
             <div className="flex flex-col gap-y-7 w-4/6">
-              <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg shadow-lg p-5 border">
+              <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg bayangan p-5 border">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">
                   Alamat Pengiriman
                 </h1>
@@ -235,7 +235,7 @@ function Checkout() {
                 </div>
                 <CardCart />
               </div>
-              <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 shadow-lg border">
+              <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">
                   Pilih Metode Pengiriman{" "}
                 </h1>
@@ -266,7 +266,7 @@ function Checkout() {
                 </div>
               </div>
             </div>
-            <div className="w-2/6 h-full  flex flex-col p-7 border rounded-lg shadow-lg">
+            <div className="w-2/6 h-full  flex flex-col p-7 border rounded-lg bayangan">
               <div className="h-full w-full bg-white flex flex-col gap-y-5">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">
                   Total
