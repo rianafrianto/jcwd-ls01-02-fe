@@ -40,13 +40,10 @@ export const newAddressAction = (data) => {
         style: { backgroundColor: "#009B90" },
       });
       if (data.primaryAddress) {
-        console.log("ada primary");
-        console.log(res);
         dispatch({
           type: "CHANGEADDRESS",
           payload: res.data.data?.address_id,
         });
-        console.log("ubah ada primary");
       }
       return res;
     } catch (error) {
@@ -59,7 +56,7 @@ export const getPrimaryAddress = (data) => {
   return async (dispatch) => {
     try {
       let token = Cookies.get("token");
-      const res = await axios.get(`${API_URL}/transaction/primary-address`, {
+      const res = await axios.get(`${API_URL}/profile/primary-address`, {
         headers: { authorization: token },
         params: { address_id: data },
       });

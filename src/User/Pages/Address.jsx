@@ -19,7 +19,6 @@ function Address() {
     { content: "Kota/Kabupaten", value: 0 },
   ]);
   const [cityId, setCityId] = useState(0);
-  const [kodePos, setKodePos] = useState("");
 
   const initialValues = {
     label: "",
@@ -29,7 +28,7 @@ function Address() {
     provinsi: "",
     kota: "",
     alamat: "",
-    kode_pos: kodePos,
+    kode_pos: "",
     primaryAddress: false,
   };
 
@@ -46,7 +45,9 @@ function Address() {
       .matches(/^[0-9]*$/, "Hanya menggunakan angka"),
     provinsi: Yup.string().required("Wajib diisi"),
     kota: Yup.string().required("Wajib diisi"),
-    kode_pos: Yup.string().required("Wajib diisi"),
+    kode_pos: Yup.string()
+      .required("Wajib diisi")
+      .length(5, "Format kode pos tidak sesuai"),
     alamat: Yup.string().required("Wajib diisi"),
   });
 
@@ -61,6 +62,7 @@ function Address() {
       console.log(error);
     }
   };
+
   const getCity = async () => {
     try {
       let res = await axios.get(
@@ -78,6 +80,7 @@ function Address() {
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       dispatch({ type: "LOADING" });
+      console.log({ values });
       console.log(values.primaryAddress);
       await dispatch(newAddressAction(values));
       navigate("/checkout");
@@ -93,15 +96,7 @@ function Address() {
     if (!isLogin) navigate("/home");
     if (!provinces[0]) getProvince();
     if (provinceId) getCity();
-    if (cityId)
-      setKodePos(() => {
-        for (let val of cities) {
-          // === atau == ????
-          if (val?.value === cityId) {
-            return val.kode_pos;
-          }
-        }
-      });
+
     // eslint-disable-next-line
   }, [provinceId, cityId]);
 
@@ -125,7 +120,7 @@ function Address() {
                 touched,
                 values,
               } = formik;
-              if (kodePos) formik.values.kode_pos = kodePos;
+
               return (
                 <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
                   {/* Label*/}

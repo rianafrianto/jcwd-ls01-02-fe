@@ -56,7 +56,7 @@ function Checkout() {
     try {
       let token = Cookies.get("token");
       setLoadingPrimaryAddress(true);
-      const res = await axios.get(`${API_URL}/transaction/primary-address`, {
+      const res = await axios.get(`${API_URL}/profile/primary-address`, {
         headers: { authorization: token },
         params: { address_id: data },
       });
@@ -140,7 +140,7 @@ function Checkout() {
       );
     });
   };
-  console.log("edit alamat, nge-get dulu pas mau ganti alamat");
+
   const printCourierOptions = () => {
     return listCourier.map((val, i) => {
       return (
