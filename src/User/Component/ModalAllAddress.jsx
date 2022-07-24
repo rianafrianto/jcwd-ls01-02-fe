@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import API_URL from "../../Helpers/API_URL";
 import CardAddress from "./CardAddress";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Loading from "./Loading";
 import { Dialog, Transition } from "@headlessui/react";
-import Address from "../Pages/Address";
 import EditAddress from "./EditAddress";
 
 function ModalAllAddress(props) {
@@ -31,17 +30,19 @@ function ModalAllAddress(props) {
   const [address, setAddress] = useState(true);
   const [selectedEditAddress, setSelectedEditAddress] = useState(null);
 
-  const { address_id } = useSelector((state) => state.user);
-
   const changePrimaryAddress = async (data) => {
     try {
       let token = Cookies.get("token");
       setLoadingAllAddress(true);
-      await axios.patch(`${API_URL}/profile/change-primary-address`, data, {
-        headers: { authorization: token },
-      });
-
+      const res = await axios.patch(
+        `${API_URL}/profile/change-primary-address`,
+        data,
+        {
+          headers: { authorization: token },
+        }
+      );
       dispatch({ type: "CHANGEADDRESS", payload: data.id });
+      setDataAddresses(res.data.data);
       toast.success(`Alamat utama telah diganti`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
@@ -83,7 +84,7 @@ function ModalAllAddress(props) {
     try {
       let token = Cookies.get("token");
       setLoadingAllAddress(true);
-      const res = await axios.get(`${API_URL}/transaction/all-addresses`, {
+      const res = await axios.get(`${API_URL}/profile/all-addresses`, {
         headers: { authorization: token },
       });
       console.log(res.data.data);
@@ -129,7 +130,7 @@ function ModalAllAddress(props) {
               Ubah Alamat
             </span>
             <div className="h-full border-r " />
-            {address_id === val.id ? (
+            {val.primary_address ? (
               <span className="text-primary font-bold text-sm h-full">
                 Alamat Utama
               </span>
@@ -202,6 +203,9 @@ function ModalAllAddress(props) {
                       data={selectedEditAddress}
                       switchModal={switchModal}
                       address={address}
+                      setDataAddresses={setDataAddresses}
+                      setLoadingAllAddress={setLoadingAllAddress}
+                      loadingAllAddress={loadingAllAddress}
                     />
                   )}
                   {address ? (

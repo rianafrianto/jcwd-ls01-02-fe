@@ -22,7 +22,7 @@ function ModalImageCropper({
     if (image.type === "ava") {
       setObjectFit("vertical-cover");
       setAspect(1);
-      setShape("round");
+      setShape("shape");
     } else {
       setObjectFit("horizontal-cover");
       setAspect(16 / 9);
@@ -48,7 +48,7 @@ function ModalImageCropper({
     var newFile = new File([file], "image.jpeg", { type: "image/jpeg" });
     if (image.type === "ava") {
       setPicture({ ...picture, ava: { file: newFile, url } });
-    } else if (image.type === "cover") {
+    } else if (image.type === "RECEIPE") {
       setPicture({ ...picture, cover: { file: newFile, url } });
     } else {
       setPicture({ file: newFile, url });

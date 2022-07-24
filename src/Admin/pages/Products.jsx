@@ -142,7 +142,13 @@ function Products() {
                     setDetailsId(val.id);
                   }}
                 >
-                  Lihat Detail
+                  Detail Produk
+                </button>
+                <button
+                  className="button-primary h-8 w-full"
+                  onClick={() => {}}
+                >
+                  Detail Stok
                 </button>
                 <PopoverProduct
                   openModalEditOptions={openModalEditOptions}
@@ -357,7 +363,7 @@ function Products() {
                         <th className="w-24">Satuan</th>
                         <th className="w-40">Nilai Barang</th>
                         <th className="w-36">Nilai Jual</th>
-                        <th className="w-36">Atur</th>
+                        <th className="w-72">Atur</th>
                       </tr>
                     </thead>
                     <tbody>{printRow(products)}</tbody>
