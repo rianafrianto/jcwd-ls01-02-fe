@@ -70,10 +70,11 @@ function Prescription() {
           authorization: token,
         },
       });
-      toast.success(`Produk berhasil ditambahkan`, {
+      toast.success(`Resep berhasil ditambahkan`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
+      setUploadSuccess(true);
       if (selectedImage.file.length == 0) {
         throw "Please select images to submit!";
       } else {

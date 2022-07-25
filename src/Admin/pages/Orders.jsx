@@ -32,7 +32,7 @@ function Orders() {
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [order, setOrder] = useState("ORDER BY o.id ASC");
-
+  console.log(status);
   const getOrders = async () => {
     try {
       setLoading(true);

@@ -3,6 +3,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  SearchIcon,
 } from "@heroicons/react/outline";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
@@ -14,10 +15,10 @@ import {
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
 
-function Report() {
+function ProductStock() {
   const initialTerms = "";
   const [loading, setLoading] = useState(false);
-  const [report, setReport] = useState([]);
+  const [products, setProducts] = useState([]);
   const [terms, setTerms] = useState(initialTerms);
   const [order, setOrder] = useState("ORDER BY id ASC");
   let [page, setPage] = useState(0);
@@ -29,14 +30,14 @@ function Report() {
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  const getReport = async () => {
+  const getProductStock = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/admin/report`, {
+      const res = await axios.get(`${API_URL}/admin/product-stock`, {
         params: { terms, page, limit, order },
       });
-      console.log(res.data.data.report);
-      setReport(res.data.data.report);
+      console.log(res.data.data.products);
+      setProducts(res.data.data.products);
       setTotal(res.data.data.total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
       setMinPage(0);
@@ -159,33 +160,6 @@ function Report() {
                   onChange={(e) => setToDate(e.target.value)}
                 />
               </div>
-              {/* <div className="w-full flex gap-4 items-end ml-10">
-                <div className="flex flex-col gap-y-2">
-                  <label htmlFor="terms">Cari Nama Obat</label>
-                  <div className="w-80 flex h-10 rounded-lg overflow-hidden border bg-white">
-                    <input
-                      type="text"
-                      name="terms"
-                      id="terms"
-                      className="w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none"
-                      placeholder="Masukkan Nama Obat"
-                      value={terms}
-                      onChange={(e) => setTerms(e.target.value)}
-                    />
-                    <button
-                      className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"
-                      onClick={() => {
-                        if (terms !== "") {
-                          setPage(0);
-                          getReport();
-                        }
-                      }}
-                    >
-                      <SearchIcon className="h-full scale-50 text-white" />
-                    </button>
-                  </div>
-                </div>
-              </div> */}
             </div>
             <div className="w-full" />
             <div className="w-full h-[628px] flex flex-col">
@@ -289,4 +263,4 @@ function Report() {
   );
 }
 
-export default Report;
+export default ProductStock;

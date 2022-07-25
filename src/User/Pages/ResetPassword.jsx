@@ -8,7 +8,7 @@ import Button from "../Component/Button";
 import signupImage from "../../Assets/signup-image.png";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import logoImage from "../../Assets/logo-1.png";
+import logo from "../../Assets/logo.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import passwordIcon from "../../Assets/password-icon.png";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
@@ -106,10 +106,10 @@ function ResetPassword() {
       <div className="w-screen h-screen flex bg-white">
         <div className="w-1/2 h-full flex justify-center items-center relative">
           <i
-            className="w-1/6 min-h-min border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
+            className="btn-plain w-1/6 min-h-min border-neutral-gray border-1 hover:bg-white cursor-pointer absolute left-10 top-10"
             onClick={() => navigate("/home")}
           >
-            <img src={logoImage} alt="" />
+            <img src={logo} alt="" />
           </i>
           <img
             src={signupImage}

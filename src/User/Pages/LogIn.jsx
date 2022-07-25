@@ -16,6 +16,7 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
 import googleIcon from "../../Assets/google-icon.png";
 import FormikControl from "../Component/Formik/FormikControl";
+import logo from "../../Assets/logo.png";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -93,10 +94,10 @@ function LogIn() {
       <div className="w-screen h-screen flex bg-white">
         <div className="w-1/2 h-full border flex justify-center items-center relative">
           <i
-            className="w-1/6 min-h-min cursor-pointer absolute left-10 top-10 z-10"
+            className="btn-plain w-1/6 min-h-min z-10 cursor-pointer absolute left-10 top-10"
             onClick={() => navigate("/")}
           >
-            <img src={logoImage} alt="" className="outline-none" />
+            <img src={logo} alt="" />
           </i>
           <img
             src={signupImage}
