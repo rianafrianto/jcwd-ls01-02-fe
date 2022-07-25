@@ -21,6 +21,10 @@ import CardMiniJumbotron from "../Component/CardMiniJumbotron";
 import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
 import { ArrowRightIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import CategoryCarouselMobile from "../Component/Carousel/Carousels/CategoryCarouselMobile";
+import NavbarHomeMobile from "../Component/NavbarHomeMobile";
+import NavbarMobile from "../Component/NavbarMobile";
+import PromoCarMobile from "../Component/Carousel/Carousels/PromoCarMobile";
+import ProdCatCarMobile from "../Component/Carousel/Carousels/ProdCatCarMobile";
 
 function Home() {
   const navigate = useNavigate();
@@ -32,9 +36,11 @@ function Home() {
   }, []);
 
   return (
-    <div className="h-full w-full bg-white flex justify-center pb-14 lg:pb-0 pt-20">
+    <div className="h-full w-full bg-white flex justify-center pb-14 lg:pb-0 pt-20 scrollbar-hide sm:scrollbar-default">
+      <NavbarHomeMobile />
+      <NavbarMobile />
       <div className="container h-full flex flex-col px-5 sm:px-10 lg:px-24 py-11 gap-y-6 lg:gap-y-14">
-        <div className="w-full h-32 lg:h-60 border border-black">Jumbotron</div>
+        <div className="w-full h-32 lg:h-60 rounded-xl bg-primary"></div>
 
         {/* mobile */}
         <div className="flex lg:hidden w-full bg-white flex-col gap-y-4">
@@ -88,7 +94,7 @@ function Home() {
               Lihat Semua
             </Link>
           </div>
-          <div className="h-24 flex items-center w-full overflow-x-scroll">
+          <div className="h-24 flex items-center w-full overflow-x-scroll scrollbar-hide">
             <CategoryCarouselMobile />
           </div>
         </div>
@@ -106,10 +112,10 @@ function Home() {
           </div>
           <CategoryCarousel className="" />
         </div>
-        <div className="w-full border-t border-neutral-gray" />
+        <div className="hidden sm:block w-full border-t border-neutral-gray" />
 
         {/* mobile */}
-        <div className="flex lg:hidden w-full h-[300px] flex-col gap-y-4">
+        <div className="flex lg:hidden w-full h-[350px] flex-col gap-y-4 ">
           <div className="flex justify-between items-end">
             <div className="text-sm text-secondary font-bold">
               Kejar Diskon Hari Ini
@@ -118,10 +124,10 @@ function Home() {
               className="text-xs text-primary font-bold"
               to={`/category/all`}
             >
-              Lihat Semua
+              `` Lihat Semua
             </Link>
           </div>
-          <div className="h-[270px] flex relative -mx-5">
+          <div className="h-[300px] flex relative -mx-5">
             <div
               className={`h-full w-full bg-gradient-to-t from-[#7FB4C3] to-[#B0E7E8] absolute overflow-hidden duration-1000 ${
                 !firstScroll ? "-translate-x-full opacity-0" : ""
@@ -136,11 +142,8 @@ function Home() {
                 Yuk Buruan Ikutan!
               </p>
             </div>
-            <div className="z-10 w-full h-full pt-7">
-              {/* <PromoCarousel
-                firstScroll={firstScroll}
-                setFirstScroll={setFirstScroll}
-              /> */}
+            <div className="h-full flex items-center w-full overflow-x-scroll scrollbar-hide z-10 py-5">
+              <PromoCarMobile />
             </div>
           </div>
         </div>
@@ -181,7 +184,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full border-t border-neutral-gray" />
+        <div className="hidden sm:block w-full border-t border-neutral-gray" />
         {/* both */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
           <CardMiniJumbotron
@@ -199,24 +202,27 @@ function Home() {
             paragraph={`Lengkapi kebutuhan gizi & asupan saat puasa`}
           />
         </div>
-        <div className="w-full border-t border-neutral-gray" />
+        <div className="hidden sm:block w-full border-t border-neutral-gray" />
         <div className="w-full bg-white flex flex-col gap-y-7">
           <div className="flex justify-between items-end">
-            <div className="text-2xl text-secondary font-bold">
+            <div className="text-sm sm:text-2xl text-secondary font-bold">
               Produk Lainnya
             </div>
             <Link
-              className="text-sm text-primary font-bold"
+              className="text-xs sm:text-sm text-primary font-bold"
               to={`/category/all`}
             >
               Lihat Semua
             </Link>
           </div>
-          <div className="z-10 w-full h-full">
+          <div className="hidden sm:block z-10 w-full h-full">
             <ProdCatCarousel category={"semua"} />
           </div>
+          <div className="h-full flex sm:hidden items-center w-screen overflow-x-scroll scrollbar-hide z-10 p-5 -mx-5">
+            <ProdCatCarMobile category={"semua"} />
+          </div>
         </div>
-        <div className="w-full border-t border-neutral-gray" />
+        <div className="hidden sm:block w-full border-t border-neutral-gray" />
         <div className="w-full bg-white flex flex-col gap-y-7">
           <div className="flex justify-between items-end">
             <div className="text-sm lg:text-2xl text-secondary font-bold">
@@ -224,10 +230,10 @@ function Home() {
             </div>
           </div>
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="w-full h-32 lg:h-48 rounded-lg lg:rounded-2xl shadow-custom-lg border flex justify-between items-center px-8 lg:px-0 lg:gap-x-9">
+            <div className="mini-jumbotron">
               <img src={obatAsli} alt="" className="h-14 lg:h-20" />
-              <div className="h-14 lg:h-24 w-52 lg:w-52 flex flex-col gap-y-2">
-                <h3 className="font-bold text-secondary text-sm lg:text-xl">
+              <div className="h-14 lg:h-24 w-52 lg:w-52 flex flex-col gap-y-2 text-secondary">
+                <h3 className="font-bold  text-sm lg:text-xl">
                   100% Obat Asli
                 </h3>
                 <p className="text-xs lg:text-sm">
@@ -236,24 +242,20 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="w-full h-32 lg:h-48 rounded-lg lg:rounded-2xl shadow-custom-lg border flex justify-between items-center px-8 lg:px-0 lg:gap-x-9">
+            <div className="mini-jumbotron">
               <img src={dijaminHemat} alt="" className="h-14 lg:h-24" />
-              <div className="h-14 lg:h-24 w-52 lg:w-44 flex flex-col gap-y-2">
-                <h3 className="font-bold text-secondary text-sm lg:text-xl">
-                  Dijamin Hemat
-                </h3>
+              <div className="h-14 lg:h-24 w-52 lg:w-44 flex flex-col gap-y-2 text-secondary">
+                <h3 className="font-bold text-sm lg:text-xl">Dijamin Hemat</h3>
                 <p className="text-xs lg:text-sm">
                   Kami menjamin akan mengembalikan uang dari selisih perbedaan
                   harga.
                 </p>
               </div>
             </div>
-            <div className="w-full h-32 lg:h-48 rounded-lg lg:rounded-2xl shadow-custom-lg border flex justify-between items-center px-8 lg:px-0 lg:gap-x-9">
+            <div className="mini-jumbotron">
               <img src={gratisOngkir} alt="" className="h-8 lg:h-14" />
-              <div className="h-14 lg:h-24 w-52 lg:w-48 flex flex-col gap-y-2">
-                <h3 className="font-bold text-secondary text-sm lg:text-xl">
-                  Gratis Ongkir
-                </h3>
+              <div className="h-14 lg:h-24 w-52 lg:w-48 flex flex-col gap-y-2 text-secondary">
+                <h3 className="font-bold text-sm lg:text-xl">Gratis Ongkir</h3>
                 <p className="text-xs lg:text-sm">
                   Tak perlu antre, Kami kirim ke alamat Anda bebas biaya ongkos
                   kirim!

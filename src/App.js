@@ -96,14 +96,7 @@ function App() {
       location.pathname.match("/reset-password/") ? null : (
         <Footer />
       )}
-      {location.pathname === "/login" ||
-      location.pathname === "/register" ||
-      location.pathname === "/unverified" ||
-      location.pathname.match("/verification/") ||
-      location.pathname.match("/admin") ||
-      location.pathname.match("/reset-password/") ? null : (
-        <NavbarMobile />
-      )}
+
       <ToastContainer
         pauseOnFocusLoss={false}
         autoClose={3000}

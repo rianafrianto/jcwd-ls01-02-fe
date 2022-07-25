@@ -13,7 +13,7 @@ function NavbarMobile() {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <div className="w-full h-20 sm:hidden fixed bottom-0 z-40 grid grid-cols-5">
+    <div className="w-full h-20 sm:hidden fixed bottom-0 z-40 grid grid-cols-5 bg-white  overflow-hidden">
       <button
         className="btn-plain flex flex-col justify-center items-center"
         onClick={() => navigate("/")}
@@ -77,7 +77,7 @@ function NavbarMobile() {
       </button>
       <button
         className="btn-plain flex flex-col justify-center items-center"
-        onClick={() => navigate()}
+        onClick={() => {}}
       >
         <MdHeadsetMic className="h-7 aspect-square" />
         <span

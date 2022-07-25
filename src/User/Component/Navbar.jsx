@@ -19,16 +19,10 @@ function Navbar() {
   const [dropdown, setDropdown] = useState(false);
 
   return (
-    <div className="bg-white w-full h-24 md:h-20 flex justify-center items-center fixed z-50 shadow-custom-lg">
+    <div className="bg-white w-full h-20 hidden sm:flex justify-center items-center fixed z-50 shadow-custom-lg">
       {dropdown && <Dropdown dropdown={dropdown} setDropdown={setDropdown} />}
-      <div className="container h-full flex justify-between items-end pb-3 md:pb-0 md:items-center px-5 sm:px-10 lg:px-20 gap-x-2 lg:gap-x-16">
-        <div className="w-5/6 h-11 flex items-center gap-x-2 lg:gap-x-9">
-          <button
-            className="btn-plain h-10 aspect-square flex sm:hidden"
-            onClick={() => navigate(-1)}
-          >
-            <ChevronLeftIcon className="h-full scale-75" />
-          </button>
+      <div className="container h-full flex justify-between items-center px-5 sm:px-10 lg:px-20 gap-x-2 lg:gap-x-16">
+        <div className="w-5/6 h-11 flex items-center gap-x-9">
           <button
             className="hidden lg:block btn-plain object-cover w-44"
             onClick={() => navigate("/")}
