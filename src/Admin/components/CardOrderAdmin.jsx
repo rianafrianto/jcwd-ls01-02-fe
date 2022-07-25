@@ -44,7 +44,7 @@ function CardOrderAdmin({ data, getOrders }) {
         data={data}
         getOrders={getOrders}
       />
-      <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-custom">
         <div
           className={`w-full h-14 flex justify-between items-center border-l-8 px-7 duration-300 ${
             checked ? "border-primary" : "border-white"

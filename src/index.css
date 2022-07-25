@@ -28,6 +28,9 @@
   .filter-search-bar {
     @apply w-full h-full pl-5 rounded-l-lg focus:border-primary focus:border-2 focus:outline-none;
   }
+  .mini-jumbotron {
+    @apply w-full h-32 lg:h-48 rounded-lg lg:rounded-2xl shadow-custom-lg border flex justify-between items-center px-8 lg:px-0 lg:gap-x-9;
+  }
 }
 
 html {

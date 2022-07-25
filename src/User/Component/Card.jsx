@@ -8,14 +8,14 @@ import { toast } from "react-toastify";
 import defaultProduct from "../../Assets/default-product.png";
 import axios from "axios";
 
-function Card({ data }) {
+function Card({ data, imgStyling }) {
   const { isLogin } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
 
   return (
     <div
-      className="h-full relative bg-white border p-5 flex flex-col rounded-xl shadow-custom-lg items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
+      className="h-full relative bg-white border p-2 sm:p-5 flex flex-col rounded-xl shadow-custom-lg items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
       onClick={() => navigate(`/category/${data.category}/${link}`)}
     >
       <button
@@ -32,14 +32,14 @@ function Card({ data }) {
           // }
         }}
       >
-        <HeartIcon className="text-neutral-gray h-8" />
+        <HeartIcon className="text-neutral-gray h-5 sm:h-8" />
       </button>
       <div className="flex flex-col items-start w-full">
         <figure className="w-full flex justify-center">
           <img
             src={data.photo ? API_URL + data.photo : defaultProduct}
             alt={defaultProduct}
-            className="h-36 aspect-square"
+            className={`${imgStyling} aspect-square`}
           />
         </figure>
         <div className="flex flex-col gap-y-2 text-secondary w-full">

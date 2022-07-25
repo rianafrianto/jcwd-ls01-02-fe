@@ -2,10 +2,10 @@ import React from "react";
 import Slider from "react-slick";
 
 function CarouselSlider(props) {
-  let { settings, printFunc } = props;
+  let { settings, printFunc, className } = props;
 
   return (
-    <Slider {...settings} className="group">
+    <Slider {...settings} className={`${className} group `}>
       {printFunc()}
     </Slider>
   );
