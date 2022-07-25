@@ -82,7 +82,7 @@ function App() {
         <Route path="/myaccount/:tab" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
         <Route path="/unverified" element={<Unverified />} />
-        <Route path="/search/:category" element={<Search />} />
+        {/* <Route path="/search/:category" element={<Search />} /> */}
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />

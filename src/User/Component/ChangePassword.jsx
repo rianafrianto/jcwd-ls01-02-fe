@@ -26,15 +26,15 @@ function ChangePassword({ changePassword, setChangePassword }) {
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old Password is required"),
     newPassword: Yup.string()
-      .min(8, "Password is too short - minimimum of 8 characters.")
+      .min(8, "Password is too short - minimimum of 8 characters")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?\^\(\)\-\_\+\=])/,
-        "Must also contain uppercase, number, and special character (ex. !, #)."
+        "Must also contain uppercase, number, and special character"
       )
       .required("Password is required!"),
     confirmationPassword: Yup.string()
-      .oneOf([Yup.ref("newPassword"), null], "Passwords do not match.")
-      .required("Passwords do not match."),
+      .oneOf([Yup.ref("newPassword"), null], "Passwords do not match")
+      .required("Passwords do not match"),
   });
 
   const onSubmit = async (values, onSubmit) => {
@@ -86,7 +86,7 @@ function ChangePassword({ changePassword, setChangePassword }) {
         <div className="h-1/7 flex items-center font-semibold justify-between">
           Ganti Kata sandi:
           <button
-            className="h-6 aspect-square border border-gray-700 flex items-center justify-center hover:bg-gray-700"
+            className="h-6 aspect-square flex items-center justify-center hover:bg-teal-500 hover:text-white"
             onClick={() => setChangePassword(false)}
           >
             x
@@ -105,7 +105,7 @@ function ChangePassword({ changePassword, setChangePassword }) {
             return (
               <Form>
                 <div className="h-4/6 mb-3">
-                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-2">
+                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-4">
                     <label htmlFor="" className="font-bold">
                       Old Password:
                     </label>
@@ -133,16 +133,16 @@ function ChangePassword({ changePassword, setChangePassword }) {
                       )}
                     </button>
                     {errors.oldPassword && touched.oldPassword ? (
-                      <div className="absolute text-red-600 -bottom-6">
+                      <div className="absolute text-red-600 -bottom-4 text-xs">
                         {errors.oldPassword}
                       </div>
                     ) : null}
                     {true ? (
-                      <div className="absolute text-red-600 -bottom-6"></div>
+                      <div className="absolute text-red-600 -bottom-4 text-xs"></div>
                     ) : null}
                   </div>
 
-                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-2">
+                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-4">
                     <label htmlFor="" className="font-bold">
                       New Password:
                     </label>
@@ -170,16 +170,16 @@ function ChangePassword({ changePassword, setChangePassword }) {
                       )}
                     </button>
                     {errors.newPassword && touched.newPassword ? (
-                      <div className="absolute text-red-600 -bottom-6">
+                      <div className="absolute text-red-600 -bottom-4 text-xs">
                         {errors.newPassword}
                       </div>
                     ) : null}
                     {true ? (
-                      <div className="absolute text-red-600 -bottom-6"></div>
+                      <div className="absolute text-red-600 -bottom-4 text-xs"></div>
                     ) : null}
                   </div>
 
-                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-2">
+                  <div className="w-full relative flex flex-col justify-between gap-y-1 mb-4">
                     <label htmlFor="" className="font-bold">
                       Confirmation Password:
                     </label>
@@ -210,17 +210,17 @@ function ChangePassword({ changePassword, setChangePassword }) {
                     </button>
                     {errors.confirmationPassword &&
                     touched.confirmationPassword ? (
-                      <div className="absolute text-red-600 -bottom-6">
+                      <div className="absolute text-red-600 -bottom-4 text-xs">
                         {errors.confirmationPassword}
                       </div>
                     ) : null}
                     {true ? (
-                      <div className="absolute text-red-600 -bottom-6"></div>
+                      <div className="absolute text-red-600 -bottom-4 text-xs"></div>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="text-xs pt-2">
+                <div className="text-xs">
                   Kata sandi harus mengandung setidaknya 8 karakter termasuk
                   huruf besar, huruf kecil, simbol dan angka
                 </div>

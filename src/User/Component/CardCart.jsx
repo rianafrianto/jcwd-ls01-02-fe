@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";

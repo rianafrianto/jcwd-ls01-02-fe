@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Card from "../Component/Card";
 import CardCart from "../Component/CardCart";
 import axios from "axios";
-import API_URL from "../Helpers/API_URL";
+import API_URL from "../../Helpers/API_URL";
 import Cookies from "js-cookie";
 import Loading from "../Component/Loading";
 

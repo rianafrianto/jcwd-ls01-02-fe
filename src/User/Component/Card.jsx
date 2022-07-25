@@ -1,29 +1,18 @@
-<<<<<<< HEAD:src/Component/Card.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-=======
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
->>>>>>> b1e21fa8c25c644948b6992caf613adae38ccf6b:src/User/Component/Card.jsx
 import { useSelector } from "react-redux";
 import API_URL from "../../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
-<<<<<<< HEAD:src/Component/Card.jsx
-import formatToCurrency from "../Helpers/formatToCurrency";
-import Cookies from "js-cookie";
-=======
 import formatToCurrency from "../../Helpers/formatToCurrency";
->>>>>>> b1e21fa8c25c644948b6992caf613adae38ccf6b:src/User/Component/Card.jsx
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import defaultProduct from "../../Assets/default-product.png";
-import axios from "axios";
 
 function Card({ data }) {
   const { isLogin } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
-<<<<<<< HEAD:src/Component/Card.jsx
   // const [products, setProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   // const token = localStorage.getItem("token");
@@ -53,8 +42,6 @@ function Card({ data }) {
     } finally {
     }
   };
-=======
->>>>>>> b1e21fa8c25c644948b6992caf613adae38ccf6b:src/User/Component/Card.jsx
 
   return (
     <div
