@@ -235,7 +235,7 @@ function Checkout() {
                 <div className="h-6 w-full mb-3 border-b-[.5px] border-black">
                   Ringkasan Order
                 </div>
-                <CardCart />
+                {/* <CardCart /> */}
               </div>
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">

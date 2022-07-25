@@ -47,8 +47,6 @@ function Products() {
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
 
-  console.log(setDetailsId);
-
   function closeModalAdd() {
     setModalAdd(false);
   }
@@ -115,8 +113,8 @@ function Products() {
 
   const resetFilter = () => {
     setTerms(initialTerms);
-    setCategory("all");
-    setGolongan("all");
+    setCategory("Semua");
+    setGolongan("Semua");
     setPage(0);
     getProducts(1);
   };
