@@ -1,28 +1,27 @@
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import SignUp from "./Pages/SignUp";
-import LogIn from "./Pages/LogIn";
-import Home from "./Pages/Home";
-import Category from "./Pages/Category";
-import ProductDetail from "./Pages/ProductDetail";
-import Checkout from "./Pages/Checkout";
-import Address from "./Pages/Address";
-import Cart from "./Pages/Cart";
-import Confirmation from "./Pages/Confirmation";
-import Prescription from "./Pages/Prescription";
-import Profile from "./Pages/Profile";
-import Navbar from "./Component/Navbar";
-import Footer from "./Component/Footer";
+import SignUp from "./User/Pages/SignUp";
+import LogIn from "./User/Pages/LogIn";
+import Home from "./User/Pages/Home";
+import Category from "./User/Pages/Category";
+import ProductDetail from "./User/Pages/ProductDetail";
+import Checkout from "./User/Pages/Checkout";
+import Address from "./User/Pages/Address";
+import Cart from "./User/Pages/Cart";
+import Confirmation from "./User/Pages/Confirmation";
+import Prescription from "./User/Pages/Prescription";
+import Profile from "./User/Pages/Profile";
+import Navbar from "./User/Component/Navbar";
+import Footer from "./User/Component/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Verification from "./Pages/Verification";
-import ResetPassword from "./Pages/ResetPassword";
-import Search from "./Pages/Search";
-
-import Admin from "./Pages/Admin";
-import Unverified from "./Pages/Unverified";
+import Verification from "./User/Pages/Verification";
+import ResetPassword from "./User/Pages/ResetPassword";
+import Admin from "./User/Pages/Admin";
+import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import gradientBg from "./Assets/gradient-bg.png";
 
 function App() {
   const location = useLocation();
@@ -53,7 +52,11 @@ function App() {
   window.addEventListener("online", statusOnline);
   //
   return (
-    <>
+    <div className="min-h-screen">
+      {/* <div className="fixed">
+        <img src={gradientBg} />{" "}
+      </div> */}
+
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
@@ -76,7 +79,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/prescription" element={<Prescription />} />
-        <Route path="/myaccount" element={<Profile />} />
+        <Route path="/myaccount/:tab" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
         <Route path="/unverified" element={<Unverified />} />
         <Route path="/search/:category" element={<Search />} />
@@ -99,7 +102,7 @@ function App() {
         hideProgressBar={true}
         newestOnTop={true}
       />
-    </>
+    </div>
   );
 }
 
