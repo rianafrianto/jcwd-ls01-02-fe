@@ -114,7 +114,7 @@ function ProductDetail() {
   }
 
   return (
-    <div className="h-full w-screen flex justify-center pt-20">
+    <div className="h-full w-full flex justify-center pt-20">
       <div className="container h-full flex flex-col px-24 py-11">
         <div className="text-md breadcrumbs">
           <ul>

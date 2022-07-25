@@ -22,6 +22,7 @@ import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import gradientBg from "./Assets/gradient-bg.png";
+import NavbarMobile from "./User/Component/NavbarMobile";
 
 function App() {
   const location = useLocation();
@@ -94,6 +95,14 @@ function App() {
       location.pathname.match("/admin") ||
       location.pathname.match("/reset-password/") ? null : (
         <Footer />
+      )}
+      {location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname === "/unverified" ||
+      location.pathname.match("/verification/") ||
+      location.pathname.match("/admin") ||
+      location.pathname.match("/reset-password/") ? null : (
+        <NavbarMobile />
       )}
       <ToastContainer
         pauseOnFocusLoss={false}

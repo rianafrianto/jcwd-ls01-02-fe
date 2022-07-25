@@ -66,6 +66,8 @@ function CategoryCarousel() {
             cardText={cardText}
             cardPath={cardPath}
             cardPic={cardPic}
+            cardStyle="h-28 my-5 "
+            imageStyle=" h-16"
           />
         </div>
       );
@@ -73,11 +75,7 @@ function CategoryCarousel() {
   };
 
   return (
-    <CarouselSlider
-      settings={settings}
-      printFunc={printCat}
-      className="bg-black"
-    />
+    <CarouselSlider settings={settings} printFunc={printCat} className="" />
   );
 }
 

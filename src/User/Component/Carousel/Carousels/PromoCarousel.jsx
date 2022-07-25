@@ -112,7 +112,7 @@ function PromoCarousel(props) {
     <CarouselSlider
       settings={settings}
       printFunc={printProducts}
-      className="bg-black"
+      className=""
     />
   );
 }

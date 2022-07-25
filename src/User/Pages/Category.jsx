@@ -115,7 +115,7 @@ function Category() {
   }, [order, page, category]);
 
   return (
-    <div className="h-full w-full pt-20">
+    <div className="h-full w-full pt-20 pb-14 lg:pb-0">
       <div className="h-10 w-60 lg:hidden border border-green-800 fixed flex bottom-20 left-1/2 -translate-x-1/2 z-50 rounded-lg overflow-hidden">
         <button className="h-full w-1/2 bg-primary">sort</button>
         <button className="h-full w-1/2 bg-primary">filter</button>
