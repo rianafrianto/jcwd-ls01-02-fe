@@ -370,7 +370,7 @@ function Products() {
                   )}
                   <table className="w-full rounded-t-lg overflow-hidden table-fixed table-zebra">
                     <thead className="rounded-t-lg h-12">
-                      <tr className="text-center bg-secondary rounded-t-lg font-medium text-white">
+                      <tr className="text-center bg-secondary rounded-t-lg font-medium text-white table-fixed">
                         <th className="w-12">No</th>
                         <th className="w-44">Nama Produk</th>
                         <th className="w-36">No. Produk</th>

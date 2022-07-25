@@ -11,38 +11,8 @@ function CardOrderUser({ data, getOrders }) {
   const [status, setStatus] = useState(data.status);
   const [isOpen, setIsOpen] = useState(false);
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  const cancelOrder = async (id) => {
-    try {
-      console.log(id);
-      await axios.patch(`${API_URL}/transaction/order/reject?id=${id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const confirmlOrder = async (id) => {
-    try {
-      console.log(id);
-      await axios.patch(`${API_URL}/transaction/order/confirm?id=${id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
-      {/* <ModalPrescriptionService
-        isOpen={isOpen}
-        closeModal={closeModal}
-        data={data}
-        getOrders={getOrders}
-      /> */}
       <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
         <div
           className={`w-full h-14 flex justify-between items-center border-l-8 px-7 duration-300 ${
@@ -132,34 +102,6 @@ function CardOrderUser({ data, getOrders }) {
                   <img src={transaksiActiveIcon} alt="" className="h-full" />
                   <span>Detail Pemesanan</span>
                 </button>
-              )}
-            </div>
-            <div className="h-full flex gap-x-5 w-1/3">
-              {(status == "Pengecekan-Resep" || "Diproses") && (
-                <>
-                  <button
-                    className="button-outline w-1/2"
-                    onClick={() => cancelOrder(data.id)}
-                  >
-                    Tolak Pesanan
-                  </button>
-                  {status == "Pengecekan-Resep" && (
-                    <button
-                      className="button-primary w-1/2"
-                      onClick={openModal}
-                    >
-                      Buat Salinan Resep
-                    </button>
-                  )}
-                  {status == "Diproses" && (
-                    <button
-                      className="button-primary w-1/2"
-                      onClick={() => confirmlOrder(data.id)}
-                    >
-                      Terima Pesanan
-                    </button>
-                  )}
-                </>
               )}
             </div>
           </div>
