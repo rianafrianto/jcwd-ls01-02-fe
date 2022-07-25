@@ -22,6 +22,7 @@ import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import gradientBg from "./Assets/gradient-bg.png";
+import NavbarMobile from "./User/Component/NavbarMobile";
 
 function App() {
   const location = useLocation();
@@ -96,6 +97,7 @@ function App() {
       location.pathname.match("/reset-password/") ? null : (
         <Footer />
       )}
+
       <ToastContainer
         pauseOnFocusLoss={false}
         autoClose={3000}

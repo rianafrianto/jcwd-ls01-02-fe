@@ -49,7 +49,7 @@ function Cart() {
   };
 
   return (
-    <div className="h-full w-full bg-green-200 flex justify-center pt-20">
+    <div className="h-full w-full bg-green-200 flex justify-center pt-20 overflow-hidden">
       <div className="container h-full flex flex-col px-24 py-11">
         Keranjang Saya
         <div className="w-full mt-9 flex gap-x-16">
