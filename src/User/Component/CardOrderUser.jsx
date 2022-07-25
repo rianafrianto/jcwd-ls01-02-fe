@@ -5,7 +5,6 @@ import chatIcon from "../../Assets/chat-icon.png";
 import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
 import API_URL from "../../Helpers/API_URL";
 import { fullDateGenerator } from "../../Helpers/dateGenerator";
-import ModalPrescriptionService from "./ModalPrescriptionService";
 
 function CardOrderUser({ data, getOrders }) {
   const [checked, setChecked] = useState(false);
@@ -38,12 +37,12 @@ function CardOrderUser({ data, getOrders }) {
   };
   return (
     <>
-      <ModalPrescriptionService
+      {/* <ModalPrescriptionService
         isOpen={isOpen}
         closeModal={closeModal}
         data={data}
         getOrders={getOrders}
-      />
+      /> */}
       <div className="w-full h-72 border flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
         <div
           className={`w-full h-14 flex justify-between items-center border-l-8 px-7 duration-300 ${

@@ -3,7 +3,6 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  SearchIcon,
 } from "@heroicons/react/outline";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";

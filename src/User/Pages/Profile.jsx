@@ -13,6 +13,7 @@ import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import ModalImageCropper from "../Component/ModalImageCropper";
 import Loading from "../Component/Loading";
+import CardOrderUser from "../Component/CardOrderUser";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -28,6 +29,19 @@ function Profile() {
   const [changed, setChanged] = useState(false);
   const [modalImageCropper, setModalImageCropper] = useState(false);
   const [cropping, setCropping] = useState(null);
+  const { status } = params;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [minPage, setMinPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [terms, setTerms] = useState("");
+  const [sinceDate, setSinceDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [order, setOrder] = useState("ORDER BY o.id ASC");
 
   const modalImageCropperHandler = () => {
     setModalImageCropper(!modalImageCropper);
@@ -139,6 +153,39 @@ function Profile() {
   const onCancel = () => {
     setCropping(null);
   };
+
+  const getOrders = async () => {
+    try {
+      setLoading(true);
+      let res = await axios.get(`${API_URL}/admin/orders/${status}`, {
+        params: { terms, sinceDate, toDate, page, limit, order },
+      });
+      console.log(res);
+      setData(res.data.data.orders);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const printOrders = (data) => {
+    return data.map((val, i) => {
+      return <CardOrderUser data={val} key={i} getOrders={getOrders} />;
+    });
+  };
+
+  useEffect(() => {
+    setSinceDate("");
+    setToDate("");
+    setTerms("");
+    getOrders();
+    return () => {};
+  }, [status, limit, page]);
+
+  useEffect(() => {
+    if (sinceDate || toDate) getOrders();
+  }, [sinceDate, toDate]);
 
   const tabPrint = (tab) => {
     switch (tab) {
@@ -444,7 +491,7 @@ function Profile() {
                 </select>
               </div>
             </div>
-            <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
+            {/* <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
               <div className="py-4 ml-6 text-xs flex items-stretch ">
                 Jumat, 5 April 2022, 15:45
                 <div className="ml-auto mr-5 h-25 w-30 border bg-danger p-2 rounded text-white  ">
@@ -471,6 +518,9 @@ function Profile() {
               <div className="ml-6 py-6 text-xs text-primary ">
                 Costumer Chat Service
               </div>
+            </div> */}
+            <div className="w-full flex flex-col gap-y-5">
+              {loading ? <Loading className="pt-56" /> : printOrders(data)}
             </div>
           </div>
         );

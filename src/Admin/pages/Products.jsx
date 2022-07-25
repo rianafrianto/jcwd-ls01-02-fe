@@ -23,6 +23,7 @@ import SelectCustom from "../components/SelectCustom";
 import ModalDetails from "../components/ModalDetails";
 import ModalEditOptions from "../components/ModalEditOptions";
 import ModalAddStock from "../components/ModalAddStock";
+import ModalProductStock from "../components/ModalProductStock";
 
 function Products() {
   const initialTerms = "";
@@ -32,7 +33,9 @@ function Products() {
   const [modalAddStock, setModalAddStock] = useState(false);
   const [modalDetails, setModalDetails] = useState(false);
   const [modalEditOptions, setModalEditOptions] = useState(false);
+  const [modalProductStock, setModalProductStock] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [stockId, setStockId] = useState(null);
   const [detailsId, setDetailsId] = useState(null);
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("Semua");
@@ -43,6 +46,8 @@ function Products() {
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
+
+  console.log(setDetailsId);
 
   function closeModalAdd() {
     setModalAdd(false);
@@ -74,7 +79,12 @@ function Products() {
   function openModalDetails() {
     setModalDetails(true);
   }
-
+  function closeModalProductStock() {
+    setModalProductStock(false);
+  }
+  function openModalProductStock() {
+    setModalProductStock(true);
+  }
   const getProducts = async (reset) => {
     try {
       setLoading(true);
@@ -108,7 +118,6 @@ function Products() {
     setCategory("all");
     setGolongan("all");
     setPage(0);
-
     getProducts(1);
   };
 
@@ -146,7 +155,10 @@ function Products() {
                 </button>
                 <button
                   className="button-primary h-8 w-full"
-                  onClick={() => {}}
+                  onClick={() => {
+                    openModalProductStock();
+                    setStockId(val.id);
+                  }}
                 >
                   Detail Stok
                 </button>
@@ -264,6 +276,12 @@ function Products() {
         closeModalDetails={closeModalDetails}
         detailsId={detailsId}
         setDetailsId={setDetailsId}
+      />
+      <ModalProductStock
+        modalProductStock={modalProductStock}
+        closeModalProductStock={closeModalProductStock}
+        stockId={stockId}
+        setStockId={setStockId}
       />
       <div className="bg-admin h-full w-full justify-center flex">
         <div className="w-full pt-16 pl-64">
