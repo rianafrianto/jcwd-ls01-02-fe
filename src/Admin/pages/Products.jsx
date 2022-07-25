@@ -21,13 +21,17 @@ import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectCustom from "../components/SelectCustom";
 import ModalDetails from "../components/ModalDetails";
+import ModalEditOptions from "../components/ModalEditOptions";
+import ModalAddStock from "../components/ModalAddStock";
 
 function Products() {
   const initialTerms = "";
   const [loading, setLoading] = useState(false);
   const [modalAdd, setModalAdd] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
+  const [modalAddStock, setModalAddStock] = useState(false);
   const [modalDetails, setModalDetails] = useState(false);
+  const [modalEditOptions, setModalEditOptions] = useState(false);
   const [editId, setEditId] = useState(null);
   const [detailsId, setDetailsId] = useState(null);
   const [products, setProducts] = useState([]);
@@ -46,11 +50,23 @@ function Products() {
   function openModalAdd() {
     setModalAdd(true);
   }
+  function closeModalAddStock() {
+    setModalAddStock(false);
+  }
+  function openModalAddStock() {
+    setModalAddStock(true);
+  }
   function closeModalEdit() {
     setModalEdit(false);
   }
   function openModalEdit() {
     setModalEdit(true);
+  }
+  function closeModalEditOptions() {
+    setModalEditOptions(false);
+  }
+  function openModalEditOptions() {
+    setModalEditOptions(true);
   }
   function closeModalDetails() {
     setModalDetails(false);
@@ -126,10 +142,16 @@ function Products() {
                     setDetailsId(val.id);
                   }}
                 >
-                  Lihat Detail
+                  Detail Produk
+                </button>
+                <button
+                  className="button-primary h-8 w-full"
+                  onClick={() => {}}
+                >
+                  Detail Stok
                 </button>
                 <PopoverProduct
-                  openModalEdit={openModalEdit}
+                  openModalEditOptions={openModalEditOptions}
                   id={val.id}
                   setEditId={setEditId}
                 />
@@ -220,6 +242,20 @@ function Products() {
       <ModalEditProduct
         modalEdit={modalEdit}
         closeModalEdit={closeModalEdit}
+        editId={editId}
+        setEditId={setEditId}
+      />
+      <ModalEditOptions
+        modalEditOptions={modalEditOptions}
+        closeModalEditOptions={closeModalEditOptions}
+        openModalAddStock={openModalAddStock}
+        openModalEdit={openModalEdit}
+        editId={editId}
+        setEditId={setEditId}
+      />
+      <ModalAddStock
+        modalAddStock={modalAddStock}
+        closeModalAddStock={closeModalAddStock}
         editId={editId}
         setEditId={setEditId}
       />
@@ -327,7 +363,7 @@ function Products() {
                         <th className="w-24">Satuan</th>
                         <th className="w-40">Nilai Barang</th>
                         <th className="w-36">Nilai Jual</th>
-                        <th className="w-36">Atur</th>
+                        <th className="w-72">Atur</th>
                       </tr>
                     </thead>
                     <tbody>{printRow(products)}</tbody>
@@ -400,32 +436,34 @@ function Products() {
                     <button
                       className="button-outline h-7 aspect-square rounded-full"
                       onClick={() => setPage(0)}
+                      disabled={loading}
                     >
                       <ChevronDoubleLeftIcon className="h-5" />
                     </button>
                     <button
                       className="button-primary h-full aspect-square rounded-full"
-                      disabled={page === 0}
+                      disabled={page === 0 || loading}
                       onClick={() => setPage((prev) => prev - 1)}
                     >
                       <ChevronLeftIcon className="h-7" />
                     </button>
                     <div className="h-full w-full flex gap-x-2">
-                      {loading && !total ? (
-                        <span className="h-full w-64 flex items-center justify-center px-5 button-loading">
-                          Loading ...
-                        </span>
-                      ) : (
-                        <span className="h-full w-72 flex items-center justify-center">
-                          Produk nomor {page * limit + 1} hingga{" "}
-                          {page * limit + products.length}
-                        </span>
-                      )}
+                      <span
+                        className={`h-full w-72 flex items-center justify-center ${
+                          loading && "button-loading"
+                        }`}
+                      >
+                        {loading
+                          ? "Loading ..."
+                          : `Produk nomor ${page * limit + 1} hingga ${
+                              page * limit + products.length
+                            }`}
+                      </span>
                     </div>
 
                     <button
                       className="button-primary h-full aspect-square rounded-full"
-                      disabled={page === totalPages - 1}
+                      disabled={page === totalPages - 1 || loading}
                       onClick={() => setPage((prev) => prev + 1)}
                     >
                       <ChevronRightIcon className="h-7" />
@@ -433,6 +471,7 @@ function Products() {
                     <button
                       className="button-outline h-7 aspect-square rounded-full"
                       onClick={() => setPage(totalPages - 1)}
+                      disabled={loading}
                     >
                       <ChevronDoubleRightIcon className="h-5" />
                     </button>

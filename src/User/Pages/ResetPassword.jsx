@@ -12,6 +12,7 @@ import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import passwordIcon from "../../Assets/password-icon.png";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
+import FormikControl from "../Component/Formik/FormikControl";
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ function ResetPassword() {
   const [forgotPasswordModal, forgotPasswordModalHandler] = useState(false);
   const [succeed, setSucceed] = useState(false);
   const [changed, setChanged] = useState(false);
-  const [passVis, setPassVis] = useState(false);
-  const [passVisConf, setPassVisConf] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [visibleConf, setVisibleConf] = useState(false);
 
   const initialValues = {
     password: "",
@@ -140,8 +141,10 @@ function ResetPassword() {
                       <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
                         {/* Password */}
                         <div className="w-full relative flex flex-col justify-between gap-y-2">
-                          <label htmlFor="">Password</label>
-                          <input
+                          {/* <label htmlFor="">Password</label> */}
+                          <FormikControl
+                            control="INPUT"
+                            label="Password"
                             name="password"
                             placeholder="***************"
                             onChange={(e) => {
@@ -150,18 +153,22 @@ function ResetPassword() {
                             }}
                             values={values.password}
                             onBlur={handleBlur}
-                            type={passVis ? "text" : "password"}
-                            className={`field-input pl-14`}
+                            type={visible ? "text" : "password"}
+                            className={`pl-14 placeholder:translate-y-1 ${
+                              errors.password && touched.password
+                                ? "outline-red-700"
+                                : null
+                            }`}
                           />
                           <button
                             type="button"
-                            className="h-6 w-6 absolute right-5 top-10 translate-y-[5%] text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
-                            onClick={() => setPassVis(!passVis)}
+                            className="button-general outline-0 h-7 aspect-square absolute right-5 top-10  text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
+                            onClick={() => setVisible(!visible)}
                           >
-                            {passVis ? (
-                              <BsFillEyeFill className="h-full" />
+                            {visible ? (
+                              <BsFillEyeFill className="w-full" />
                             ) : (
-                              <BsFillEyeSlashFill className="h-full" />
+                              <BsFillEyeSlashFill className="w-full" />
                             )}
                           </button>
                           <img
@@ -169,19 +176,12 @@ function ResetPassword() {
                             alt=""
                             className="h-5 w-5 absolute left-5 top-11"
                           />
-                          {errors.password && touched.password ? (
-                            <div className="absolute text-red-600 -bottom-6">
-                              {errors.password}
-                            </div>
-                          ) : null}
-                          {true ? (
-                            <div className="absolute text-red-600 -bottom-6"></div>
-                          ) : null}
                         </div>
                         {/* Confrimation Password */}
                         <div className="w-full relative flex flex-col justify-between gap-y-2">
-                          <label htmlFor="">Confirmation Password</label>
-                          <input
+                          <FormikControl
+                            control="INPUT"
+                            label="Confirmation Password"
                             name="passwordConfirm"
                             placeholder="***************"
                             onChange={(e) => {
@@ -190,18 +190,22 @@ function ResetPassword() {
                               handleChange(e);
                             }}
                             onBlur={handleBlur}
-                            type={passVisConf ? "text" : "passwordConfirm"}
-                            className={`field-input pl-14`}
+                            type={visibleConf ? "text" : "passwordConfirm"}
+                            className={`pl-14 placeholder:translate-y-1 ${
+                              errors.passwordConfirm && touched.passwordConfirm
+                                ? "outline-red-700"
+                                : null
+                            }`}
                           />
                           <button
                             type="button"
-                            className="h-6 w-6 absolute right-5 top-10 translate-y-[5%] text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
-                            onClick={() => setPassVisConf(!passVisConf)}
+                            className="button-general outline-0 h-7 aspect-square absolute right-5 top-10  text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
+                            onClick={() => setVisibleConf(!visibleConf)}
                           >
-                            {passVisConf ? (
-                              <BsFillEyeFill className="h-full" />
+                            {visibleConf ? (
+                              <BsFillEyeFill className="w-full" />
                             ) : (
-                              <BsFillEyeSlashFill className="h-full" />
+                              <BsFillEyeSlashFill className="w-full" />
                             )}
                           </button>
                           <img
@@ -209,20 +213,12 @@ function ResetPassword() {
                             alt=""
                             className="h-5 w-5 absolute left-5 top-11"
                           />
-                          {errors.passwordConfirm && touched.passwordConfirm ? (
-                            <div className="absolute text-red-600 -bottom-6">
-                              {errors.passwordConfirm}
-                            </div>
-                          ) : null}
-                          {true ? (
-                            <div className="absolute text-red-600 -bottom-6"></div>
-                          ) : null}
                         </div>
                         <Button
                           type="submit"
                           buttonContent="Ganti Password"
                           disabled={!isValid || isSubmitting}
-                          className="button-primary w-full disabled:bg-gray-600 text-sm leading-5 mt-2"
+                          className="button-primary w-full disabled:bg-gray-600 text-sm leading-5 mt-5"
                         />
                       </Form>
                     );
@@ -246,6 +242,7 @@ function ResetPassword() {
                       menekan tombol di bawah!
                     </p>
                     <Button
+                      type="submit"
                       buttonText="Kirim Ulang Email Reset Password"
                       className="bg-primary text-white disabled:bg-gray-600 text-sm leading-5"
                       onClick={() => forgotPasswordModalHandler(true)}

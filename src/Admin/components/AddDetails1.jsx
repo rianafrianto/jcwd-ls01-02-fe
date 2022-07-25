@@ -5,7 +5,7 @@ import { categoryList, golonganList } from "../../Helpers/categoryList";
 import { toast } from "react-toastify";
 
 function AddDetails1(props) {
-  const { setModalState, details1, setDetails1 } = props;
+  const { setModalState, details1, setDetails1, editId } = props;
   let {
     name,
     NIE,
@@ -106,7 +106,7 @@ function AddDetails1(props) {
         } = formik;
         return (
           <Form id="form1">
-            <div className="overflow-y-scroll border-y w-full h-[400px] flex flex-co">
+            <div className="overflow-y-scroll border-y w-full h-[340px] flex flex-col">
               <table>
                 <thead>
                   <tr>
@@ -235,29 +235,31 @@ function AddDetails1(props) {
                         : ""}
                     </td>
                   </tr>
-                  <tr>
-                    <th>
-                      Tgl. Kadaluarsa
-                      <span className="text-red-700">*</span>
-                    </th>
-                    <td className="py-2">
-                      <Field
-                        name="tgl_kadaluarsa"
-                        placeholder="1 STRIP @ 10 KAPSUL"
-                        type="date"
-                        className={`field-input h-8 rounded ${
-                          errors.tgl_kadaluarsa && touched.tgl_kadaluarsa
-                            ? "outline-red-700"
-                            : null
-                        }`}
-                      />
-                    </td>
-                    <td className="text-red-600 pl-5">
-                      {errors.tgl_kadaluarsa &&
-                        touched.tgl_kadaluarsa &&
-                        errors.tgl_kadaluarsa}
-                    </td>
-                  </tr>
+                  {editId ? null : (
+                    <tr>
+                      <th>
+                        Tgl. Kadaluarsa
+                        <span className="text-red-700">*</span>
+                      </th>
+                      <td className="py-2">
+                        <Field
+                          name="tgl_kadaluarsa"
+                          placeholder="1 STRIP @ 10 KAPSUL"
+                          type="date"
+                          className={`field-input h-8 rounded ${
+                            errors.tgl_kadaluarsa && touched.tgl_kadaluarsa
+                              ? "outline-red-700"
+                              : null
+                          }`}
+                        />
+                      </td>
+                      <td className="text-red-600 pl-5">
+                        {errors.tgl_kadaluarsa &&
+                          touched.tgl_kadaluarsa &&
+                          errors.tgl_kadaluarsa}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <th>
                       Indikasi

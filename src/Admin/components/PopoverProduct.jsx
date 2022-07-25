@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
 import trashIcon from "../../Assets/trash-icon.png";
 import editIcon from "../../Assets/edit-icon.png";
+import axios from "axios";
+import API_URL from "../../Helpers/API_URL";
 
 function PopoverProduct(props) {
-  const { openModalEdit, id, setEditId } = props;
+  const { openModalEditOptions, id, setEditId } = props;
+  const [deleteProduct, setDeleteProduct] = useState([]);
+
+  const deleteSubmit = async (id) => {
+    try {
+      console.log(id);
+      await axios.delete(`${API_URL}/admin/delete-product?id=${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const { openModalEditOptions, id, setEditId } = props;
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -28,20 +42,16 @@ function PopoverProduct(props) {
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
                   onClick={() => {
-                    setEditId(id);
                     close();
-                    setTimeout(() => {
-                      openModalEdit();
-                    }, 500);
+                    setEditId(id);
+                    openModalEditOptions();
                   }}
                 >
                   <img src={editIcon} alt="" className="h-4" />
                 </button>
                 <button
                   className="btn-plain rounded-full h-8 aspect-square border flex justify-center items-center border-primary/20 hover:bg-primary/20"
-                  onClick={() => {
-                    close();
-                  }}
+                  onClick={() => deleteSubmit(id)}
                 >
                   <img src={trashIcon} alt="" className="h-5" />
                 </button>

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import succesImage from "../../Assets/success-image.png";
+import succesImage from "../Assets/success-image.png";
 import Button from "../Component/Button";
-import DefaultPicture from "../../Assets/default-upload.png";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import DefaultPicture from "../Assets/default-upload.png";
 import Cookies from "js-cookie";
 import axios from "axios";
-import API_URL from "../../Helpers/API_URL";
+import API_URL from "../Helpers/API_URL";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 
@@ -65,20 +63,24 @@ function Prescription() {
       let formData = new FormData();
       formData.append("prescription_photo", selectedImage.file);
       let token = Cookies.get("token");
-      await axios.post(`${API_URL}/transaction/upload-resep`, formData, {
+      await axios.post(`${API_URL}/transaction/prescription-photo`, formData, {
         headers: {
           authorization: token,
         },
       });
-      toast.success(`Produk berhasil ditambahkan`, {
-        theme: "colored",
-        style: { backgroundColor: "#009B90" },
-      });
+
       if (selectedImage.file.length == 0) {
         throw "Please select images to submit!";
       } else {
         setselectedImage({ ...selectedImage, file: [] });
       }
+      setTimeout(() => {
+        setSucceed(true);
+        toast.success("Photo berhasil diunggah!", {
+          theme: "colored",
+          style: { backgroundColor: "#009B90" },
+        });
+      }, 1000);
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -102,7 +104,7 @@ function Prescription() {
           </div>
           <button
             className="border border-green-800 hover:bg-green-800"
-            onClick={() => navigate("/myaccount/profile")}
+            onClick={() => navigate("/myaccount")}
           >
             Lihat progres pemesanan
           </button>
@@ -165,6 +167,12 @@ function Prescription() {
                       className="w-full h-42 mt-5 object-cover items-center justify-center"
                     />
                   ) : null}
+                  {/* {selectedImage.filePreview ? (
+                    <img
+                      src={`${API_URL}${prescription_photo}`}
+                      className="w-full h-42 mt-5 object-cover items-center justify-center"
+                    />
+                  ) : null} */}
                 </div>
                 <div>
                   {" "}
@@ -177,23 +185,30 @@ function Prescription() {
                   <label
                     htmlFor="prescription_photo"
                     type="button"
-                    className="w-1/3 justify-center border h-full mb-3 ml-80 bg-primary text-white hover:bg-teal-500 text-center mt-5"
+                    className="w-1/3 mt-5 justify-center border h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
                   >
                     Pilih File
                   </label>
+                  {/* <button
+                    type="button"
+                    className="w-1/3 mt-5 justify-center border rounded-md h-9 mb-3 ml-80 bg-primary text-white hover:bg-teal-500"
+                  >
+                    Pilih Foto
+                  </button> */}
                 </div>
               </div>
-              <div className="flex justify-end mt-5">
+              <div className="w-full flex justify-end">
                 <Button
                   type="submit"
                   buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
-                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 ${"loading"}`}
+                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-40 mt-6  ${"loading"}`}
                   onClick={() => submitPhoto()}
                 />
               </div>
             </div>
           </div>
         </div>
+        );
       </div>
     </>
   );

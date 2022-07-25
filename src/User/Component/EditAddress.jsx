@@ -1,20 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import * as Yup from "yup";
 import Button from "./Button";
 import FormikControl from "./Formik/FormikControl";
-import { newAddressAction } from "../../Redux/Reducers/Actions/UserActions";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import Loading from "./Loading";
 
-function EditAddress({ data, switchModal, address }) {
+function EditAddress(props) {
   const {
+    data,
+    switchModal,
+    setDataAddresses,
+    loadingAllAddress,
+    setLoadingAllAddress,
+  } = props;
+  console.log(data);
+  const {
+    id,
     alamat,
     kode_kota,
     kode_provinsi,
-    id,
     kode_pos,
     label,
     nama_belakang,
@@ -22,17 +31,13 @@ function EditAddress({ data, switchModal, address }) {
     nomor_hp,
     primary_address,
   } = data;
-  const navigate = useNavigate();
-  const topModal = useRef(null);
   const dispatch = useDispatch();
-  const { isLogin } = useSelector((state) => state.user);
   const [provinceId, setProvinceId] = useState(kode_provinsi);
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([
     { content: "Kota/Kabupaten", value: 0 },
   ]);
   const [cityId, setCityId] = useState(kode_kota);
-  const [kodePos, setKodePos] = useState(kode_pos);
 
   const initialValues = {
     label,
@@ -42,24 +47,26 @@ function EditAddress({ data, switchModal, address }) {
     provinsi: kode_provinsi,
     kota: kode_kota,
     alamat,
-    kode_pos: kodePos,
+    kode_pos,
     primaryAddress: primary_address,
   };
-  console.log({ initialValues });
 
   const validationSchema = Yup.object({
     label: Yup.string().required("Wajib diisi"),
     nama_depan: Yup.string()
       .required("Wajib diisi")
-      .matches(/^[A-Za-z]+$/, "Hanya menggunakan huruf"),
+      .matches(/^[A-Za-z ]+$/, "Hanya menggunakan huruf"),
     nama_belakang: Yup.string()
       .required("Wajib diisi")
-      .matches(/^[A-Za-z]+$/, "Hanya menggunakan huruf"),
+      .matches(/^[A-Za-z ]+$/, "Hanya menggunakan huruf"),
     nomor_hp: Yup.string()
       .required("Wajib diisi")
       .matches(/^[0-9]*$/, "Hanya menggunakan angka"),
     provinsi: Yup.string().required("Wajib diisi"),
     kota: Yup.string().required("Wajib diisi"),
+    kode_pos: Yup.string()
+      .required("Wajib diisi")
+      .length(5, "Format kode pos tidak sesuai"),
     alamat: Yup.string().required("Wajib diisi"),
   });
 
@@ -69,7 +76,7 @@ function EditAddress({ data, switchModal, address }) {
       let data = res.data.data.map((val) => {
         return { value: val.id, content: val.province };
       });
-      setProvinces([{ content: "Provinsi", value: "" }, , ...data]);
+      setProvinces([{ content: "Provinsi", value: "" }, ...data]);
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +90,7 @@ function EditAddress({ data, switchModal, address }) {
       let data = res.data.data.map((val) => {
         return { value: val.id, content: val.city, kode_pos: val.postal_code };
       });
-      setCities([{ content: "Kota/Kabupaten", value: 0 }, , ...data]);
+      setCities([{ content: "Kota/Kabupaten", value: 0 }, ...data]);
     } catch (error) {
       console.log(error);
     }
@@ -91,13 +98,37 @@ function EditAddress({ data, switchModal, address }) {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      dispatch({ type: "LOADING" });
-      console.log(values);
+      setLoadingAllAddress(true);
+      let token = Cookies.get("token");
+      let insertData = { ...values, id };
+      console.log({ values });
+      const res = await axios.patch(
+        `${API_URL}/profile/edit-address`,
+        insertData,
+        {
+          headers: { authorization: token },
+        }
+      );
+      toast.success(`Pengubahan alamat berhasil`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
+      if (res.data.data?.primary) {
+        console.log("ada primary");
+        console.log(res);
+        dispatch({
+          type: "CHANGEADDRESS",
+          payload: res.data.data?.primary,
+        });
+        console.log("ubah ada primary");
+      }
+      console.log(res.data.data);
+      setDataAddresses(res.data.data.addresses);
       switchModal();
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch({ type: "DONE" });
+      setLoadingAllAddress(false);
       setSubmitting(false);
     }
   };
@@ -105,20 +136,15 @@ function EditAddress({ data, switchModal, address }) {
   useEffect(() => {
     getProvince();
     getCity();
-    if (cityId)
-      setKodePos(() => {
-        for (let val of cities) {
-          if (val?.value == cityId) {
-            return val.kode_pos;
-          }
-        }
-      });
+
     // eslint-disable-next-line
   }, [provinceId, cityId]);
 
-  return (
+  return loadingAllAddress ? (
+    <Loading className="h-full" />
+  ) : (
     <div className="flex flex-col gap-y-2 px-2 pb-2">
-      <div ref={topModal}>Alamat Pengiriman</div>
+      <div>Alamat Pengiriman</div>
       <div className="w-full h-full flex">
         <Formik
           initialValues={initialValues}
@@ -136,7 +162,7 @@ function EditAddress({ data, switchModal, address }) {
               values,
               dirty,
             } = formik;
-            if (kodePos) values.kode_pos = kodePos;
+            console.log({ values });
             return (
               <Form className="flex flex-col min-h-min w-full justify-center items-center gap-y-5">
                 {/* Label*/}
@@ -269,26 +295,23 @@ function EditAddress({ data, switchModal, address }) {
                   </div>{" "}
                   {/* Kode Pos */}
                   <div className="w-full relative flex flex-col justify-between gap-y-2">
-                    <label htmlFor="kode_pos">Kode Pos</label>
-                    <input
+                    <FormikControl
+                      control="INPUT"
                       label="Kode Pos"
                       name="kode_pos"
                       placeholder="Kode Pos"
-                      disabled={true}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
                       onBlur={handleBlur}
-                      type="text"
-                      className={`field-input ${
+                      defaultValue={values.kode_pos}
+                      type="number"
+                      className={`${
                         errors.kode_pos && touched.kode_pos
                           ? "outline-red-700"
                           : null
                       }`}
-                      defaultValue={kodePos}
                     />
-                    {errors.kode_pos && touched.kode_pos && (
-                      <div className="absolute text-red-600 -bottom-5 right-0 text-sm">
-                        {errors.kode_pos}
-                      </div>
-                    )}
                   </div>
                 </div>
                 {/* Alamat*/}
@@ -324,7 +347,6 @@ function EditAddress({ data, switchModal, address }) {
                   <Button
                     type="button"
                     buttonContent={`Batalkan`}
-                    disabled={!isValid || isSubmitting}
                     className={`button-outline w-full text-sm leading-5
                     }`}
                     onClick={switchModal}
@@ -338,7 +360,7 @@ function EditAddress({ data, switchModal, address }) {
                         ? "Cek Kembali Data Kamu!"
                         : "Simpan Alamat"
                     }
-                    disabled={!isValid || isSubmitting || !dirty}
+                    disabled={isSubmitting || !dirty}
                     className={`button-primary w-full disabled:bg-gray-600 disabled:text-white disabled:cursor-not-allowed text-sm leading-5  ${
                       isSubmitting && "button-loading"
                     }`}

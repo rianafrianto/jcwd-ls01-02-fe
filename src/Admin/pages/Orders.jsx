@@ -5,24 +5,48 @@ import searchIcon from "../../Assets/search-icon.png";
 import Loading from "../../User/Component/Loading";
 import API_URL from "../../Helpers/API_URL";
 import CardOrderAdmin from "../components/CardOrderAdmin";
-import { SearchIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  SearchIcon,
+} from "@heroicons/react/outline";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/solid";
 
 function Orders() {
   const params = useParams();
   const { status } = params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [minPage, setMinPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [order, setOrder] = useState("ORDER BY o.id ASC");
 
   const getOrders = async () => {
     try {
       setLoading(true);
       let res = await axios.get(`${API_URL}/admin/orders/${status}`, {
-        params: { terms, sinceDate, toDate },
+        params: { terms, sinceDate, toDate, page, limit, order },
       });
-      setData(res.data.data);
+      console.log(res);
+      setData(res.data.data.orders);
+      setTotal(res.data.data.total);
+      setTotalPages(() => Math.ceil(res.data.data.total / limit));
+      setMinPage(0);
+      setMaxPage(() => {
+        if (totalPages > 5) return 4;
+        return totalPages - 1;
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -35,13 +59,39 @@ function Orders() {
       return <CardOrderAdmin data={val} key={i} getOrders={getOrders} />;
     });
   };
+  const printButtons = () => {
+    let pages = [];
+    let buttonsTotal = totalPages;
+    for (let i = 0; i < buttonsTotal; i++) {
+      pages.push("");
+    }
+    console.log({ buttonsTotal });
+    return pages.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className={`btn-plain h-8 aspect-square rounded-full ${
+            page === i ? "bg-primary text-white" : ""
+          }`}
+          onClick={async () => {
+            if (page !== i) {
+              setPage(i);
+            }
+          }}
+        >
+          {i + 1}
+        </button>
+      );
+    });
+  };
 
   useEffect(() => {
     setSinceDate("");
     setToDate("");
     setTerms("");
     getOrders();
-  }, [status]);
+    return () => {};
+  }, [status, limit, page]);
 
   useEffect(() => {
     if (sinceDate || toDate) getOrders();
@@ -82,7 +132,7 @@ function Orders() {
                   className="btn-plain h-full object-cover flex rounded-r-lg bg-primary border border-primary"
                   onClick={() => {
                     if (terms !== "") {
-                      // setPage(0);
+                      setPage(0);
                       getOrders();
                     }
                   }}
@@ -121,23 +171,70 @@ function Orders() {
               </select>
             </div>
           </div>
-          <div className="flex w-full h-12 mb-9">
-            <div className="w-40 pt-3 text-center bg-green-500 border">
-              Pilih Semua
+          <div className="w-full h-14 flex justify-between items-center px-4 py-3">
+            <span className="">Pilih Semua</span>
+            <div className="w-59 flex h-full items-center gap-x-2">
+              Kartu per halaman
+              <div className="dropdown dropdown-top dropdown-end">
+                <label
+                  tabIndex="0"
+                  className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer"
+                >
+                  {limit} <ChevronDownIcon className={`h-5`} />
+                </label>
+                <ul
+                  tabIndex="0"
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
+                >
+                  <li>
+                    <button onClick={() => setLimit(10)}>10</button>
+                  </li>
+                  <li>
+                    <button onClick={() => setLimit(20)}>20</button>
+                  </li>
+                  <li>
+                    <button onClick={() => setLimit(30)}>30</button>
+                  </li>
+                </ul>
+              </div>
             </div>
+            <div className="h-8 min-w-min flex items-center gap-x-2">
+              <button
+                className="button-outline h-7 aspect-square rounded-full"
+                onClick={() => setPage(0)}
+              >
+                <ChevronDoubleLeftIcon className="h-5" />
+              </button>
+              <button
+                className="button-primary h-full aspect-square rounded-full"
+                disabled={page === minPage}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                <ChevronLeftIcon className="h-7" />
+              </button>
+              <div className="h-full w-full flex gap-x-2">
+                {loading && !total ? (
+                  <div className="w-[250px] h-full rounded-lg bg-neutral-gray button-loading flex justify-center items-center">
+                    Loading ...
+                  </div>
+                ) : (
+                  printButtons()
+                )}
+              </div>
 
-            {/* <div className="w-32 pt-3 text-center bg-green-500 border">
-                Kartu
-              </div> */}
-            <div className="w-1/5 ml-56 ">
-              <select className="field-input w-2/4 h-full bg-white rounded-lg">
-                <option value="">5</option>
-                <option value="">10</option>
-                <option value="">15</option>
-              </select>
-            </div>
-            <div className="w-60 pt-3 text-center bg-green-500 border">
-              Paginate
+              <button
+                className="button-primary h-full aspect-square rounded-full"
+                disabled={page === totalPages - 1}
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                <ChevronRightIcon className="h-7" />
+              </button>
+              <button
+                className="button-outline h-7 aspect-square rounded-full"
+                onClick={() => setPage(totalPages - 1)}
+              >
+                <ChevronDoubleRightIcon className="h-5" />
+              </button>
             </div>
           </div>
           <div className="w-full flex flex-col gap-y-5">

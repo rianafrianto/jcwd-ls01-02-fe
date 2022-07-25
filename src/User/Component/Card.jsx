@@ -15,7 +15,7 @@ function Card({ data }) {
 
   return (
     <div
-      className="h-full relative bg-white border p-5 flex flex-col rounded-xl shadow-lg shadow-black/20 items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
+      className="h-full relative bg-white border p-5 flex flex-col rounded-xl shadow-custom-lg items-center gap-y-3 cursor-pointer hover:-translate-y-2 hover:shadow-primary/50 duration-300"
       onClick={() => navigate(`/category/${data.category}/${link}`)}
     >
       <button
