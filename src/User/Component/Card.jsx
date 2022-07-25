@@ -1,17 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API_URL from "../../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
 import formatToCurrency from "../../Helpers/formatToCurrency";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import defaultProduct from "../../Assets/default-product.png";
-import axios from "axios";
 
 function Card({ data, imgStyling }) {
   const { isLogin } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const link = data.name.split(" ").join("_");
+  // const [products, setProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  // const token = localStorage.getItem("token");
+  const params = useParams();
+  const productId = params.id;
+
+  const addtoCart = async () => {
+    try {
+      let token = Cookies.get("token");
+      // console.log(token);
+      let res = await axios.post(
+        `${API_URL}/transaction/addtocart`,
+        {
+          productId: data.id,
+          quantity: quantity,
+        },
+        { headers: { authorization: token } }
+      );
+      toast.success("Product berhasil dimasukan kedalam Cart!", {
+        theme: "colored",
+        position: "top-center",
+        style: { backgroundColor: "#009B90" },
+      });
+      console.log(res, ">>>>>>>>>>> RESPON DATA RES");
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
 
   return (
     <div
@@ -67,6 +97,7 @@ function Card({ data, imgStyling }) {
           if (!isLogin) {
             navigate("/login");
           }
+          addtoCart();
         }}
       >
         Keranjang
