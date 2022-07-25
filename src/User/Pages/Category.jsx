@@ -12,6 +12,8 @@ import {
 } from "@heroicons/react/solid";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import SelectCustom from "../../Admin/components/SelectCustom";
+import FilterMobile from "../Component/FilterMobile";
+import NavbarProductsMobile from "../Component/NavbarProductsMobile";
 
 function Category() {
   const [products, setProducts] = useState([]);
@@ -78,7 +80,7 @@ function Category() {
     return (
       <div className="w-full h-full container grid grid-cols-2 2xl:grid-cols-4 md:grid-cols-3  gap-3 lg:gap-x-10 lg:gap-y-6">
         {products.map((val, i) => {
-          return <Card key={i} data={val} />;
+          return <Card key={i} data={val} imgStyling="h-36" />;
         })}
       </div>
     );
@@ -115,14 +117,20 @@ function Category() {
   }, [order, page, category]);
 
   return (
-    <div className="h-full w-full pt-20">
-      <div className="h-10 w-60 lg:hidden border border-green-800 fixed flex bottom-20 left-1/2 -translate-x-1/2 z-50 rounded-lg overflow-hidden">
-        <button className="h-full w-1/2 bg-primary">sort</button>
-        <button className="h-full w-1/2 bg-primary">filter</button>
+    <div className="h-full w-full pt-5 md:pt-20 pb-14 lg:pb-0">
+      <NavbarProductsMobile />
+      <div className="h-10 w-60 lg:hidden bg-primary fixed flex bottom-10 left-1/2 -translate-x-1/2 z-50 rounded-lg overflow-hidden">
+        <button className="button-primary h-full w-1/2 bg-primary">
+          Urutkan
+        </button>
+        <div className="h-5 border-r border-white z-10 my-2" />
+        <button className="button-primary h-full w-1/2 bg-primary">
+          Saringkan
+        </button>
       </div>
       <div className="h-full w-ful bg-white flex justify-center relative">
         <div className="container h-full flex flex-col px-6 lg:px-24 py-11">
-          <div className="text-md breadcrumbs">
+          <div className="text-md breadcrumbs hidden md:block">
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -133,8 +141,8 @@ function Category() {
             </ul>
           </div>
           <div className="w-full mt-9 flex gap-x-12">
-            <div className="w-full h-fullflex flex-col">
-              <div className="w-full mt-9 flex gap-x-12">
+            <div className="w-full h-full flex flex-col">
+              <div className="w-full mt-0 md:mt-9 flex gap-x-12">
                 <FilterLeftBar
                   category={category}
                   setPage={setPage}
@@ -142,12 +150,18 @@ function Category() {
                   setOrderShow={setOrderShow}
                 />
                 <div className="w-full h-full flex flex-col gap-y-5">
-                  <div className="h-11 text-3xl font-bold text-secondary">
+                  <FilterMobile
+                    category={category}
+                    setPage={setPage}
+                    setOrder={setOrder}
+                    setOrderShow={setOrderShow}
+                  />
+                  <div className="h-11 hidden md:block text-3xl font-bold text-secondary">
                     {category && category === "all"
                       ? `${printCategory(category)} Kategori`
                       : printCategory(category)}
                   </div>
-                  <div className="w-full border-b border-neutral-gray" />
+                  <div className="w-full hidden md:block border-b border-neutral-gray" />
                   <div className="w-full h-9 mt-2 mb-2 flex justify-between items-center">
                     <div>
                       {loadingProducts ? "..." : total} Produk{" "}

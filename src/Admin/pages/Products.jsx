@@ -277,7 +277,7 @@ function Products() {
                 <button className="button-outline w-32 h-full">Excel</button>
               </div>
             </div>
-            <div className="w-full h-[800px] border shadow-lg rounded-lg overflow-hidden shadow-black/20 p-8 flex flex-col gap-y-5">
+            <div className="w-full h-[800px] border shadow-custom-lg rounded-lg overflow-hidden p-8 flex flex-col gap-y-5">
               <div className="h-20 w-full flex justify-between items-end">
                 <div className="w-full flex gap-x-4 items-end">
                   <div className="flex flex-col gap-y-2 h-full">

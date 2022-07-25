@@ -83,7 +83,7 @@ function ProdCatCarousel({ category }) {
     return data.map((val, i) => {
       return (
         <div key={i} className="w-full h-full flex px-2 py-4">
-          <Card key={i} data={val} />
+          <Card key={i} data={val} imgStyling="h-36" />
         </div>
       );
     });

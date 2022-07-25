@@ -16,7 +16,7 @@ function FilterLeftBar(props) {
       <div
         className={`${
           catDisclosure ? "h-[308px]" : "h-[84px]"
-        } duration-300 relative w-full bg-white p-5 rounded-xl shadow-xl border cursor-pointer`}
+        } duration-300 relative w-full bg-white p-5 rounded-xl shadow-custom border cursor-pointer`}
         onClick={() => {
           setCatDisclosure(!catDisclosure);
         }}
@@ -58,7 +58,7 @@ function FilterLeftBar(props) {
           })}
         </div>
       </div>
-      <div className="h-[1415px] bg-white border shadow-xl py-6 rounded-xl">
+      <div className="h-[1415px] bg-white border shadow-custom py-6 rounded-xl">
         <div className="flex justify-center mb-5">
           <button className="w-48 h-12 rounded-md bg-gray-400 text-white font-bold text-sm hover:bg-gray-500">
             Hapus Semua Filter

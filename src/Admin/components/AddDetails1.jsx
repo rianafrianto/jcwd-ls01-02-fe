@@ -45,7 +45,7 @@ function AddDetails1(props) {
     NIE: Yup.string().required("Wajib diisi"),
     category: Yup.string().required("Wajib diisi"),
     golongan: Yup.string().required("Wajib diisi"),
-    tgl_kadaluarsa: Yup.date().required("Wajib diisi"),
+    tgl_kadaluarsa: editId ? "" : Yup.date().required("Wajib diisi"),
     indikasi: Yup.string().required("Wajib diisi"),
     komposisi: Yup.string().required("Wajib diisi"),
     cara_penyimpanan: Yup.string().required("Wajib diisi"),
