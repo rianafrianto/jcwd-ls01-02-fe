@@ -13,6 +13,19 @@ import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import ModalImageCropper from "../Component/ModalImageCropper";
 import Loading from "../Component/Loading";
+import searchIcon from "../../Assets/search-icon.png";
+import CardOrderAdmin from "../../Admin/components/CardOrderAdmin";
+import CardOrderUser from "../Component/CardOrderUser";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  SearchIcon,
+} from "@heroicons/react/outline";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/solid";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -28,6 +41,121 @@ function Profile() {
   const [changed, setChanged] = useState(false);
   const [modalImageCropper, setModalImageCropper] = useState(false);
   const [cropping, setCropping] = useState(null);
+  // const { status } = params;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [minPage, setMinPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [terms, setTerms] = useState("");
+  const [sinceDate, setSinceDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [order, setOrder] = useState("ORDER BY o.id ASC");
+  const [status, setStatus] = useState({
+    pengecekan_resep: "",
+    pesanan_diterima: "",
+    menunggu_pembayaran: "",
+    diproses: "",
+    dikirim: "",
+    selesai: "",
+    dibatalkan: "",
+  });
+
+  // const getOrders = async () => {
+  //   try {
+  //     setLoading(true);
+  //     let res = await axios.get(
+  //       `${API_URL}/admin/orders/${status}`,
+  //       {
+  //         params: { terms, sinceDate, toDate, page, limit, order },
+  //       }
+  //     );
+  //     console.log(res);
+  //     setData(res.data.data.orders);
+  //     setTotal(res.data.data.total);
+  //     setTotalPages(() => Math.ceil(res.data.data.total / limit));
+  //     setMinPage(0);
+  //     setMaxPage(() => {
+  //       if (totalPages > 5) return 4;
+  //       return totalPages - 1;
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const getOrders = async () => {
+    try {
+      setLoading(true);
+      let res = await axios.get(
+        `${API_URL}/admin/orders?pengecekan_resep=${status.pengecekan_resep}&pesanan_diterima=${status.pesanan_diterima}&menunggu_pembayaran=${status.menunggu_pembayaran}&diproses=${status.diproses}&dikirim=${status.dikirim}&selesai=${status.selesai}&dibatalkan=${status.dibatalkan}`,
+        {
+          params: { terms, sinceDate, toDate, page, limit, order },
+        }
+      );
+      console.log(res);
+      setData(res.data.data.orders);
+      setTotal(res.data.data.total);
+      setTotalPages(() => Math.ceil(res.data.data.total / limit));
+      setMinPage(0);
+      setMaxPage(() => {
+        if (totalPages > 5) return 4;
+        return totalPages - 1;
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const printOrders = (data) => {
+    return data.map((val, i) => {
+      return <CardOrderUser data={val} key={i} getOrders={getOrders} />;
+    });
+  };
+
+  const printButtons = () => {
+    let pages = [];
+    let buttonsTotal = totalPages;
+    for (let i = 0; i < buttonsTotal; i++) {
+      pages.push("");
+    }
+    console.log({ buttonsTotal });
+    return pages.map((val, i) => {
+      return (
+        <button
+          key={i}
+          className={`btn-plain h-8 aspect-square rounded-full ${
+            page === i ? "bg-primary text-white" : ""
+          }`}
+          onClick={async () => {
+            if (page !== i) {
+              setPage(i);
+            }
+          }}
+        >
+          {i + 1}
+        </button>
+      );
+    });
+  };
+
+  useEffect(() => {
+    setSinceDate("");
+    setToDate("");
+    setTerms("");
+    getOrders();
+    return () => {};
+  }, [status, limit, page]);
+
+  useEffect(() => {
+    if (sinceDate || toDate) getOrders();
+  }, [sinceDate, toDate]);
 
   const modalImageCropperHandler = () => {
     setModalImageCropper(!modalImageCropper);
@@ -120,6 +248,7 @@ function Profile() {
       setloadingSubmit(false);
     }
   };
+
   const sendEmail = async () => {
     try {
       setLoadingEmail(true);
@@ -444,7 +573,76 @@ function Profile() {
                 </select>
               </div>
             </div>
-            <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
+            <div className="w-full h-14 flex justify-between items-center px-4 py-3">
+              <span className="">Pilih Semua</span>
+              <div className="w-59 flex h-full items-center gap-x-2">
+                Kartu per halaman
+                <div className="dropdown dropdown-top dropdown-end">
+                  <label
+                    tabIndex="0"
+                    className="h-full w-20 border border-neutral-gray p-1 rounded-lg focus:outline-primary flex gap-x-5 cursor-pointer"
+                  >
+                    {limit} <ChevronDownIcon className={`h-5`} />
+                  </label>
+                  <ul
+                    tabIndex="0"
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
+                  >
+                    <li>
+                      <button onClick={() => setLimit(10)}>10</button>
+                    </li>
+                    <li>
+                      <button onClick={() => setLimit(20)}>20</button>
+                    </li>
+                    <li>
+                      <button onClick={() => setLimit(30)}>30</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="h-8 min-w-min flex items-center gap-x-2">
+                <button
+                  className="button-outline h-7 aspect-square rounded-full"
+                  onClick={() => setPage(0)}
+                >
+                  <ChevronDoubleLeftIcon className="h-5" />
+                </button>
+                <button
+                  className="button-primary h-full aspect-square rounded-full"
+                  disabled={page === minPage}
+                  onClick={() => setPage((prev) => prev - 1)}
+                >
+                  <ChevronLeftIcon className="h-7" />
+                </button>
+                <div className="h-full w-full flex gap-x-2">
+                  {loading && !total ? (
+                    <div className="w-[250px] h-full rounded-lg bg-neutral-gray button-loading flex justify-center items-center">
+                      Loading ...
+                    </div>
+                  ) : (
+                    printButtons()
+                  )}
+                </div>
+
+                <button
+                  className="button-primary h-full aspect-square rounded-full"
+                  disabled={page === totalPages - 1}
+                  onClick={() => setPage((prev) => prev + 1)}
+                >
+                  <ChevronRightIcon className="h-7" />
+                </button>
+                <button
+                  className="button-outline h-7 aspect-square rounded-full"
+                  onClick={() => setPage(totalPages - 1)}
+                >
+                  <ChevronDoubleRightIcon className="h-5" />
+                </button>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-5">
+              {loading ? <Loading className="pt-56" /> : printOrders(data)}
+            </div>
+            {/* <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
               <div className="py-4 ml-6 text-xs flex items-stretch ">
                 Jumat, 5 April 2022, 15:45
                 <div className="ml-auto mr-5 h-25 w-30 border bg-danger p-2 rounded text-white  ">
@@ -471,7 +669,7 @@ function Profile() {
               <div className="ml-6 py-6 text-xs text-primary ">
                 Costumer Chat Service
               </div>
-            </div>
+            </div> */}
           </div>
         );
       case "payment-methods":

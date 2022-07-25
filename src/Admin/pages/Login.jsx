@@ -8,11 +8,14 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Form, Formik } from "formik";
 import Googleicon from "../../Assets/google-icon.png";
+import signupImage from "../../Assets/signup-image.png";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [changed, setChanged] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const initialValues = {
     adminId: "",
@@ -65,7 +68,7 @@ function Login() {
       <div className="flex">
         <div className="w-1/2 h-full flex">
           <div className="bg-white m-auto h-full w-full">
-            <img className="w-[700px] h-[750px]" alt="" />
+            <img className="w-[700px] h-[750px]" alt="" src={signupImage} />
           </div>
         </div>
         <div className="w-1/2 h-full flex">
@@ -102,7 +105,7 @@ function Login() {
                       <div className="w-16 h-7 font-extrabold">Masuk</div>
                     </div>
                     <div className="mb-4">
-                      <div className="w-9 h-5 mb-1">Email</div>
+                      <div className="w-9 h-5 mb-1">Email/Username</div>
                       <input
                         className={
                           errors.adminId &&
@@ -149,7 +152,7 @@ function Login() {
                             ? "w-full h-10 border rounded-sm border-gray-300"
                             : "w-full h-10 border rounded-sm border-gray-300"
                         }
-                        type="password"
+                        type={visible ? "text" : "password"}
                         placeholder="Masukan Password"
                         name="password"
                         onChange={(e) => {
@@ -160,6 +163,17 @@ function Login() {
                         value={values.password}
                         onBlur={handleBlur}
                       />
+                      <button
+                        type="button"
+                        className="h-6 w-6 absolute right-32 top-[338px] text-secondary rounded-full flex justify-center items-center hover:bg-neutral-gray"
+                        onClick={() => setVisible(!visible)}
+                      >
+                        {visible ? (
+                          <BsFillEyeFill className="h-full" />
+                        ) : (
+                          <BsFillEyeSlashFill className="h-full" />
+                        )}
+                      </button>
                       {true ? (
                         <div className="absolute text-red-600"></div>
                       ) : null}
@@ -180,7 +194,7 @@ function Login() {
                     </div>
                     <div className="w-full flex justify-center mb-12">
                       <button
-                        className="w-full h-12 border bg-teal-500 text-white rounded-md hover:bg-teal-600"
+                        className="w-full h-12 border bg-teal-600 text-white rounded-md hover:bg-teal-700"
                         type="submit"
                         disabled={!isValid || !changed || isSubmitting}
                       >
