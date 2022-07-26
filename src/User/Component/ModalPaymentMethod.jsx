@@ -11,6 +11,8 @@ function ModalPaymentMethod(props) {
     cart,
     dataAddress,
     selectedMethod,
+    id,
+    checkoutCart,
   } = props;
   const navigate = useNavigate();
   const onClose = () => {
@@ -24,6 +26,8 @@ function ModalPaymentMethod(props) {
       selected_address: dataAddress,
       total_price: totalPrice,
       shipping_method: `${selectedMethod.kurir} ${selectedMethod.jenis}`,
+      checkoutCart,
+      id,
     };
     console.log(insertData);
   };

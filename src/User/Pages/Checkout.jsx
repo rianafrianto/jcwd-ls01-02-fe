@@ -38,6 +38,7 @@ function Checkout() {
   const [subTotal, setSubTotal] = useState(0);
   const [dataAddress, setDataAddress] = useState("");
   const [orderId, setOrderId] = useState(null);
+  const [checkoutCart, setCheckoutCart] = useState([]);
   const [dataCart, setDataCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalPaymentMethod, setModalPaymentMethod] = useState(false);
@@ -96,8 +97,10 @@ function Checkout() {
           params: { transaction_code },
         }
       );
+      console.log(res.data.data);
       setDataCart(res.data.data.cartData);
       setOrderId(res.data.data.id);
+      setCheckoutCart(res.data.data.checkoutCart);
       let totalPrice = 0;
       const carts = res.data.data.cartData;
       for (const cart of carts) {
@@ -252,6 +255,8 @@ function Checkout() {
         cart={dataCart}
         dataAddress={dataAddress}
         selectedMethod={selectedMethod}
+        id={orderId}
+        checkoutCart={checkoutCart}
       />
       <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
