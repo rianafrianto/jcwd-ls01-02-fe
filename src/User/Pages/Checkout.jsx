@@ -25,7 +25,7 @@ function Checkout() {
   const { isLogin, address_id } = useSelector((state) => state.user);
   const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(true);
   const [loadingCourier, setLoadingCourier] = useState(false);
-  const [loadingCart, setLoadingCart] = useState(true);
+  const [loadingCart, setLoadingCart] = useState(false);
   const [destinationId, setDestinationId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [weight, setWeight] = useState(1000);
@@ -36,6 +36,7 @@ function Checkout() {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [selectedMethodCost, setSelectedMethodCost] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
+  const [dataAddress, setDataAddress] = useState("");
   const [orderId, setOrderId] = useState(null);
   const [dataCart, setDataCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +59,7 @@ function Checkout() {
   }
 
   const openMethodModal = () => {
+    setDataAddress(createAddress(selectedAddress));
     setModalPaymentMethod(true);
   };
 
@@ -248,7 +250,7 @@ function Checkout() {
         setModalPaymentMethod={setModalPaymentMethod}
         totalPrice={subTotal + selectedMethodCost}
         cart={dataCart}
-        dataAddress={createAddress(selectedAddress)}
+        dataAddress={dataAddress}
         selectedMethod={selectedMethod}
       />
       <div className="h-full w-screen  flex justify-center pt-20">
