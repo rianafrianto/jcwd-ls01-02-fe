@@ -119,7 +119,7 @@ function ProductDetail() {
         <div className="w-full mt-9 grid grid-cols-1 lg:grid-cols-2 gap-x-28">
           <div className="flex flex-col w-full items-center">
             <div className="w-[400px] flex flex-col items-center gap-5">
-              <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center sm:shadow-lg shadow-black/20 rounded-xl">
+              <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center sm:shadow-custom-lg rounded-xl">
                 <img
                   src={data.photo ? API_URL + data.photo : defaultProduct}
                   alt=""
