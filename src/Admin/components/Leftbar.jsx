@@ -17,7 +17,7 @@ function Leftbar() {
   const [transaksiDisclosure, setTransaksiDisclosure] = useState(false);
   const [salesDisclosure, setSalesDisclosure] = useState(false);
   return (
-    <div className="h-full flex flex-col w-64 fixed top-0 z-20 bg-white overflow-hidden shadow-xl shadow-black/50">
+    <div className="h-full flex flex-col w-64 fixed top-0 z-50 bg-white overflow-hidden shadow-custom-lg">
       <div className="w-full h-16 flex justify-center items-center bg-white z-10 p-10">
         <img src={logo} alt="logo" className="w-full" />
       </div>
@@ -104,9 +104,9 @@ function Leftbar() {
             Semua
           </Link>
           <Link
-            to="/admin/orders/pengecekan-resep"
+            to="/admin/orders/pengecekan_resep"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/pengecekan-resep"
+              location.pathname === "/admin/orders/pengecekan_resep"
                 ? "text-primary"
                 : ""
             }`}
@@ -114,9 +114,9 @@ function Leftbar() {
             Pengecekan Resep
           </Link>
           <Link
-            to="/admin/orders/pesanan-diterima"
+            to="/admin/orders/pesanan_diterima"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/pesanan-diterima"
+              location.pathname === "/admin/orders/pesanan_diterima"
                 ? "text-primary"
                 : ""
             }`}
@@ -124,9 +124,9 @@ function Leftbar() {
             Pesanan Diterima
           </Link>
           <Link
-            to="/admin/orders/menunggu-pembayaran"
+            to="/admin/orders/menunggu_pembayaran"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/menunggu-pembayaran"
+              location.pathname === "/admin/orders/menunggu_pembayaran"
                 ? "text-primary"
                 : ""
             }`}

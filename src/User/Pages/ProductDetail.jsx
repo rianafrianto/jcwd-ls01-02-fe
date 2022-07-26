@@ -15,6 +15,9 @@ import { printCategory, printCategoryParams } from "../../Helpers/categoryList";
 import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
 import Loading from "../Component/Loading";
 import defaultProduct from "../../Assets/default-product.png";
+import NavbarDetailsMobile from "../Component/NavbarDetailsMobile";
+import BotBarDetailsMobile from "../Component/BotBarDetailsMobile";
+import ProdCatCarMobile from "../Component/Carousel/Carousels/ProdCatCarMobile";
 
 function ProductDetail() {
   const navigate = useNavigate();
@@ -48,54 +51,34 @@ function ProductDetail() {
       case "DESKRIPSI":
         return (
           <>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Indikasi / Kegunaan</div>
-              <div className="h-full w-1/2">{data.indikasi}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">
-                Kandungan / Komposisi
-              </div>
-              <div className="h-full w-1/2">{data.komposisi}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Golongan</div>
-              <div className="h-full w-1/2">{data.golongan}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Kemasan</div>
-              <div className="h-full w-1/2">{data.kemasan}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Principal</div>
-              <div className="h-full w-1/2">{data.principal}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">NIE</div>
-              <div className="h-full w-1/2">{data.NIE}</div>
-            </div>
+            <div className="h-full w-full font-bold">Indikasi / Kegunaan</div>
+            <div className="h-full w-full">{data.indikasi}</div>
+            <div className="h-full w-full font-bold">Kandungan / Komposisi</div>
+            <div className="h-full w-full">{data.komposisi}</div>
+            <div className="h-full w-full font-bold">Golongan</div>
+            <div className="h-full w-full">{data.golongan}</div>
+            <div className="h-full w-full font-bold">Kemasan</div>
+            <div className="h-full w-full">{data.kemasan}</div>
+            <div className="h-full w-full font-bold">Principal</div>
+            <div className="h-full w-full">{data.principal}</div>
+            <div className="h-full w-full font-bold">Nomor Ijin Edar (NIE)</div>
+            <div className="h-full w-full">{data.NIE}</div>
           </>
         );
       case "CARAPAKAI":
         return (
           <>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Cara Pakai</div>
-              <div className="h-full w-1/2">{data.cara_pakai}</div>
-            </div>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Cara Penyimpanan</div>
-              <div className="h-full w-1/2">{data.cara_penyimpanan}</div>
-            </div>
+            <div className="h-full w-full font-bold">Cara Pakai</div>
+            <div className="h-full w-full">{data.cara_pakai}</div>
+            <div className="h-full w-full font-bold">Cara Penyimpanan</div>
+            <div className="h-full w-full">{data.cara_penyimpanan}</div>
           </>
         );
       case "PERINGATAN":
         return (
           <>
-            <div className="w-full flex">
-              <div className="h-full w-1/2 font-bold">Peringatn</div>
-              <div className="h-full w-1/2">{data.peringatan}</div>
-            </div>
+            <div className="h-full w-full font-bold">Peringatn</div>
+            <div className="h-full w-full">{data.peringatan}</div>
           </>
         );
 
@@ -114,9 +97,11 @@ function ProductDetail() {
   }
 
   return (
-    <div className="h-full w-screen flex justify-center pt-20">
-      <div className="container h-full flex flex-col px-24 py-11">
-        <div className="text-md breadcrumbs">
+    <div className="h-full w-full flex justify-center sm:pt-20 pb-20 sm:pb-0 overflow-hidden">
+      <NavbarDetailsMobile />
+      <BotBarDetailsMobile />
+      <div className="container h-full flex flex-col px-6 sm:px-24 py-11">
+        <div className="text-md breadcrumbs hidden sm:block">
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -134,7 +119,7 @@ function ProductDetail() {
         <div className="w-full mt-9 grid grid-cols-1 lg:grid-cols-2 gap-x-28">
           <div className="flex flex-col w-full items-center">
             <div className="w-[400px] flex flex-col items-center gap-5">
-              <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center shadow-lg shadow-black/20 rounded-xl">
+              <figure className="h-[300px] w-full bg-white p-20 flex justify-center items-center sm:shadow-custom-lg rounded-xl">
                 <img
                   src={data.photo ? API_URL + data.photo : defaultProduct}
                   alt=""
@@ -153,16 +138,16 @@ function ProductDetail() {
             </div>
           </div>
           <div className="w-full h-full flex flex-col mr-28">
-            <div className="h-[300px] w-full bg-white flex flex-col mb-20">
+            <div className="h-fit w-full bg-white flex flex-col sm:mb-20">
               <div className="text-sm mb-1">{data.principal}</div>
-              <div className="text-2xl mb-5">{data.name}</div>
-              <div className="text-2xl font-bold text-secondary mb-3">
+              <div className="text-lg mb-5">{data.name}</div>
+              <div className="text-xl font-bold text-secondary mb-3">
                 {formatToCurrency(data.price)}{" "}
                 <span className="font-normal text-lg">
                   / {data.satuan.toLowerCase()}
                 </span>
               </div>
-              <div className="text-base mb-6 flex gap-x-5 items-center">
+              <div className="text-sm mb-6 flex gap-x-5 items-center">
                 <span className="line-through text-neutral-gray">
                   {formatToCurrency(data.initPrice)}
                 </span>
@@ -190,11 +175,11 @@ function ProductDetail() {
                     <img src={plusIcon} alt="" className="h-full" />
                   </button>
                 </div>
-                <div>
+                <div className="text-xs">
                   Sisa {data.stock} {data.satuan.toLowerCase()}
                 </div>
               </div>
-              <div className="flex gap-x-4 h-11">
+              <div className="hidden sm:flex gap-x-4 h-11">
                 <button
                   className="button-outline w-40 text-sm flex gap-x-2"
                   onClick={() => {
@@ -219,15 +204,14 @@ function ProductDetail() {
                   Beli
                 </button>
                 <button className="button-outline aspect-square group">
-                  <HeartIcon className="h-2/3 text-primary group-hover:text-pink-500 duration-300" />
+                  <HeartIcon className="h-full text-primary group-hover:text-pink-500 duration-300" />
                 </button>
               </div>
             </div>
-            <div className="w-full border-t border-neutral-gray" />
-
-            <div className="w-full h-14 flex tabs">
+            <div className="w-full border-t border-neutral-gray hidden sm:block" />
+            <div className="w-screen sm:w-full h-14 flex tabs -ml-6 sm:mx-0">
               <button
-                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-sm ${
                   tab === "DESKRIPSI"
                     ? "border-b-2 border-primary text-primary font-bold"
                     : "border-b border-neutral-gray"
@@ -237,7 +221,7 @@ function ProductDetail() {
                 Deskripsi
               </button>
               <button
-                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-sm ${
                   tab === "CARAPAKAI"
                     ? "border-b-2 border-primary text-primary font-bold"
                     : "border-b border-neutral-gray"
@@ -247,7 +231,7 @@ function ProductDetail() {
                 Cara Pakai
               </button>
               <button
-                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-base ${
+                className={`tab h-full w-1/3 flex justify-center items-center z-10 text-sm ${
                   tab === "PERINGATAN"
                     ? "border-b-2 border-primary text-primary font-bold"
                     : "border-b border-neutral-gray"
@@ -257,17 +241,20 @@ function ProductDetail() {
                 Peringatan
               </button>
             </div>
-            <div className="w-full py-5 mb-12 flex flex-col gap-y-5 text-sm">
+            <div className="w-full py-5 mb-12 grid grid-cols-1 sm:grid-cols-2 gap-y-5 text-sm">
               {tabPrint(tab)}
             </div>
           </div>
         </div>
-        <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex pt-28 relative">
-          <h1 className="absolute left-3 top-10 text-2xl text-secondary font-bold">
+        <div className="w-full sm:border-t-[.5px] border-blackh-20 bg-white flex pt-16 sm:pt-28 relative">
+          <h1 className="absolute left-0 sm:left-3 top-0 sm:top-10 text-base sm:text-2xl text-secondary font-bold">
             Produk Terkait
           </h1>
-          <div className="z-10 w-full h-full">
+          <div className="hidden sm:block z-10 w-full h-full">
             <ProdCatCarousel category={category} />
+          </div>
+          <div className="h-full flex sm:hidden items-center w-screen overflow-x-scroll scrollbar-hide z-10 p-5 -mx-5">
+            <ProdCatCarMobile category={category} />
           </div>
         </div>
       </div>
