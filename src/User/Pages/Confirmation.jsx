@@ -22,33 +22,53 @@ function Confirmation() {
           setPaymentProofModal={setPaymentProofModal}
         />
       )}
-      <div className="h-full w-screen bg-green-200 flex justify-center pt-20">
+      <div className="h-full w-screen bg-white flex justify-center pt-20">
         <div className="container h-full flex flex-col px-80 py-16 gap-y-10">
-          <div>Menunggu Pembayaran</div>
-          <div className="w-full h-28 bg-white px-10">Batas waktu</div>
-          <div className="w-full h-full bg-white flex flex-col px-10 justify-center">
-            Ringkasan Order
-            <CardCart />
+          <h1 className="h-6 w-full font-bold text-secondary text-2xl">
+            Menunggu Pembayaran
+          </h1>
+          <div className="w-full border h-28 flex justify-between rounded-lg p-5 bayangan">
+            <div>
+              <h3>Batas waktu Pembayaran</h3>
+              <h2 className="h-6 w-full font-bold text-secondary text-xl">
+                {`{waktu tenggat}`}
+              </h2>
+            </div>
+            <div>Timer</div>
           </div>
-          <div className="w-full h-72 bg-white flex px-10 py-8">Pembayaran</div>
-          <button className="w-full h-72 bg-white flex px-10 py-8">
-            Bukti Pembayaran
-          </button>
+          <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+            <h1 className="h-6 w-full font-bold text-secondary text-xl">
+              Ringkasan Order
+            </h1>
+            <div className="w-full h-full flex flex-col items-center gap-y-4 border-t border-neutral-gray ">
+              {/* {loadingCart ? <Loading className="py-10" /> : printCartCard()} */}
+            </div>
+          </div>
+          <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+            <h1 className="h-6 w-full font-bold text-secondary text-xl">
+              Pembayaran
+            </h1>
+          </div>
+          <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+            <h1 className="h-6 w-full font-bold text-secondary text-xl">
+              Bukti Pembayaran
+            </h1>
+          </div>
           <div className="w-full h-14 flex gap-x-4 mb-10">
             <button
-              className="h-full w-1/2 border border-green-800 hover:bg-green-800 flex justify-center items-center"
+              className="h-full w-1/2 button-outline"
               onClick={() => navigate("/myaccount")}
             >
               Cek Status Pembayaran
             </button>
             <button
-              className="h-full w-1/2 border border-green-800 hover:bg-green-800 flex justify-center items-center"
+              className="h-full w-1/2 button-primary"
               onClick={() => setPaymentProofModal(true)}
             >
               Upload Bukti Pembayaran
             </button>
           </div>
-          <div className="w-full border-[.5px] border-black" />
+          <div className="w-full border-t border-neutral-gray" />
           <div className="w-full h-full bg-white flex flex-col">
             <div className="h-20 w-full flex items-center">Cara Pembayaran</div>
             <div className="h-24 w-full border-b border-black flex items-center">

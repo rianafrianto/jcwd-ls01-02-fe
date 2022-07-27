@@ -16,7 +16,6 @@ function ModalAllAddress(props) {
     setCourier,
     setSelectedMethod,
     setSelectedMethodCost,
-    setTotal,
     isOpen,
     closeModal,
     setDestinationId,
@@ -76,7 +75,6 @@ function ModalAllAddress(props) {
     });
     setSelectedMethod(null);
     setSelectedMethodCost(0);
-    setTotal(0);
     closeModal();
   };
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import CardCart from "../Component/CardCart";
 import API_URL from "../../Helpers/API_URL";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -15,13 +14,18 @@ import jneIcon from "../../Assets/jne-icon.png";
 import posIcon from "../../Assets/pos-icon.png";
 import tikiIcon from "../../Assets/tiki-icon.png";
 import SelectCustom from "../../Admin/components/SelectCustom";
+import CardCartCheckout from "../Component/CardCartCheckout";
+import ModalPaymentMethod from "../Component/ModalPaymentMethod";
 
 function Checkout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const transaction_code = searchParams.get("id");
   const { isLogin, address_id } = useSelector((state) => state.user);
-  const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(false);
+  const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(true);
   const [loadingCourier, setLoadingCourier] = useState(false);
+  const [loadingCart, setLoadingCart] = useState(false);
   const [destinationId, setDestinationId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [weight, setWeight] = useState(1000);
@@ -32,11 +36,14 @@ function Checkout() {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [selectedMethodCost, setSelectedMethodCost] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
-  const [total, setTotal] = useState(0);
   const [dataAddress, setDataAddress] = useState("");
-  const [dataMethod, setDataMethod] = useState(null);
+  const [orderId, setOrderId] = useState(null);
+  const [checkoutCart, setCheckoutCart] = useState([]);
+  const [dataCart, setDataCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [modalPaymentMethod, setModalPaymentMethod] = useState(false);
   const originId = "152";
+
   const listCourier = [
     { content: "Pilih Kurir", value: "" },
     { content: "JNE", value: "jne" },
@@ -51,6 +58,11 @@ function Checkout() {
   function openModal() {
     setIsOpen(true);
   }
+
+  const openMethodModal = () => {
+    setDataAddress(createAddress(selectedAddress));
+    setModalPaymentMethod(true);
+  };
 
   const getPrimaryAddress = async (data) => {
     try {
@@ -71,6 +83,34 @@ function Checkout() {
       console.log(error);
     } finally {
       setLoadingPrimaryAddress(false);
+    }
+  };
+
+  const getCartPrescription = async () => {
+    try {
+      setLoadingCart(true);
+      let token = Cookies.get("token");
+      const res = await axios.get(
+        `${API_URL}/transaction/get-cart-prescription`,
+        {
+          headers: { authorization: token },
+          params: { transaction_code },
+        }
+      );
+      console.log(res.data.data);
+      setDataCart(res.data.data.cartData);
+      setOrderId(res.data.data.id);
+      setCheckoutCart(res.data.data.checkoutCart);
+      let totalPrice = 0;
+      const carts = res.data.data.cartData;
+      for (const cart of carts) {
+        totalPrice += cart.price * cart.qty;
+      }
+      setSubTotal(totalPrice);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingCart(false);
     }
   };
 
@@ -125,7 +165,6 @@ function Checkout() {
               onClick={() => {
                 setSelectedMethod(val);
                 setSelectedMethodCost(val.harga);
-                setTotal(subTotal + Number(val.harga));
               }}
               className="button-primary px-5 absolute right-2 top-2"
             >
@@ -136,6 +175,17 @@ function Checkout() {
               Pengiriman yang dipilih
             </span>
           )}
+        </div>
+      );
+    });
+  };
+
+  const printCartCard = () => {
+    return dataCart.map((val, i) => {
+      return (
+        <div key={i} className="w-full">
+          <CardCartCheckout data={val} />
+          <div className="w-full border-t border-neutral-gray" />
         </div>
       );
     });
@@ -162,7 +212,7 @@ function Checkout() {
   };
 
   const createAddress = (data) => {
-    return `${data.nama_depan} ${data.nama_belakang}, +62${data.nomor_hp}\n${data.label}\n${data.alamat}, ${data.kota}, ${data.provinsi}, ${data.kode_pos}`;
+    return `${data.nama_depan} ${data.nama_belakang}, +62${data.nomor_hp}, ${data.label}, ${data.alamat}, ${data.kota}, ${data.provinsi}, ${data.kode_pos}`;
   };
 
   useEffect(() => {
@@ -178,6 +228,10 @@ function Checkout() {
         setCourierImage(posIcon);
       }
     }
+
+    if (transaction_code && !dataCart.length) {
+      getCartPrescription();
+    }
     // eslint-disable-next-line
   }, [courier]);
 
@@ -192,8 +246,17 @@ function Checkout() {
         setCourierShow={setCourierShow}
         setSelectedMethod={setSelectedMethod}
         setSelectedMethodCost={setSelectedMethodCost}
-        setTotal={setTotal}
         setDestinationId={setDestinationId}
+      />
+      <ModalPaymentMethod
+        modalPaymentMethod={modalPaymentMethod}
+        setModalPaymentMethod={setModalPaymentMethod}
+        totalPrice={subTotal + selectedMethodCost}
+        cart={dataCart}
+        dataAddress={dataAddress}
+        selectedMethod={selectedMethod}
+        id={orderId}
+        checkoutCart={checkoutCart}
       />
       <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">
@@ -207,7 +270,7 @@ function Checkout() {
                 {!selectedAddress ? null : (
                   <div className="min-h-min w-full p-2 relative">
                     {loadingPrimaryAddress ? (
-                      <Loading className="h-full" />
+                      <Loading className="py-10" />
                     ) : (
                       <>
                         <CardAddress data={selectedAddress} />
@@ -218,24 +281,30 @@ function Checkout() {
                         >
                           Pilih alamat lain
                         </button>
+                        <div className="border-b border-neutral-gray w-full mt-3" />
                       </>
                     )}
                   </div>
                 )}
-                <div className="border-b border-neutral-gray w-full" />
                 <button
-                  className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg"
+                  className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg mt-3"
                   onClick={() => navigate("/address")}
                 >
                   <img src={plusIcon} alt="" className="h-7 aspect-square" />
                   Tambah Alamat Baru
                 </button>
               </div>
-              <div className="border border-black">
-                <div className="h-6 w-full mb-3 border-b-[.5px] border-black">
+              <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+                <h1 className="h-6 w-full font-bold text-secondary text-xl">
                   Ringkasan Order
+                </h1>
+                <div className="w-full h-full flex flex-col items-center gap-y-4 border-t border-neutral-gray ">
+                  {loadingCart ? (
+                    <Loading className="py-10" />
+                  ) : (
+                    printCartCard()
+                  )}
                 </div>
-                {/* <CardCart /> */}
               </div>
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">
@@ -294,7 +363,7 @@ function Checkout() {
                     <tr className="border-y border-neutral-gray h-16">
                       <th className="text-left">Total</th>
                       <td className="text-right font-bold text-primary">
-                        {formatToCurrency(total)}
+                        {formatToCurrency(subTotal + selectedMethodCost)}
                       </td>
                     </tr>
                   </tbody>
@@ -305,15 +374,13 @@ function Checkout() {
                     Silahkan pilih metode pembayaran anda di sini
                   </p>
                 </div>
-                <label
-                  htmlFor={
-                    selectedAddress && selectedMethod ? "my-modal-4" : ""
-                  }
+                <button
                   className="button-primary text-sm modal-button"
                   onClick={() => {
                     if (selectedAddress && selectedMethod) {
-                      setDataAddress(createAddress(selectedAddress));
-                      setDataMethod(selectedMethod);
+                      // setDataAddress(createAddress(selectedAddress));
+                      // setDataMethod(selectedMethod);
+                      openMethodModal();
                     } else {
                       toast.error("Lengkapi pemesanan mu dulu yuk!", {
                         theme: "colored",
@@ -323,34 +390,7 @@ function Checkout() {
                   }}
                 >
                   Pilih Metode Pembayaran
-                </label>
-                <input
-                  type="checkbox"
-                  id="my-modal-4"
-                  className="modal-toggle"
-                />
-                <label htmlFor="my-modal-4" className="modal cursor-pointer">
-                  <label className="modal-box relative" htmlFor="">
-                    <label
-                      htmlFor="my-modal-4"
-                      className="btn btn-sm btn-circle absolute right-2 top-2"
-                    >
-                      ✕
-                    </label>
-                    <div className="h-4/6 border-black border">content</div>
-                    <div className="h-1/6 border-black border flex justify-center items-center">
-                      <button
-                        className="btn btn-ghost border-primary hover:bg-primary"
-                        onClick={() => {
-                          console.log({ dataAddress, dataMethod });
-                          navigate("/confirmation");
-                        }}
-                      >
-                        pilih metode
-                      </button>
-                    </div>
-                  </label>
-                </label>
+                </button>
               </div>
             </div>
           </div>
