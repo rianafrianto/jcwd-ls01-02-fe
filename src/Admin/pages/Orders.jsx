@@ -31,8 +31,7 @@ function Orders() {
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [order, setOrder] = useState("ORDER BY o.id ASC");
-  console.log(status);
+  const [order, setOrder] = useState("ORDER BY o.id DESC");
   const getOrders = async () => {
     try {
       setLoading(true);
@@ -42,7 +41,6 @@ function Orders() {
           params: { terms, sinceDate, toDate, page, limit, order },
         }
       );
-      console.log(res);
       setData(res.data.data.orders);
       setTotal(res.data.data.total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
@@ -69,7 +67,6 @@ function Orders() {
     for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
-    console.log({ buttonsTotal });
     return pages.map((val, i) => {
       return (
         <button

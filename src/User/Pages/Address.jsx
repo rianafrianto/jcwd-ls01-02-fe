@@ -65,6 +65,7 @@ function Address() {
 
   const getCity = async () => {
     try {
+      console.log("fetch");
       let res = await axios.get(
         `${API_URL}/raja-ongkir/cities?province_id=${provinceId}`
       );
@@ -83,7 +84,7 @@ function Address() {
       console.log({ values });
       console.log(values.primaryAddress);
       await dispatch(newAddressAction(values));
-      navigate("/checkout");
+      navigate(-1);
     } catch (error) {
       console.log(error);
     } finally {
