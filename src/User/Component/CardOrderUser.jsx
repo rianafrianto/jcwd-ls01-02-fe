@@ -20,18 +20,6 @@ function CardOrderUser({ data, getOrders }) {
           }`}
         >
           <div className="flex gap-x-2">
-            <input
-              type="checkbox"
-              name=""
-              id=""
-              onChange={() => setChecked(!checked)}
-              className="checkbox checkbox-primary"
-              value={data}
-            />
-            <span className="font-bold">{status.split("-").join(" ")}</span>
-            <span className="text-neutral-gray">/</span>
-            <span className="font-bold">{data.transaction_code}</span>
-            <span className="text-neutral-gray">/</span>
             <span className="font-bold text-gray-500 flex gap-x-2 items-center">
               <ClockIcon className="h-5 aspect-square" />
               {fullDateGenerator(data.date_process)}
@@ -40,69 +28,33 @@ function CardOrderUser({ data, getOrders }) {
           <div className="flex gap-x-2">
             {(status == "Pengecekan-Resep" || "Diproses") && (
               <>
-                <span className="font-bold">Respon Sebelum</span>
-                <div className="bg-yellow-200 rounded flex gap-x-2 items-center font-semibold text-red-600 text-xs px-2">
-                  <ClockIcon className="h-4 aspect-square" />
-                  {`{date_process + 2day}`}
-                </div>
+                <span className="font-bold">Menunggu Konfirmasi</span>
               </>
             )}
           </div>
         </div>
         <div className="border-b border-neutral-gray" />
         <div className="flex flex-col p-6 gap-y-3">
-          <div className="flex h-20 w-full gap-x-8">
-            <div className="w-1/3 flex gap-x-6">
-              <div className="h-full aspect-square border rounded object-cover overflow-hidden">
-                <img
-                  src={
-                    data.transaction_code.split()[1] === "L"
-                      ? ""
-                      : API_URL + data.prescription_photo
-                  }
-                  alt="photo"
-                />
-              </div>
-              <div className="w-full h-full">
-                {data.transaction_code.split()[1] === "L"
-                  ? ""
-                  : "Lakukan Pengecekan Resep"}
-              </div>
+          <div className="flex h-20 w-auto gap-x-8">
+            <div className="h-full aspect-square border rounded object-cover overflow-hidden">
+              <img
+                src={
+                  data.transaction_code.split()[1] === "L"
+                    ? ""
+                    : API_URL + data.prescription_photo
+                }
+                alt="photo"
+              />
             </div>
-            <div className="border-r h-full" />
-            <div className="w-2/3 flex gap-x-8">
-              <div className="w-1/3 flex flex-col">
-                <h3 className="font-bold">Pembeli</h3>
-                <p>{data.username}</p>
-              </div>
-              {status != "Pengecekan-Resep" && (
-                <>
-                  <div className="w-1/3 border">Alamat</div>
-                  <div className="w-1/3 border">Kurir</div>
-                </>
-              )}
-            </div>
+            <div className=" h-full " />
+            <span className="font-bold -ml-10">{data.transaction_code}</span>
           </div>
-          <div className="flex justify-between items-center h-12 w-full px-5 font-bold">
-            {status != "Pengecekan-Resep" && (
-              <>
-                <div className="w-1/2">Total Harga</div>
-                <div className="w-1/2 text-right">Price</div>
-              </>
-            )}
-          </div>
-          <div className="flex h-8 justify-between items-center">
-            <div className="h-full flex gap-x-5">
+          <div className="flex h-8 justify-between items-center mt-10">
+            <div className="h-full flex gap-x-5 ">
               <button className="button-outline rounded-full flex gap-x-2 text-sm px-5">
                 <img src={chatIcon} alt="" className="h-full scale-125" />
                 <span>Chat Pembeli</span>
               </button>
-              {status != "Pengecekan-Resep" && (
-                <button className="button-outline rounded-full flex gap-x-2 text-sm px-5">
-                  <img src={transaksiActiveIcon} alt="" className="h-full" />
-                  <span>Detail Pemesanan</span>
-                </button>
-              )}
             </div>
           </div>
         </div>

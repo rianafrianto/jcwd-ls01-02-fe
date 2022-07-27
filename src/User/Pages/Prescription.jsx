@@ -167,7 +167,7 @@ function Prescription() {
                     />
                   ) : null}
                 </div>
-                <div>
+                <div className="">
                   {" "}
                   <input
                     className="hidden"
@@ -184,11 +184,11 @@ function Prescription() {
                   </label>
                 </div>
               </div>
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-4">
                 <Button
                   type="submit"
                   buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
-                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 ${"loading"}`}
+                  className={`bg-primary hover:bg-teal-500 text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 h-11 rounded-md ${"loading"}`}
                   onClick={() => submitPhoto()}
                 />
               </div>

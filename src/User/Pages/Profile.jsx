@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
@@ -41,58 +41,29 @@ function Profile() {
   const [changed, setChanged] = useState(false);
   const [modalImageCropper, setModalImageCropper] = useState(false);
   const [cropping, setCropping] = useState(null);
-  // const { status } = params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [minPage, setMinPage] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(1);
   const [total, setTotal] = useState(0);
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [order, setOrder] = useState("ORDER BY o.id ASC");
-  const [status, setStatus] = useState({
-    pengecekan_resep: "",
-    pesanan_diterima: "",
-    menunggu_pembayaran: "",
-    diproses: "",
-    dikirim: "",
-    selesai: "",
-    dibatalkan: "",
-  });
+  const [status, setStatus] = useState("all");
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // const getOrders = async () => {
-  //   try {
-  //     setLoading(true);
-  //     let res = await axios.get(
-  //       `${API_URL}/admin/orders/${status}`,
-  //       {
-  //         params: { terms, sinceDate, toDate, page, limit, order },
-  //       }
-  //     );
-  //     console.log(res);
-  //     setData(res.data.data.orders);
-  //     setTotal(res.data.data.total);
-  //     setTotalPages(() => Math.ceil(res.data.data.total / limit));
-  //     setMinPage(0);
-  //     setMaxPage(() => {
-  //       if (totalPages > 5) return 4;
-  //       return totalPages - 1;
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  // const firstparams = Object.fromEntries([...searchParams]);
+  // console.log("Mounted:", firstparams);
+
   const getOrders = async () => {
     try {
       setLoading(true);
       let res = await axios.get(
-        `${API_URL}/admin/orders?pengecekan_resep=${status.pengecekan_resep}&pesanan_diterima=${status.pesanan_diterima}&menunggu_pembayaran=${status.menunggu_pembayaran}&diproses=${status.diproses}&dikirim=${status.dikirim}&selesai=${status.selesai}&dibatalkan=${status.dibatalkan}`,
+        `${API_URL}/transaction/orders/${status.split("_").join("-")}`,
         {
           params: { terms, sinceDate, toDate, page, limit, order },
         }
@@ -144,6 +115,11 @@ function Profile() {
       );
     });
   };
+
+  useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+    console.log(currentParams);
+  }, [searchParams]);
 
   useEffect(() => {
     setSinceDate("");
@@ -528,29 +504,65 @@ function Profile() {
         return (
           <div className="w-full px-10 py-7">
             <div className="">Daftar Pemesanan</div>
-            <div className="w-full flex">
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0 ">
+            <div className="w-full flex mt-3">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=all")}
+              >
                 Semua
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
-                Menunggu
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Pengecekan-Resep")
+                }
+              >
+                Pengecekan Resep
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Pesanan-Diterima")
+                }
+              >
+                Pesanan Diterima
+              </button>
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Menunggu-Pembayaran")
+                }
+              >
+                Menunggu Pembayaran
+              </button>
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Diproses")}
+              >
                 Diproses
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Dikirim")}
+              >
                 Dikirim
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Selesai")}
+              >
                 Selesai
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Dibatalkan")}
+              >
                 Dibatalkan
               </button>
             </div>
-            <div className="w-full flex h-11 justify-between gap-x-48">
+            <div className="w-full flex h-11 justify-between gap-x-48 mt-4">
               <div className="flex gap-x-4 h-full w-full items-center">
-                <div className="font-bold w-28">Jenis Obat</div>
+                <div className="font-bold w-28 ">Jenis Obat</div>
                 <div className="w-full flex gap-x-3">
                   <button className="button-outline w-full rounded-full">
                     Semua Obat
@@ -573,8 +585,10 @@ function Profile() {
                 </select>
               </div>
             </div>
-            <div className="w-full h-14 flex justify-between items-center px-4 py-3">
-              <span className="">Pilih Semua</span>
+            <div className="w-full flex flex-col gap-y-5 mt-4">
+              {loading ? <Loading className="pt-56" /> : printOrders(data)}
+            </div>
+            <div className="w-full h-14 flex justify-between items-center px-4 py-3 mt-4">
               <div className="w-59 flex h-full items-center gap-x-2">
                 Kartu per halaman
                 <div className="dropdown dropdown-top dropdown-end">
@@ -589,13 +603,13 @@ function Profile() {
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
                   >
                     <li>
-                      <button onClick={() => setLimit(10)}>10</button>
+                      <button onClick={() => setLimit(1)}>1</button>
                     </li>
                     <li>
-                      <button onClick={() => setLimit(20)}>20</button>
+                      <button onClick={() => setLimit(2)}>2</button>
                     </li>
                     <li>
-                      <button onClick={() => setLimit(30)}>30</button>
+                      <button onClick={() => setLimit(3)}>3</button>
                     </li>
                   </ul>
                 </div>
@@ -639,37 +653,6 @@ function Profile() {
                 </button>
               </div>
             </div>
-            <div className="w-full flex flex-col gap-y-5">
-              {loading ? <Loading className="pt-56" /> : printOrders(data)}
-            </div>
-            {/* <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
-              <div className="py-4 ml-6 text-xs flex items-stretch ">
-                Jumat, 5 April 2022, 15:45
-                <div className="ml-auto mr-5 h-25 w-30 border bg-danger p-2 rounded text-white  ">
-                  Menunggu Konfirmasi
-                </div>
-              </div>
-              <div className="w-full flex items-stretch">
-                <img src={DefaultPicture} className="w-28 h-24 ml-6 rounded" />
-                <div className="ml-2 text-xs">
-                  Nomor Resep
-                  <div className="text-base py-1">#123abc456def</div>
-                  <div className="text-xs gap-4 mt-8 text-primary">
-                    Tampilkan Detail
-                  </div>
-                </div>
-                <div className="ml-auto mr-5">
-                  <span className="countdown font-mono text-4xl text-red-400 border-red-400">
-                    <span className="--value:10;"></span>:
-                    <span className="--value:24;"></span>:
-                    <span className="--value:5;"></span>
-                  </span>
-                </div>
-              </div>
-              <div className="ml-6 py-6 text-xs text-primary ">
-                Costumer Chat Service
-              </div>
-            </div> */}
           </div>
         );
       case "payment-methods":
