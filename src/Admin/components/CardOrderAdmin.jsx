@@ -22,7 +22,6 @@ function CardOrderAdmin({ data, getOrders }) {
 
   const cancelOrder = async (id) => {
     try {
-      console.log(id);
       await axios.patch(`${API_URL}/transaction/order/reject?id=${id}`);
     } catch (error) {
       console.log(error);
@@ -30,7 +29,6 @@ function CardOrderAdmin({ data, getOrders }) {
   };
   const confirmlOrder = async (id) => {
     try {
-      console.log(id);
       await axios.patch(`${API_URL}/transaction/order/confirm?id=${id}`);
     } catch (error) {
       console.log(error);
@@ -74,7 +72,7 @@ function CardOrderAdmin({ data, getOrders }) {
                 <span className="font-bold">Respon Sebelum</span>
                 <div className="bg-yellow-200 rounded flex gap-x-2 items-center font-semibold text-red-600 text-xs px-2">
                   <ClockIcon className="h-4 aspect-square" />
-                  {`{date_process + 2day}`}
+                  {fullDateGenerator(data.expired_at)}
                 </div>
               </>
             )}
