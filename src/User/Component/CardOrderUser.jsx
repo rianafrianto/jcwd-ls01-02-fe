@@ -26,11 +26,7 @@ function CardOrderUser({ data, getOrders }) {
             </span>
           </div>
           <div className="flex gap-x-2">
-            {(status == "Pengecekan-Resep" || "Diproses") && (
-              <>
-                <span className="font-bold">Menunggu Konfirmasi</span>
-              </>
-            )}
+            <span className="font-bold">{status.split("-").join(" ")}</span>
           </div>
         </div>
         <div className="border-b border-neutral-gray" />

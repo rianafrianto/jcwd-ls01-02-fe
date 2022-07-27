@@ -55,15 +55,14 @@ function Profile() {
   const [order, setOrder] = useState("ORDER BY o.id ASC");
   const [status, setStatus] = useState("all");
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // const firstparams = Object.fromEntries([...searchParams]);
-  // console.log("Mounted:", firstparams);
+  console.log(searchParams.get("status"));
+  console.log(searchParams);
 
   const getOrders = async () => {
     try {
       setLoading(true);
       let res = await axios.get(
-        `${API_URL}/transaction/orders/${status.split("_").join("-")}`,
+        `${API_URL}/transaction/orders/${searchParams.get("status")}`,
         {
           params: { terms, sinceDate, toDate, page, limit, order },
         }
