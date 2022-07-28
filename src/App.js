@@ -8,7 +8,6 @@ import ProductDetail from "./User/Pages/ProductDetail";
 import Checkout from "./User/Pages/Checkout";
 import Address from "./User/Pages/Address";
 import Cart from "./User/Pages/Cart";
-import Confirmation from "./User/Pages/Confirmation";
 import Prescription from "./User/Pages/Prescription";
 import Profile from "./User/Pages/Profile";
 import Navbar from "./User/Component/Navbar";
@@ -23,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import gradientBg from "./Assets/gradient-bg.png";
 import NavbarMobile from "./User/Component/NavbarMobile";
+import Order from "./User/Pages/Order";
 
 function App() {
   const location = useLocation();
@@ -78,7 +78,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/address" element={<Address />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/prescription" element={<Prescription />} />
         <Route path="/myaccount/:tab" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />

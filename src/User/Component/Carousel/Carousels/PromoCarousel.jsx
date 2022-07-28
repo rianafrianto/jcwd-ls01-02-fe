@@ -52,7 +52,7 @@ function PromoCarousel(props) {
         breakpoint: 1536,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 1,
+          slidesToScroll: 4,
           infinite: true,
         },
       },
@@ -60,7 +60,7 @@ function PromoCarousel(props) {
         breakpoint: 1280,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
           infinite: true,
         },
       },
@@ -68,7 +68,7 @@ function PromoCarousel(props) {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           infinite: true,
         },
       },

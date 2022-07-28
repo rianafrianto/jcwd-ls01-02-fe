@@ -4,13 +4,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 
 function SelectCustom(props) {
-  const { buttonStyle, panelStyle, optionsFunc, stateValue } = props;
+  const { buttonStyle, panelStyle, optionsFunc, stateValue, disabled } = props;
   return (
     <Popover className="relative">
       {({ open, close }) => (
         <>
           <Popover.Button
-            className={`${buttonStyle} btn-plain h-full border border-neutral-gray bg-white flex justify-between items-center rounded-lg truncate focus:outline-primary px-2 cursor-pointer relative`}
+            className={`${buttonStyle} btn-plain h-full border border-neutral-gray bg-white flex justify-between items-center rounded-lg truncate focus:outline-primary px-2 cursor-pointer relative disabled:cursor-not-allowed`}
+            disabled={disabled}
           >
             {stateValue}{" "}
             <ChevronDownIcon
