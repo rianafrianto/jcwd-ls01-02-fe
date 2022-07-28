@@ -32,6 +32,8 @@ function Orders() {
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [order, setOrder] = useState("ORDER BY o.id DESC");
+  console.log(status);
+
   const getOrders = async () => {
     try {
       setLoading(true);
@@ -41,6 +43,7 @@ function Orders() {
           params: { terms, sinceDate, toDate, page, limit, order },
         }
       );
+      console.log(res);
       setData(res.data.data.orders);
       setTotal(res.data.data.total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
@@ -61,12 +64,14 @@ function Orders() {
       return <CardOrderAdmin data={val} key={i} getOrders={getOrders} />;
     });
   };
+
   const printButtons = () => {
     let pages = [];
     let buttonsTotal = totalPages;
     for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
+    console.log({ buttonsTotal });
     return pages.map((val, i) => {
       return (
         <button
@@ -87,7 +92,7 @@ function Orders() {
   };
 
   useEffect(() => {
-    setSinceDate("");
+    setSinceDate(""); //cb
     setToDate("");
     setTerms("");
     getOrders();

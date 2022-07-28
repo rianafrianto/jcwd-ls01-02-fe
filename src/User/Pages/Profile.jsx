@@ -52,19 +52,19 @@ function Profile() {
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [order, setOrder] = useState("ORDER BY o.id ASC");
-  const [status, setStatus] = useState("all");
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("status"));
-  console.log(searchParams);
+  const [order, setOrder] = useState("ORDER BY o.id DESC");
+  const [searchParams] = useSearchParams();
+  const status = searchParams.get("status");
 
   const getOrders = async () => {
     try {
       setLoading(true);
+      let token = Cookies.get("token");
       let res = await axios.get(
         `${API_URL}/transaction/orders/${searchParams.get("status")}`,
         {
-          params: { terms, sinceDate, toDate, page, limit, order },
+          headers: { authorization: token },
+          params: { sinceDate, toDate, page, limit, order },
         }
       );
       console.log(res);
@@ -123,7 +123,6 @@ function Profile() {
   useEffect(() => {
     setSinceDate("");
     setToDate("");
-    setTerms("");
     getOrders();
     return () => {};
   }, [status, limit, page]);
@@ -729,7 +728,7 @@ function Profile() {
               Pesan Bantuan
             </button>
           </div>
-          <div className="w-full h-[550px] bg-white">{tabPrint(tab)}</div>
+          <div className="w-full bg-white">{tabPrint(tab)}</div>
         </div>
       </div>
     </>
