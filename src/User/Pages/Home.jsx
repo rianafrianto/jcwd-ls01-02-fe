@@ -19,12 +19,13 @@ import PromoCarousel from "../Component/Carousel/Carousels/PromoCarousel";
 import CategoryCarousel from "../Component/Carousel/Carousels/CategoryCarousel";
 import CardMiniJumbotron from "../Component/CardMiniJumbotron";
 import ProdCatCarousel from "../Component/Carousel/Carousels/ProdCatCarousel";
-import { ArrowRightIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { ChevronRightIcon } from "@heroicons/react/outline";
 import CategoryCarouselMobile from "../Component/Carousel/Carousels/CategoryCarouselMobile";
 import NavbarHomeMobile from "../Component/NavbarHomeMobile";
 import NavbarMobile from "../Component/NavbarMobile";
 import PromoCarMobile from "../Component/Carousel/Carousels/PromoCarMobile";
 import ProdCatCarMobile from "../Component/Carousel/Carousels/ProdCatCarMobile";
+import JumbotronCarousel from "../Component/Carousel/Carousels/JumbotronCarousel";
 
 function Home() {
   const navigate = useNavigate();
@@ -36,12 +37,13 @@ function Home() {
   }, []);
 
   return (
-    <div className="h-full w-full bg-white flex justify-center pb-14 lg:pb-0 pt-20 scrollbar-hide sm:scrollbar-default">
+    <div className="h-full w-full bg-white flex justify-center pb-14 lg:pb-0 pt-20 scrollbar-hide sm:scrollbar-default overflow-x-hidden">
       <NavbarHomeMobile />
       <NavbarMobile />
       <div className="container h-full flex flex-col px-5 sm:px-10 lg:px-24 py-11 gap-y-6 lg:gap-y-14">
-        <div className="w-full h-32 lg:h-60 rounded-xl bg-primary"></div>
-
+        <div className="w-full h-32 lg:h-60 rounded-2xl overflow-hidden">
+          <JumbotronCarousel />
+        </div>
         {/* mobile */}
         <div className="flex lg:hidden w-full bg-white flex-col gap-y-4">
           <h3 className="text-sm font-bold text-secondary">
