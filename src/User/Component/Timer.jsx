@@ -65,7 +65,7 @@ function Timer({ time, style }) {
         </span>
       </div>
       <span className={`font-bold flex items-center ${styleType.colon}`}>
-        :
+        hari
       </span>
       <div
         className={`flex flex-col p-2 rounded-lg text-white ${
@@ -77,7 +77,7 @@ function Timer({ time, style }) {
         </span>
       </div>
       <span className={`font-bold flex items-center ${styleType.colon}`}>
-        :
+        jam
       </span>
       <div
         className={`flex flex-col p-2 rounded-lg text-white ${styleType.countdown}`}
@@ -87,7 +87,7 @@ function Timer({ time, style }) {
         </span>
       </div>
       <span className={`font-bold flex items-center ${styleType.colon}`}>
-        :
+        menit
       </span>
       <div
         className={`flex flex-col p-2 rounded-lg text-white ${styleType.countdown}`}
@@ -96,6 +96,9 @@ function Timer({ time, style }) {
           <span style={{ "--value": seconds }}></span>
         </span>
       </div>
+      <span className={`font-bold flex items-center ${styleType.colon}`}>
+        detik
+      </span>
     </div>
   );
 }

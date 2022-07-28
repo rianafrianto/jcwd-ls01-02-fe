@@ -7,21 +7,7 @@ import Timer from "./Timer";
 
 function PesananDiterima({ data }) {
   const navigate = useNavigate();
-  let {
-    id,
-    status,
-    selected_address,
-    payment_method,
-    total_price,
-    date_requested,
-    date_process,
-    prescription_photo,
-    payment_photo,
-    shipping_method,
-    transaction_code,
-    pesan,
-    expired_at,
-  } = data.dataOrder;
+  let { transaction_code, expired_at } = data.dataOrder;
   const { cart } = data;
 
   const printCartCard = () => {
@@ -40,16 +26,15 @@ function PesananDiterima({ data }) {
         Pesanan Diterima
       </h1>
       <div className="w-full border flex justify-between rounded-lg p-5 bayangan">
-        <div className="w-2/5R flex flex-col justify-between">
-          <h3>Batas waktu respon</h3>
+        <div className="w-2/5 flex flex-col gap-y-3">
+          <h3 className="text-gray-500">Batas waktu respon</h3>
           <h2 className="w-full font-bold text-secondary text-xl">
             {fullDateGenerator(expired_at)}
           </h2>
         </div>
-        <div className="w-2/5 h-full flex flex-col gap-y-3">
+        <div className="w-1/3 h-full flex flex-col gap-y-3 items-center">
           <h3 className="text-sm text-gray-500">
-            Mohon pilih alamat, metode pengiriman, dan metode pembayaran dengan
-            melanjutkan transaksi
+            Mohon lanjutkan transaksi sebelum batas waktu yang telah ditentukan
           </h3>
           <Timer time={expired_at} style="user" />
         </div>
@@ -73,7 +58,7 @@ function PesananDiterima({ data }) {
           className="h-full w-1/2 button-primary"
           onClick={() => navigate(`/checkout?id=${transaction_code}`)}
         >
-          Lanjutkan Pesanan
+          Lanjutkan Transaksi
         </button>
       </div>
     </>

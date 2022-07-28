@@ -56,7 +56,7 @@ function DetailsPreview(props) {
           <Loading className={``} />
         ) : (
           <>
-            <div className="h-[600px] overflow-scroll flex flex-col gap-y-3 items-center pt-3 border-t">
+            <div className="h-[600px] overflow-scroll flex flex-col gap-y-3 pr-5 text-justify items-center pt-3 border-t">
               <figure className="w-52 h-52 border border-primary rounded-lg">
                 <img
                   src={photo.filePreview}

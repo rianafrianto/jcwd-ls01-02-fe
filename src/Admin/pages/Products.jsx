@@ -248,12 +248,17 @@ function Products() {
 
   return (
     <>
-      <ModalAddProduct modalAdd={modalAdd} closeModalAdd={closeModalAdd} />
+      <ModalAddProduct
+        modalAdd={modalAdd}
+        closeModalAdd={closeModalAdd}
+        getProducts={getProducts}
+      />
       <ModalEditProduct
         modalEdit={modalEdit}
         closeModalEdit={closeModalEdit}
         editId={editId}
         setEditId={setEditId}
+        getProducts={getProducts}
       />
       <ModalEditOptions
         modalEditOptions={modalEditOptions}

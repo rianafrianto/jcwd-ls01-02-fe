@@ -1,5 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { fullDateGenerator } from "../../Helpers/dateGenerator";
+import CardCartCheckout from "./CardCartCheckout";
+import chatIcon from "../../Assets/chat-icon.png";
 
 function Dibatalkan({ data }) {
   const navigate = useNavigate();
@@ -17,69 +20,78 @@ function Dibatalkan({ data }) {
     transaction_code,
     pesan,
     expired_at,
-  } = data;
+  } = data.dataOrder;
+  const { cart } = data;
+  console.log(cart);
+
+  const printCartCard = () => {
+    return cart.map((val, i) => {
+      return (
+        <div key={i} className="w-full">
+          <CardCartCheckout data={val} />
+          <div className="w-full border-t border-neutral-gray" />
+        </div>
+      );
+    });
+  };
 
   return (
     <>
       <h1 className="h-6 w-full font-bold text-secondary text-2xl">
-        Menunggu Konfirmasi
+        Transaksi Dibatalkan
       </h1>
-      <div className="w-full border h-28 flex justify-between rounded-lg p-5 bayangan">
-        <div>
-          <h3>Batas waktu Pembayaran</h3>
-          <h2 className="h-6 w-full font-bold text-secondary text-xl">
-            {`{waktu tenggat}`}
-          </h2>
+      <div className="w-full border flex justify-between rounded-lg p-5 bayangan">
+        <div className="flex-grow w-1/4 h-full flex flex-col gap-y-3 items-start">
+          <div>
+            <h3 className="text-sm text-gray-500">Nomor Transaksi</h3>
+            <h3 className="font-bold text-secondary">{transaction_code}</h3>
+          </div>
+          <div className="flex flex-col gap-y-1">
+            <h3 className="text-sm text-gray-500">Tanggal Pengajuan</h3>
+            <h3 className="font-bold text-secondary">
+              {fullDateGenerator(date_requested)}
+            </h3>
+          </div>
         </div>
-        <div>Timer</div>
-      </div>
-      <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-        <h1 className="h-6 w-full font-bold text-secondary text-xl">
-          Ringkasan Order
-        </h1>
-        <div className="w-full h-full flex flex-col items-center gap-y-4 border-t border-neutral-gray ">
-          {/* {loadingCart ? <Loading className="py-10" /> : printCartCard()} */}
+        <div className="w-1/4 flex flex-col gap-y-1 justify-end">
+          <h3 className="text-sm text-gray-500">Tanggal Pembatalan</h3>
+          <h3 className="font-bold text-danger">
+            {fullDateGenerator(date_process)}
+          </h3>
         </div>
       </div>
-      <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-        <h1 className="h-6 w-full font-bold text-secondary text-xl">
-          Pembayaran
-        </h1>
-      </div>
-      <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-        <h1 className="h-6 w-full font-bold text-secondary text-xl">
-          Bukti Pembayaran
-        </h1>
-      </div>
+      {cart.length ? (
+        <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+          <h1 className="h-6 w-full font-bold text-secondary text-xl">
+            Ringkasan Order
+          </h1>
+          <div className="w-full h-full flex flex-col items-center gap-y-4 border-t border-neutral-gray ">
+            {printCartCard()}
+          </div>
+        </div>
+      ) : null}
+      {pesan ? (
+        <div className="w-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
+          <h1 className="h-6 w-full font-bold text-secondary text-xl">
+            Alasan Pembatalan
+          </h1>
+          <p className="text-center text-danger w-full font-bold">{pesan}</p>
+        </div>
+      ) : null}
+
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
-          className="h-full w-1/2 button-outline"
-          onClick={() => navigate("/myaccount")}
+          className="h-full w-1/2 button-outline flex gap-x-3"
+          onClick={() => {}}
         >
-          Cek Status Pembayaran
+          <img src={chatIcon} alt="" className="h-8" /> Chat Customer Service
         </button>
         <button
           className="h-full w-1/2 button-primary"
-          onClick={() => setPaymentProofModal(true)}
+          onClick={() => navigate(`/myaccount/orders`)}
         >
-          Upload Bukti Pembayaran
+          Cek Status Pembayaran Lainnya
         </button>
-      </div>
-      <div className="w-full border-t border-neutral-gray" />
-      <div className="w-full h-full bg-white flex flex-col">
-        <div className="h-20 w-full flex items-center">Cara Pembayaran</div>
-        <div className="h-24 w-full border-b border-black flex items-center">
-          ATM BCA
-        </div>
-        <div className="h-24 w-full border-b border-black flex items-center">
-          ATM BCA
-        </div>
-        <div className="h-24 w-full border-b border-black flex items-center">
-          ATM BCA
-        </div>
-        <div className="h-24 w-full border-b border-black flex items-center">
-          ATM BCA
-        </div>
       </div>
     </>
   );

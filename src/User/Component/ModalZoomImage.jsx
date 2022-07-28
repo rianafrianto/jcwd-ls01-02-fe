@@ -39,9 +39,12 @@ function ModalZoomImage(props) {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className="w-fit h-full flex flex-col gap-y-2 transform overflow-hidden align-middle shadow-xl transition-all"
+                className="w-fit h-full flex flex-col gap-y-2 transform align-middle shadow-xl transition-all"
                 onClick={closeModal}
               >
+                <div className="absolute w-fit bg-secondary z-50 -top-16 left-1/2 -translate-x-1/2 text-white py-2 px-5 rounded-lg">
+                  Klik dimana saja untuk keluar
+                </div>
                 <figure className="h-[800px]">
                   <img src={API_URL + photo} alt="" className="h-full" />
                 </figure>

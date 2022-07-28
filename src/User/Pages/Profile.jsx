@@ -249,22 +249,6 @@ function Profile() {
     }
   };
 
-  const sendEmail = async () => {
-    try {
-      setLoadingEmail(true);
-      await axios.post(`${API_URL}/auth/email-verification`, {
-        id,
-        username,
-        email,
-      });
-      toast.success("Email sent!");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingEmail(false);
-    }
-  };
-
   const onCancel = () => {
     setCropping(null);
   };
@@ -357,13 +341,7 @@ function Profile() {
                           Besar file: Maksimum 5 mb. Extensi file yang
                           diperbolehkan: JPG, JPEG & PNG
                         </div>
-                        <button
-                          disabled={loadingEmail}
-                          className="button-primary disabled:bg-gray-500 w-full h-11"
-                          onClick={sendEmail}
-                        >
-                          Send Email Verification
-                        </button>
+
                         <button
                           className="button-outline w-full h-11"
                           onClick={() => {
@@ -372,35 +350,6 @@ function Profile() {
                         >
                           Change Password
                         </button>
-                        <div className="flex flex-col items-center text-center">
-                          {loadingVerify ? (
-                            <Loading
-                              className={"animate-spin items-center h-30 w-30"}
-                            />
-                          ) : (
-                            <>
-                              <div
-                                className={`text-l ${
-                                  verified ? `text-primary` : `text-red-600`
-                                }`}
-                              >
-                                {verified ? (
-                                  "Already verified!"
-                                ) : (
-                                  <div className="flex flex-col">
-                                    Not yet verified!
-                                  </div>
-                                )}
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        {!verified && (
-                          <div className="text-sm mr-5 text-red-600 text-center">
-                            Please verify your account to be able to change User
-                            Details.
-                          </div>
-                        )}
                       </div>
                       <Form className="w-3/4 flex flex-col">
                         <div>

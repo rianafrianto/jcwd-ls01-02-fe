@@ -189,7 +189,7 @@ function Checkout() {
       setError(true);
       toast.error("Lengkapi pemesanan mu dulu yuk!", {
         theme: "colored",
-        style: { backgroundColor: "#DC2626" },
+        style: { backgroundColor: "#EB1E4A" },
       });
     }
   };
@@ -217,6 +217,10 @@ function Checkout() {
           onClick={() => {
             setCourier(val.value);
             setCourierShow(val.content);
+            if (courier !== val.value) {
+              setSelectedMethod(null);
+              setSelectedMethodCost(0);
+            }
           }}
         >
           {val.content}
@@ -278,12 +282,12 @@ function Checkout() {
           <div className="w-full flex gap-x-16">
             <div className="flex flex-col gap-y-7 w-4/6">
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg bayangan p-5 border">
-                <div className="flex gap-x-5 items-center">
+                <div className="flex gap-x-5 items-end">
                   <h1 className="h-6 w-fot font-bold text-secondary text-xl">
                     Alamat Pengiriman
                   </h1>
                   {!selectedAddress && error && (
-                    <span className="text-red-500 text-sm">
+                    <span className="text-error text-sm">
                       Pilih alamat terlebih dahulu sebelum memilih metode
                       pembayaran
                     </span>
@@ -332,12 +336,12 @@ function Checkout() {
                 </div>
               </div>
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-                <div className="flex gap-x-5 items-center">
+                <div className="flex gap-x-5 items-end">
                   <h1 className="h-6 w-fit font-bold text-secondary text-xl">
                     Pilih Metode Pengiriman{" "}
                   </h1>
                   {!selectedMethod && error && (
-                    <span className="text-red-500 text-sm">
+                    <span className="text-error text-sm">
                       Pilih metode pengiriman terlebih dahulu sebelum memilih
                       metode pembayaran
                     </span>
