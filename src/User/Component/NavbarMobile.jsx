@@ -6,6 +6,7 @@ import produkActiveIcon from "../../Assets/produk-admin-active.png";
 import transaksiIcon from "../../Assets/transaksi-admin.png";
 import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
 import profileIcon from "../../Assets/profile-mobile.png";
+import bantuanIcon from "../../Assets/bantuan-mobile.png";
 import profileActiveIcon from "../../Assets/profile-nav-icon.png";
 import { MdHeadsetMic } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ function NavbarMobile() {
   return (
     <div className="w-full h-20 sm:hidden fixed bottom-0 z-40 grid grid-cols-5 bg-white  overflow-hidden">
       <button
-        className="btn-plain flex flex-col justify-center items-center"
+        className="btn-plain flex flex-col justify-center items-center gap-y-1"
         onClick={() => navigate("/")}
       >
         <img
@@ -32,7 +33,7 @@ function NavbarMobile() {
         </span>
       </button>
       <button
-        className="btn-plain flex flex-col justify-center items-center"
+        className="btn-plain flex flex-col justify-center items-center gap-y-1"
         onClick={() => navigate("/category/all")}
       >
         <img
@@ -53,7 +54,7 @@ function NavbarMobile() {
         </span>
       </button>
       <button
-        className="btn-plain flex flex-col justify-center items-center"
+        className="btn-plain flex flex-col justify-center items-center gap-y-1"
         onClick={() => navigate("/myaccount/orders")}
       >
         <img
@@ -76,20 +77,16 @@ function NavbarMobile() {
         </span>
       </button>
       <button
-        className="btn-plain flex flex-col justify-center items-center"
+        className="btn-plain flex flex-col justify-center items-center gap-y-1"
         onClick={() => {}}
       >
-        <MdHeadsetMic className="h-7 aspect-square" />
-        <span
-          className={`text-xs font-semibold ${
-            location.pathname === "/" ? "text-primary" : "text-neutral-gray"
-          }`}
-        >
+        <img src={bantuanIcon} alt="" className="h-7 aspect-square" />
+        <span className={`text-xs font-semibold text-neutral-gray`}>
           Bantuan
         </span>
       </button>
       <button
-        className="btn-plain flex flex-col justify-center items-center"
+        className="btn-plain flex flex-col justify-center items-center gap-y-1"
         onClick={() => navigate("/myaccount/profile")}
       >
         <img

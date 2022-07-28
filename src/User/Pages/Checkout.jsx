@@ -42,6 +42,7 @@ function Checkout() {
   const [dataCart, setDataCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalPaymentMethod, setModalPaymentMethod] = useState(false);
+  const [error, setError] = useState(false);
   const originId = "152";
 
   const listCourier = [
@@ -165,6 +166,7 @@ function Checkout() {
               onClick={() => {
                 setSelectedMethod(val);
                 setSelectedMethodCost(val.harga);
+                setError(false);
               }}
               className="button-primary px-5 absolute right-2 top-2"
             >
@@ -178,6 +180,18 @@ function Checkout() {
         </div>
       );
     });
+  };
+
+  const pilihPembayaran = () => {
+    if (selectedAddress && selectedMethod) {
+      openMethodModal();
+    } else {
+      setError(true);
+      toast.error("Lengkapi pemesanan mu dulu yuk!", {
+        theme: "colored",
+        style: { backgroundColor: "#DC2626" },
+      });
+    }
   };
 
   const printCartCard = () => {
@@ -238,6 +252,7 @@ function Checkout() {
   return (
     <>
       <ModalAllAddress
+        setError={setError}
         isOpen={isOpen}
         selectedAddress={selectedAddress}
         closeModal={closeModal}
@@ -263,9 +278,17 @@ function Checkout() {
           <div className="w-full flex gap-x-16">
             <div className="flex flex-col gap-y-7 w-4/6">
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg bayangan p-5 border">
-                <h1 className="h-6 w-full font-bold text-secondary text-xl">
-                  Alamat Pengiriman
-                </h1>
+                <div className="flex gap-x-5 items-center">
+                  <h1 className="h-6 w-fot font-bold text-secondary text-xl">
+                    Alamat Pengiriman
+                  </h1>
+                  {!selectedAddress && error && (
+                    <span className="text-red-500 text-sm">
+                      Pilih alamat terlebih dahulu sebelum memilih metode
+                      pembayaran
+                    </span>
+                  )}
+                </div>
                 <div className="border-b border-neutral-gray w-full" />
                 {!selectedAddress ? null : (
                   <div className="min-h-min w-full p-2 relative">
@@ -286,13 +309,15 @@ function Checkout() {
                     )}
                   </div>
                 )}
-                <button
-                  className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg mt-3"
-                  onClick={() => navigate("/address")}
-                >
-                  <img src={plusIcon} alt="" className="h-7 aspect-square" />
-                  Tambah Alamat Baru
-                </button>
+                <div className="flex gap-x-5">
+                  <button
+                    className="button-outline px-5 flex justify-between gap-x-2 rounded-full shadow-lg mt-3"
+                    onClick={() => navigate("/address")}
+                  >
+                    <img src={plusIcon} alt="" className="h-7 aspect-square" />
+                    Tambah Alamat Baru
+                  </button>
+                </div>
               </div>
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
                 <h1 className="h-6 w-full font-bold text-secondary text-xl">
@@ -307,13 +332,22 @@ function Checkout() {
                 </div>
               </div>
               <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-                <h1 className="h-6 w-full font-bold text-secondary text-xl">
-                  Pilih Metode Pengiriman{" "}
-                </h1>
+                <div className="flex gap-x-5 items-center">
+                  <h1 className="h-6 w-fit font-bold text-secondary text-xl">
+                    Pilih Metode Pengiriman{" "}
+                  </h1>
+                  {!selectedMethod && error && (
+                    <span className="text-red-500 text-sm">
+                      Pilih metode pengiriman terlebih dahulu sebelum memilih
+                      metode pembayaran
+                    </span>
+                  )}
+                </div>
                 <div className="w-full h-full flex justify-start items-center gap-x-5 border-y border-neutral-gray py-3">
                   <SelectCustom
                     buttonStyle="w-44 h-10"
                     panelStyle="w-44 h-10"
+                    disabled={!selectedAddress}
                     optionsFunc={printCourierOptions}
                     stateValue={courierShow}
                   />
@@ -376,18 +410,7 @@ function Checkout() {
                 </div>
                 <button
                   className="button-primary text-sm modal-button"
-                  onClick={() => {
-                    if (selectedAddress && selectedMethod) {
-                      // setDataAddress(createAddress(selectedAddress));
-                      // setDataMethod(selectedMethod);
-                      openMethodModal();
-                    } else {
-                      toast.error("Lengkapi pemesanan mu dulu yuk!", {
-                        theme: "colored",
-                        style: { backgroundColor: "#DC2626" },
-                      });
-                    }
-                  }}
+                  onClick={pilihPembayaran}
                 >
                   Pilih Metode Pembayaran
                 </button>
