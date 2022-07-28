@@ -11,7 +11,6 @@ import Button from "../Component/Button";
 import emailIcon from "../../Assets/email-icon.png";
 import passwordIcon from "../../Assets/password-icon.png";
 import signupImage from "../../Assets/signup-image.png";
-import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
 import googleIcon from "../../Assets/google-icon.png";
@@ -66,6 +65,7 @@ function LogIn() {
         navigate("/home");
       }, 500);
     } catch (error) {
+      console.log(error);
       dispatch({
         type: "ERROR",
         payload: error.response.data.message || "Network Error",

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import { toast } from "react-toastify";
-// import unknown from "../Assets/unknownpeople.png";
 import DefaultPicture from "../../Assets/default_pic.png";
 import ChangePassword from "../Component/ChangePassword";
 import Button from "../Component/Button";
@@ -13,14 +12,11 @@ import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import ModalImageCropper from "../Component/ModalImageCropper";
 import Loading from "../Component/Loading";
-import searchIcon from "../../Assets/search-icon.png";
-import CardOrderAdmin from "../../Admin/components/CardOrderAdmin";
 import CardOrderUser from "../Component/CardOrderUser";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  SearchIcon,
 } from "@heroicons/react/outline";
 import {
   ChevronDoubleLeftIcon,
@@ -442,7 +438,7 @@ function Profile() {
                             value={email}
                             disabled
                             placeholder="Jhondoe@mail.com"
-                            className={`field-input w-full h-10 bg-neutral-gray cursor-not-allowed`}
+                            className={`field-input w-full h-10 bg-neutral-gray`}
                           />
                           <div className={`text-gray text-xs mt-2`}>
                             Email cannot be changed.
@@ -501,7 +497,7 @@ function Profile() {
       case "orders":
         return (
           <div className="w-full px-10 py-7">
-            <div className="">Daftar Pemesanan</div>
+            <div className="font-bold">Daftar Pemesanan</div>
             <div className="w-full flex mt-3">
               <button
                 className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
@@ -560,20 +556,17 @@ function Profile() {
             </div>
             <div className="w-full flex h-11 justify-between gap-x-48 mt-4">
               <div className="flex gap-x-4 h-full w-full items-center">
-                <div className="font-bold w-28 ">Jenis Obat</div>
+                <div className="font-bold w-40 ">Jenis Transaksi</div>
                 <div className="w-full flex gap-x-3">
-                  <button className="button-outline w-full rounded-full">
-                    Semua Obat
+                  <button className="button-outline w-1/5 rounded-full">
+                    Transaksi Resep
                   </button>
-                  <button className="button-outline w-full rounded-full">
-                    Obat Resep
-                  </button>
-                  <button className="button-outline w-full rounded-full">
-                    Obat Bebas
+                  <button className="button-outline w-1/5 rounded-full">
+                    Transaksi Langsung
                   </button>
                 </div>
               </div>
-              <div className="hidden lg:flex gap-x-4 items-center">
+              {/* <div className="hidden lg:flex gap-x-4 items-center">
                 <span>Urutkan</span>
                 <select className="select select-primary h-25 w-44 border border-neutral-gray p-2 rounded-lg">
                   <option value="" className="hover:bg-primary">
@@ -581,7 +574,7 @@ function Profile() {
                   </option>
                   <option value="">Terakhir</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="w-full flex flex-col gap-y-5 mt-4">
               {loading ? <Loading className="pt-56" /> : printOrders(data)}
@@ -699,7 +692,7 @@ function Profile() {
             </button>
             <button
               className="w-full h-20 flex items-center border border-1 btn-plain"
-              onClick={() => navigate("/myaccount/orders")}
+              onClick={() => navigate("/myaccount/orders?status=all")}
             >
               Proses Pemesanan
             </button>
