@@ -43,7 +43,7 @@ function Profile() {
   const [minPage, setMinPage] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
@@ -469,22 +469,16 @@ function Profile() {
                               </select>
                             </div>
                           </div>
-                          {loadingSubmit ? (
-                            <Loading
-                              className={"animate-spin h-10 w-10 ml-5"}
-                            />
-                          ) : (
-                            <Button
-                              type="submit"
-                              buttonContent={
-                                isSubmitting ? "Loading.." : "Save Changes"
-                              }
-                              disabled={!isValid || isSubmitting}
-                              className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-48 mt-6  ${
-                                isSubmitting && "loading"
-                              }`}
-                            />
-                          )}
+                          <Button
+                            type="submit"
+                            buttonContent={
+                              isSubmitting ? "Loading.." : "Save Changes"
+                            }
+                            disabled={!isValid || isSubmitting}
+                            className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm font-bold w-1/3 h-11 rounded-lg mt-6 justify-between ${
+                              isSubmitting && "loading"
+                            }`}
+                          />
                         </div>
                       </Form>
                     </div>
@@ -594,13 +588,13 @@ function Profile() {
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
                   >
                     <li>
-                      <button onClick={() => setLimit(1)}>1</button>
+                      <button onClick={() => setLimit(10)}>10</button>
                     </li>
                     <li>
-                      <button onClick={() => setLimit(2)}>2</button>
+                      <button onClick={() => setLimit(20)}>20</button>
                     </li>
                     <li>
-                      <button onClick={() => setLimit(3)}>3</button>
+                      <button onClick={() => setLimit(30)}>30</button>
                     </li>
                   </ul>
                 </div>

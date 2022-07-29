@@ -173,13 +173,6 @@ function Orders() {
                     onChange={(e) => setToDate(e.target.value)}
                   />
                 </div>
-                <div className="w-1/5 ml-10">
-                  <select className="select select-primary h-full bg-white rounded-lg">
-                    <option value="">Urutkan</option>
-                    <option value="">Terbaru</option>
-                    <option value="">Sebelumnya</option>
-                  </select>
-                </div>
               </div>
               <div className="w-full h-14 flex justify-between items-center px-4 py-3">
                 <span className="">Pilih Semua</span>

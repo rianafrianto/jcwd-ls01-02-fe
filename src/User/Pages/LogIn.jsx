@@ -63,12 +63,16 @@ function LogIn() {
       });
       setTimeout(() => {
         navigate("/home");
-      }, 500);
+      });
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
       dispatch({
         type: "ERROR",
         payload: error.response.data.message || "Network Error",
+      });
+      toast.error(error.response.data.message, {
+        theme: "colored",
+        style: { backgroundColor: "#EB1D36" },
       });
     } finally {
       onSubmit.setSubmitting(false);
@@ -149,11 +153,6 @@ function LogIn() {
                         alt=""
                         className="h-5 w-5 absolute left-5 top-11"
                       />
-                      {message[0] && !changed && (
-                        <div className="absolute text-red-600 -bottom-6 right-0 text-sm">
-                          {message[0]}
-                        </div>
-                      )}
                     </div>
 
                     {/* Password */}
