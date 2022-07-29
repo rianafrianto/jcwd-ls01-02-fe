@@ -72,7 +72,7 @@ function PengecekanResep({ data }) {
               Perbesar Gambar
             </button>
           </div>
-          <div className="w-1/3 h-full flex flex-col gap-y-3 items-center">
+          <div className="h-full flex flex-col gap-y-3 items-end">
             <h3 className="text-sm text-gray-500 ">
               Mohon menunggu balasan dari apoteker max 1 hari
             </h3>
@@ -97,11 +97,14 @@ function PengecekanResep({ data }) {
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
           className="h-full w-1/2 button-outline"
-          onClick={() => navigate("/myaccount")}
+          onClick={() => navigate("/")}
         >
           Kembali Ke Beranda
         </button>
-        <button className="h-full w-1/2 button-primary" onClick={() => {}}>
+        <button
+          className="h-full w-1/2 button-primary"
+          onClick={() => navigate("/myaccount/orders")}
+        >
           Cek Status Pembayaran Lainnya
         </button>
       </div>

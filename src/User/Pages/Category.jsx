@@ -114,6 +114,9 @@ function Category() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchProducts();
+    return () => {
+      window.scrollTo(0, 0);
+    };
   }, [order, page, category]);
 
   return (

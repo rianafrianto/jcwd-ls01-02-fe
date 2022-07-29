@@ -13,6 +13,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import FormikControl from "../../User/Component/Formik/FormikControl";
 import { toast } from "react-toastify";
+import { XIcon } from "@heroicons/react/solid";
 
 function ModalPrescriptionService(props) {
   const { isOpen, closeModal, data, getOrders } = props;
@@ -270,10 +271,10 @@ function ModalPrescriptionService(props) {
 
                   <button
                     type="button"
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center p-2 absolute right-0"
                     onClick={cancelService}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 <Formik

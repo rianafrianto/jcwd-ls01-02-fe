@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Loading from "./Loading";
 import { Dialog, Transition } from "@headlessui/react";
 import EditAddress from "./EditAddress";
+import { XIcon } from "@heroicons/react/solid";
 
 function ModalAllAddress(props) {
   const {
@@ -185,10 +186,10 @@ function ModalAllAddress(props) {
                     {address ? "Pilih Alamat" : "Ubah Alamat"}
                   </h1>
                   <button
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center p-2 absolute right-0"
                     onClick={closingModal}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 <div

@@ -11,6 +11,7 @@ import {
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
+  XIcon,
 } from "@heroicons/react/solid";
 
 function ModalProductStock(props) {
@@ -141,10 +142,10 @@ function ModalProductStock(props) {
                   <h1 className="font-bold">Product Stock</h1>
                   <button
                     type="button"
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center p-2 absolute right-0"
                     onClick={onClose}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 <div className="bg-admin h-full w-full justify-center flex">

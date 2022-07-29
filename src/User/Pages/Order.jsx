@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import CardCart from "../Component/CardCart";
-import PaymentProofModal from "../Component/PaymentProofModal";
 import PengecekanResep from "../Component/PengecekanResep";
 import PesananDiterima from "../Component/PesananDiterima";
 import MenungguPembayaran from "../Component/MenungguPembayaran";
@@ -12,7 +10,6 @@ import API_URL from "../../Helpers/API_URL";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Loading from "../Component/Loading";
-import Button from "../Component/Button";
 import Dibatalkan from "../Component/Dibatalkan";
 
 function Order() {
@@ -54,18 +51,21 @@ function Order() {
 
   const printPage = (data) => {
     let { status } = data.dataOrder;
-    status = true;
+    // status = true;
     switch (status) {
       case "Pengecekan-Resep":
         return <PengecekanResep data={data} />;
       case "Pesanan-Diterima":
         return <PesananDiterima data={data} />;
+      case "Menunggu-Pembayaran":
+        return (
+          <MenungguPembayaran data={data} getOrderDetails={getOrderDetails} />
+        );
+      case "Diproses":
+        return <Diproses data={data} />;
+      // return <PesananDiterima data={val} />;
       case "Dibatalkan":
         return <Dibatalkan data={data} />;
-      // return <Diproses data={data} />;
-      case true:
-        return <MenungguPembayaran data={data} />;
-      // return <PesananDiterima data={val} />;
 
       default:
         return null;
@@ -73,7 +73,7 @@ function Order() {
   };
 
   useEffect(() => {
-    if (!isLogin) navigate("/home");
+    if (!isLogin) navigate("/");
     if (isLogin && !error) getOrderDetails();
     let interval;
     if (timer > 0) {

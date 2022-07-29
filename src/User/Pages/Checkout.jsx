@@ -98,7 +98,9 @@ function Checkout() {
           params: { transaction_code },
         }
       );
-      console.log(res.data.data);
+      if (res.data.data.status !== "Pesanan-Diterima") {
+        navigate("/");
+      }
       setDataCart(res.data.data.cartData);
       setOrderId(res.data.data.id);
       setCheckoutCart(res.data.data.checkoutCart);
@@ -276,6 +278,7 @@ function Checkout() {
         selectedMethod={selectedMethod}
         id={orderId}
         checkoutCart={checkoutCart}
+        transaction_code={transaction_code}
       />
       <div className="h-full w-screen  flex justify-center pt-20">
         <div className="container h-full flex flex-col px-24 py-11">

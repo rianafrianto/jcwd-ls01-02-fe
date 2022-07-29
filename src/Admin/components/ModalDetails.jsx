@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import Loading from "../../User/Component/Loading";
+import { XIcon } from "@heroicons/react/solid";
 
 function ModalDetails(props) {
   const { modalDetails, closeModalDetails, detailsId, setDetailsId } = props;
@@ -140,10 +141,10 @@ function ModalDetails(props) {
 
                   <button
                     type="button"
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center p-2 absolute right-0"
                     onClick={onClose}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 {/* <div className="w-full h-[800px] overflow-scroll flex flex-col border-t"> */}

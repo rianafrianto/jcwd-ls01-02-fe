@@ -6,31 +6,108 @@ import { fullDateGenerator } from "../../Helpers/dateGenerator";
 import CardCartCheckout from "./CardCartCheckout";
 import ModalZoomImage from "./ModalZoomImage";
 import Timer from "./Timer";
+import bcaIcon from "../../Assets/bca-icon.png";
+import mandiriIcon from "../../Assets/mandiri-icon.png";
+import permataIcon from "../../Assets/permata-icon.png";
+import ovoIcon from "../../Assets/ovo-icon.png";
+import gopayIcon from "../../Assets/gopay-icon.png";
+import shopeepayIcon from "../../Assets/shopeepay-icon.png";
+import CaraPembayaran from "./CaraPembayaran";
+import formatToCurrency from "../../Helpers/formatToCurrency";
+import { DocumentDuplicateIcon } from "@heroicons/react/solid";
+import { toast } from "react-toastify";
+import ModalPaymentProof from "./ModalPaymentProof";
 
-function MenungguPembayaran({ data }) {
+function MenungguPembayaran({ data, getOrderDetails }) {
   const navigate = useNavigate();
   let {
     id,
-    status,
-    selected_address,
     payment_method,
     total_price,
     date_requested,
-    date_process,
     prescription_photo,
-    payment_photo,
-    shipping_method,
     transaction_code,
-    pesan,
     expired_at,
   } = data.dataOrder;
+  const { checkoutCart } = data;
   const { cart } = data;
   const [modalZoom, setModalZoom] = useState(false);
-  const onClose = () => {
+  const [modalProof, setModalProof] = useState(false);
+
+  const paymentMethod = (type) => {
+    switch (type) {
+      case "BCA":
+        return {
+          image: bcaIcon,
+          name: "BCA",
+          list: ["ATM BCA", "m-BCA (BCA Mobile)", "Internet Banking BCA"],
+        };
+      case "MANDIRI":
+        return {
+          image: mandiriIcon,
+          name: "Mandiri",
+          list: [
+            "ATM Mandiri",
+            "m-Banking Mandiri (Mandiri Livin)",
+            "Internet Banking Mandiri",
+          ],
+        };
+      case "PERMATA":
+        return {
+          image: permataIcon,
+          name: "Permata Bank",
+          list: [
+            "ATM Permata Bank",
+            "m-Banking Permata Bank (PermataMobile X)",
+            "Internet Banking Mandiri",
+          ],
+        };
+      case "GOPAY":
+        return {
+          image: gopayIcon,
+          name: "Gopay",
+          list: ["GoPay"],
+        };
+      case "OVO":
+        return {
+          image: ovoIcon,
+          name: "OVO",
+          list: ["OVO"],
+        };
+      case "SHOPEEPAY":
+        return {
+          image: shopeepayIcon,
+          name: "Shopeepay",
+          list: ["ShopeePay"],
+        };
+      default:
+        return null;
+    }
+  };
+
+  const payment = paymentMethod(payment_method);
+
+  const onCloseZoom = () => {
     setModalZoom(false);
   };
-  const onOpen = () => {
+  const onOpenZoom = () => {
     setModalZoom(true);
+  };
+
+  const onCloseProof = () => {
+    setModalProof(false);
+  };
+  const onOpenProof = () => {
+    setModalProof(true);
+  };
+
+  const copyToClipboard = (id) => {
+    var r = document.createRange();
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
   };
 
   const printCartCard = () => {
@@ -44,23 +121,37 @@ function MenungguPembayaran({ data }) {
     });
   };
 
-  const [disclosure1, setDisclosure1] = useState(false);
-  const [disclosure2, setDisclosure2] = useState(false);
-  const [disclosure3, setDisclosure3] = useState(false);
+  const printCaraPembayaran = () => {
+    return payment.list.map((val, i) => {
+      return <CaraPembayaran data={val} key={i} />;
+    });
+  };
 
   return (
     <>
       <ModalZoomImage
         isOpen={modalZoom}
-        closeModal={onClose}
+        closeModal={onCloseZoom}
         photo={prescription_photo}
+      />
+      <ModalPaymentProof
+        isOpen={modalProof}
+        closeModal={onCloseProof}
+        transaction_code={transaction_code}
+        id={id}
+        checkoutCart={checkoutCart}
+        getOrderDetails={getOrderDetails}
       />
       <h1 className="h-6 w-full font-bold text-secondary text-2xl">
         Menunggu Pembayaran
       </h1>
-      <div className="w-full border flex justify-between rounded-lg p-5 bayangan">
+      <div className="w-full border flex justify-between items-end rounded-lg p-5 bayangan">
         <div className="w-2/5 flex flex-col gap-y-3">
-          <h3 className="text-gray-500">Batas Akhir Pembayaran</h3>
+          <div>
+            <h3 className="text-sm text-gray-500">Nomor Transaksi</h3>
+            <h3 className="font-bold text-secondary">{transaction_code}</h3>
+          </div>
+          <h3 className="text-gray-500">Batas waktu respon</h3>
           <h2 className="w-full font-bold text-secondary text-xl">
             {fullDateGenerator(expired_at)}
           </h2>
@@ -73,7 +164,7 @@ function MenungguPembayaran({ data }) {
         </div>
       </div>
       {prescription_photo ? (
-        <div className="w-full flex flex-col items-start justify-between rounded-lg px-10 py-7 bayangan border">
+        <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
           <h1 className="h-6 w-full font-bold text-secondary text-xl">
             Detail Resep
           </h1>
@@ -88,14 +179,16 @@ function MenungguPembayaran({ data }) {
               </div>
               <button
                 className="btn-plain text-primary font-semibold flex items-center gap-x-2"
-                onClick={onOpen}
+                onClick={onOpenZoom}
               >
                 <ZoomInIcon className="h-5" />
                 Perbesar Gambar
               </button>
             </div>
             <div className="h-full flex flex-col gap-y-1">
-              <h3 className="text-sm text-gray-500">Tanggal Pengajuan</h3>
+              <h3 className="text-sm text-gray-500 text-right">
+                Tanggal Pengajuan
+              </h3>
               <h3 className="font-bold text-secondary">
                 {fullDateGenerator(date_requested)}
               </h3>
@@ -117,16 +210,52 @@ function MenungguPembayaran({ data }) {
         <h1 className="h-6 w-full font-bold text-secondary text-xl">
           Pembayaran
         </h1>
+        <div className="h-20 w-full flex justify-between items-center">
+          <h1 className="text-secondary font-bold text-xl">
+            {payment.name} Virtual Account
+          </h1>
+          <img src={payment.image} alt="" className="h-10" />
+        </div>
+        <div className="h-20 w-full flex justify-between items-center">
+          <div className="h-full flex flex-col justify-between">
+            <h3 className="text-sm text-gray-500 font-semibold">
+              Nomor Virtual Account
+            </h3>
+            <h2 className="text-2xl font-bold text-secondary" id="NoVA">
+              80777082261130123
+            </h2>
+          </div>
+          <button
+            className="btn-plain h-fit text-primary font-bold flex gap-x-3"
+            onClick={() => {
+              copyToClipboard("NoVA");
+              toast.success(`Nomor Virtual Account telah disalin!`, {
+                theme: "colored",
+                style: { backgroundColor: "#009B90" },
+              });
+            }}
+          >
+            Salin <DocumentDuplicateIcon className="h-6" />
+          </button>
+        </div>
+        <div className="w-full h-20 flex flex-col justify-between">
+          <h3 className="text-sm text-gray-500 font-semibold">
+            Total Pembayaran
+          </h3>
+          <h2 className="text-2xl font-bold text-secondary">
+            {formatToCurrency(total_price)}
+          </h2>
+        </div>
       </div>
 
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
           className="h-full w-1/2 button-outline"
-          onClick={() => navigate("/myaccount")}
+          onClick={() => navigate("/myaccount/orders")}
         >
-          Cek Status Pembayaran
+          Cek Status Pembayaran Lainnya
         </button>
-        <button className="h-full w-1/2 button-primary" onClick={() => {}}>
+        <button className="h-full w-1/2 button-primary" onClick={onOpenProof}>
           Upload Bukti Pembayaran
         </button>
       </div>
@@ -135,96 +264,7 @@ function MenungguPembayaran({ data }) {
         <h1 className="h-6 w-full font-bold text-secondary text-xl mb-5">
           Cara Pembayaran
         </h1>
-        <div
-          className={`w-full relative duration-300 border-b border-neutral-gray ${
-            disclosure1 ? "h-[465px]" : "h-20"
-          }`}
-        >
-          <button
-            className={`button-left-bar justify-between z-20 px-4 border-y border-neutral-gray ${
-              true ? "text-primary" : ""
-            }`}
-            onClick={() => {
-              setDisclosure1(!disclosure1);
-              setDisclosure2(false);
-              setDisclosure3(false);
-            }}
-          >
-            <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
-              ATM BCA
-            </div>
-            <ChevronDownIcon
-              className={`h-5 duration-300 ${disclosure1 ? "rotate-180" : ""}`}
-            />
-          </button>
-          <div
-            className={`w-full flex flex-col absolute duration-300 pointer-events-auto ${
-              disclosure1 ? "z-0" : "-translate-y-full -z-10"
-            }`}
-          >
-            <div className={` ${true ? "text-primary" : ""}`}>Semua</div>
-          </div>
-        </div>
-        <div
-          className={`w-full relative duration-300 border-b border-neutral-gray ${
-            disclosure2 ? "h-[465px]" : "h-20"
-          }`}
-        >
-          <button
-            className={`button-left-bar justify-between z-20 px-4 border-b border-neutral-gray ${
-              true ? "text-primary" : ""
-            }`}
-            onClick={() => {
-              setDisclosure2(!disclosure2);
-              setDisclosure3(false);
-              setDisclosure1(false);
-            }}
-          >
-            <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
-              m-BCA (BCA Mobile)
-            </div>
-            <ChevronDownIcon
-              className={`h-5 duration-300 ${disclosure2 ? "rotate-180" : ""}`}
-            />
-          </button>
-          <div
-            className={`w-full flex flex-col absolute duration-300 pointer-events-auto ${
-              disclosure2 ? "z-0" : "-translate-y-full -z-10"
-            }`}
-          >
-            <div className={` ${true ? "text-primary" : ""}`}>Semua</div>
-          </div>
-        </div>
-        <div
-          className={`w-full relative duration-300 border-b border-neutral-gray ${
-            disclosure3 ? "h-[465px]" : "h-20"
-          }`}
-        >
-          <button
-            className={`button-left-bar justify-between z-20 px-4 border-b border-neutral-gray ${
-              true ? "text-primary" : ""
-            }`}
-            onClick={() => {
-              setDisclosure3(!disclosure3);
-              setDisclosure2(false);
-              setDisclosure1(false);
-            }}
-          >
-            <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
-              Internet Banking BCA
-            </div>
-            <ChevronDownIcon
-              className={`h-5 duration-300 ${disclosure3 ? "rotate-180" : ""}`}
-            />
-          </button>
-          <div
-            className={`w-full flex flex-col absolute duration-300 pointer-events-auto ${
-              disclosure3 ? "z-0" : "-translate-y-full -z-10"
-            }`}
-          >
-            <div className={` ${true ? "text-primary" : ""}`}>Semua</div>
-          </div>
-        </div>
+        <div className="w-full border-y">{printCaraPembayaran()}</div>
       </div>
     </>
   );

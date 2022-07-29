@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Card from "../Component/Card";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import formatToCurrency from "../../Helpers/formatToCurrency";
@@ -90,7 +89,8 @@ function ProductDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchProductDetails();
-  }, []);
+    // eslint-disable-next-line
+  }, [product_name]);
 
   if (loading) {
     return <Loading className="h-screen" />;

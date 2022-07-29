@@ -1,9 +1,19 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formatToCurrency from "../../Helpers/formatToCurrency";
+import { ChevronRightIcon } from "@heroicons/react/outline";
+import { paymentMethods } from "../../Helpers/paymentMethods";
+import { ChevronLeftIcon, XIcon } from "@heroicons/react/solid";
+import API_URL from "../../Helpers/API_URL";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function ModalPaymentMethod(props) {
+  const navigate = useNavigate();
+  const [modalState, setModalState] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {
     modalPaymentMethod,
     setModalPaymentMethod,
@@ -13,24 +23,113 @@ function ModalPaymentMethod(props) {
     selectedMethod,
     id,
     checkoutCart,
+    transaction_code,
   } = props;
-  const navigate = useNavigate();
+
   const onClose = () => {
     setModalPaymentMethod(false);
   };
 
-  const submitOrder = () => {
+  const submitOrder = async () => {
     let insertData = {
       cart,
-      payment_method: "BCA",
+      payment_method: paymentMethod.value,
       selected_address: dataAddress,
       total_price: totalPrice,
       shipping_method: `${selectedMethod.kurir} ${selectedMethod.jenis}`,
       checkoutCart,
       id,
     };
-    console.log(insertData);
+    try {
+      setLoading(true);
+      await axios.patch(`${API_URL}/transaction/payment-method`, insertData);
+      onClose();
+      toast.success(`Metode Pembayaran telah dipilih!`, {
+        theme: "colored",
+        style: { backgroundColor: "#009B90" },
+      });
+      navigate(`/order?id=${transaction_code}`);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        theme: "colored",
+        style: { backgroundColor: "#FF6B6B" },
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+  const printMethods = () => {
+    return paymentMethods.map((val, i) => {
+      return (
+        <button
+          className="btn-plain h-16 w-full flex items-center border-y px-5"
+          key={i}
+          onClick={() => {
+            setModalState(2);
+            setPaymentMethod(val);
+          }}
+        >
+          <figure className="w-1/5">
+            <img src={val.image} alt="" className="" />
+          </figure>
+          <div className="w-3/5 flex justify-start pl-5 font-semibold text-secondary">
+            {val.name} Virtual Account
+          </div>
+          <div className="w-1/5 flex justify-end">
+            <ChevronRightIcon className="h-6" />
+          </div>
+        </button>
+      );
+    });
+  };
+
+  const printModalState = (state) => {
+    switch (state) {
+      case 1:
+        return (
+          <div
+            className={`w-full h-4/6 flex flex-col border-y ${
+              modalState === 2 ? "-translate-x-full" : "translate-x-0"
+            }`}
+          >
+            {printMethods()}
+          </div>
+        );
+      case 2:
+        return (
+          <div
+            className={`w-full h-4/6 flex flex-col border-y border shadow-custom rounded-lg gap-y-5 p-5 items-center
+            ${modalState === 1 ? "translate-x-full" : "translate-x-0"}`}
+          >
+            <div className="flex justify-between w-full h-fit items-center">
+              <h1 className="font-bold text-secondary">
+                {paymentMethod.name} Virtual Account
+              </h1>
+              <img src={paymentMethod.image} alt="" className="h-7" />
+            </div>
+            <div className="w-full flex flex-col items-start gap-y-3">
+              <h2>Cara Pembayaran</h2>
+              <ul className="list-disc flex flex-col gap-y-2">
+                <li className="ml-5">
+                  {`Tagihan ini akan otomatis menggantikan tagihan ${paymentMethod.name} Virtual account yang belum terbayar.`}
+                </li>
+                <li className="ml-5">
+                  Tidak disarankan pembayaran melalui bank agar transaksi dapat
+                  diproses tanpa kendala
+                </li>
+                <li className="ml-5">
+                  Dapatkan kode pembayaran setelah klik pembayaran.
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+      default:
+        break;
+    }
+  };
+
   return (
     <Transition appear show={modalPaymentMethod} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -62,49 +161,48 @@ function ModalPaymentMethod(props) {
                   as="div"
                   className="h-10 w-full flex justify-center text-2xl items-center relative"
                 >
-                  <h1 className="font-bold">Metode Pembayaran</h1>
+                  {modalState === 2 ? (
+                    <button
+                      className="btn-plain flex justify-center items-center  absolute left-0"
+                      onClick={() => {
+                        setModalState(1);
+                        setPaymentMethod(null);
+                      }}
+                    >
+                      <ChevronLeftIcon className="h-10" />
+                    </button>
+                  ) : null}
+                  <h1 className="font-bold text-secondary">
+                    Metode Pembayaran
+                  </h1>
                   <button
-                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center px-3 py-1 absolute right-0"
+                    className="btn-plain text-xl rounded-full hover:text-primary hover:bg-primary/20 border flex justify-center items-center p-2 absolute right-0"
                     onClick={onClose}
                   >
-                    ✕
+                    <XIcon className="h-5" />
                   </button>
                 </Dialog.Title>
                 <div
                   className={`h-[500px] w-full flex flex-col gap-y-5 duration-500`}
                 >
-                  <div className="w-full h-1/6 border shadow-custom rounded-lg flex justify-between px-5 items-center">
+                  <div className="w-full h-20 border shadow-custom rounded-lg flex justify-between px-5 items-center">
                     <h2 className="font-bold text-secondary">Total Tagihan</h2>
                     <h2 className="font-bold text-secondary">
                       {formatToCurrency(totalPrice)}
                     </h2>
                   </div>
-                  <div className="w-full h-4/6 flex flex-col">
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      BCA
-                    </button>
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      Mandiri
-                    </button>
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      Permata Bank
-                    </button>
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      OVO
-                    </button>
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      Gopay
-                    </button>
-                    <button className="btn-plain h-16 w-full flex items-center border px-5">
-                      ShopeePay
-                    </button>
-                  </div>
-                  <div className="w-full h-1/6 flex pt-6">
+                  {printModalState(modalState)}
+                  <div className="w-full h-fit flex">
                     <button
-                      className={`button-primary w-full`}
+                      className={`button-primary w-full h-12 disabled:bg-gray-500 ${
+                        loading && "button-loading"
+                      }`}
+                      disabled={!paymentMethod || loading}
                       onClick={submitOrder}
                     >
-                      Pilih Metode Pembayaran
+                      {loading
+                        ? "Memproses Pesanan"
+                        : "Pilih Metode Pembayaran"}
                     </button>
                   </div>
                 </div>
@@ -114,62 +212,6 @@ function ModalPaymentMethod(props) {
         </div>
       </Dialog>
     </Transition>
-  );
-  return (
-    // <input
-    //               type="checkbox"
-    //               id="my-modal-4"
-    //               className="modal-toggle"
-    //             />
-    //             <label htmlFor="my-modal-4" className="modal cursor-pointer">
-    //               <label className="modal-box relative" htmlFor="">
-    //                 <label
-    //                   htmlFor="my-modal-4"
-    //                   className="btn btn-sm btn-circle absolute right-2 top-2"
-    //                 >
-    //                   ✕
-    //                 </label>
-    //                 <div className="h-4/6 border-black border">content</div>
-    //                 <div className="h-1/6 border-black border flex justify-center items-center">
-    //                   <button
-    //                     className="btn btn-ghost border-primary hover:bg-primary"
-    //                     onClick={() => {
-    //                       console.log({ dataAddress, dataMethod });
-    //                       navigate("/confirmation");
-    //                     }}
-    //                   >
-    //                     pilih metode
-    //                   </button>
-    //                 </div>
-    //               </label>
-    //             </label>
-    <div
-      className="h-screen w-screen top-0 fixed bg-black/30 flex justify-center items-center"
-      onClick={(e) => {
-        console.log("bg close");
-      }}
-    >
-      <div
-        className="h-96 aspect-square bg-white flex flex-col p-7 gap-y-7"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="h-1/6 flex items-center border-black border">
-          <button className="h-6 aspect-square border border-gray-700 flex items-center justify-center hover:bg-gray-700">
-            x
-          </button>
-          header
-        </div>
-        <div className="h-4/6 border-black border">content</div>
-        <div className="h-1/6 border-black border flex justify-center items-center">
-          <button
-            className="border border-green-500 hover:bg-green-500"
-            onClick={() => navigate("/confirmation")}
-          >
-            pilih metode
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 

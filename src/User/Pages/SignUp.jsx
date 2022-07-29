@@ -90,7 +90,6 @@ function SignUp() {
     };
   }, []);
 
-  console.log({ changed, message });
   return (
     <div className="w-screen min-h-screen flex bg-white">
       <div className="w-1/2 min-h-screen hidden sm:flex justify-center items-center relative">
