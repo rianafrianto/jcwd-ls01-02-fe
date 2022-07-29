@@ -10,7 +10,7 @@ import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 
 function ModalAddProduct(props) {
-  const { modalAdd, closeModalAdd } = props;
+  const { modalAdd, closeModalAdd, getProducts } = props;
   const initialState1 = {
     name: "",
     NIE: "",
@@ -69,6 +69,7 @@ function ModalAddProduct(props) {
         style: { backgroundColor: "#009B90" },
       });
       cancel();
+      getProducts();
       setDetails1(initialState1);
       setDetails2(initialState2);
       setDetailImage(initialState3);

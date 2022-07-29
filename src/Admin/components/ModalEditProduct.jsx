@@ -16,7 +16,7 @@ import {
 import Loading from "../../User/Component/Loading";
 
 function ModalEditProduct(props) {
-  const { modalEdit, closeModalEdit, editId, setEditId } = props;
+  const { modalEdit, closeModalEdit, editId, setEditId, getProducts } = props;
   const initialState1 = {
     name: "",
     NIE: "",
@@ -159,6 +159,7 @@ function ModalEditProduct(props) {
       cancel();
       setDetails1(initialState1);
       setDetails2(initialState2);
+      getProducts();
     } catch (error) {
       console.log(error);
     }

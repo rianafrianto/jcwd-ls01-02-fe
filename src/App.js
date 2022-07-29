@@ -1,5 +1,11 @@
 import "./App.css";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import SignUp from "./User/Pages/SignUp";
 import LogIn from "./User/Pages/LogIn";
 import Home from "./User/Pages/Home";
@@ -19,13 +25,14 @@ import ResetPassword from "./User/Pages/ResetPassword";
 import Admin from "./User/Pages/Admin";
 import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gradientBg from "./Assets/gradient-bg.png";
 import NavbarMobile from "./User/Component/NavbarMobile";
 import Order from "./User/Pages/Order";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state.user);
   let noConnectionToast = useRef(null);
   const statusOnline = () => {
@@ -52,6 +59,15 @@ function App() {
   window.addEventListener("offline", statusOffline);
   window.addEventListener("online", statusOnline);
   //
+  useEffect(() => {
+    if (
+      location.pathname === "/myaccount" ||
+      location.pathname === "/myaccount/"
+    ) {
+      navigate("/myaccount/profile");
+    }
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* <div className="fixed">
@@ -66,6 +82,7 @@ function App() {
       location.pathname.match("/reset-password/") ? null : (
         <Navbar />
       )}
+
       <Routes>
         <Route path="/register" element={isLogin ? <Home /> : <SignUp />} />
         <Route path="/login" element={<LogIn />} />
