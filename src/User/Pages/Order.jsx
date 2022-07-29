@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Loading from "../Component/Loading";
 import Button from "../Component/Button";
+import Dibatalkan from "../Component/Dibatalkan";
 
 function Order() {
   const navigate = useNavigate();
@@ -52,15 +53,18 @@ function Order() {
   };
 
   const printPage = (data) => {
-    const { status } = data.dataOrder;
-    let val = true;
+    let { status } = data.dataOrder;
+    status = true;
     switch (status) {
       case "Pengecekan-Resep":
         return <PengecekanResep data={data} />;
       case "Pesanan-Diterima":
         return <PesananDiterima data={data} />;
+      case "Dibatalkan":
+        return <Dibatalkan data={data} />;
       // return <Diproses data={data} />;
-      // return <MenungguPembayaran data={val} />;
+      case true:
+        return <MenungguPembayaran data={data} />;
       // return <PesananDiterima data={val} />;
 
       default:

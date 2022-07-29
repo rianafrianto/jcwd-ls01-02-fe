@@ -1,6 +1,10 @@
-import { ChevronDownIcon } from "@heroicons/react/outline";
+import { ChevronDownIcon, ZoomInIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../Helpers/API_URL";
+import { fullDateGenerator } from "../../Helpers/dateGenerator";
+import CardCartCheckout from "./CardCartCheckout";
+import ModalZoomImage from "./ModalZoomImage";
 import Timer from "./Timer";
 
 function MenungguPembayaran({ data }) {
@@ -19,33 +23,94 @@ function MenungguPembayaran({ data }) {
     transaction_code,
     pesan,
     expired_at,
-  } = data;
+  } = data.dataOrder;
+  const { cart } = data;
+  const [modalZoom, setModalZoom] = useState(false);
+  const onClose = () => {
+    setModalZoom(false);
+  };
+  const onOpen = () => {
+    setModalZoom(true);
+  };
+
+  const printCartCard = () => {
+    return cart.map((val, i) => {
+      return (
+        <div key={i} className="w-full">
+          <CardCartCheckout data={val} />
+          <div className="w-full border-t border-neutral-gray" />
+        </div>
+      );
+    });
+  };
+
   const [disclosure1, setDisclosure1] = useState(false);
   const [disclosure2, setDisclosure2] = useState(false);
   const [disclosure3, setDisclosure3] = useState(false);
 
   return (
     <>
+      <ModalZoomImage
+        isOpen={modalZoom}
+        closeModal={onClose}
+        photo={prescription_photo}
+      />
       <h1 className="h-6 w-full font-bold text-secondary text-2xl">
         Menunggu Pembayaran
       </h1>
-      <div className="w-full border h-28 flex justify-between rounded-lg p-5 bayangan">
-        <div>
-          <h3>Batas Akhir Pembayaran</h3>
-          <h2 className="h-6 w-full font-bold text-secondary text-xl">
-            {`{waktu tenggat}`}
+      <div className="w-full border flex justify-between rounded-lg p-5 bayangan">
+        <div className="w-2/5 flex flex-col gap-y-3">
+          <h3 className="text-gray-500">Batas Akhir Pembayaran</h3>
+          <h2 className="w-full font-bold text-secondary text-xl">
+            {fullDateGenerator(expired_at)}
           </h2>
         </div>
-        <div>
-          <Timer />
+        <div className="h-full flex flex-col gap-y-3 items-end">
+          <h3 className="text-sm text-gray-500">
+            Mohon melakukan pembayaran dalam jangka waktu
+          </h3>
+          <Timer time={expired_at} style="user" />
         </div>
       </div>
+      {prescription_photo ? (
+        <div className="w-full flex flex-col items-start justify-between rounded-lg px-10 py-7 bayangan border">
+          <h1 className="h-6 w-full font-bold text-secondary text-xl">
+            Detail Resep
+          </h1>
+          <div className="w-full flex h-36 gap-x-5">
+            <figure className="aspect-square h-full border rounded-lg overflow-hidden">
+              <img src={API_URL + prescription_photo} alt="" />
+            </figure>
+            <div className="flex-grow h-full flex flex-col justify-between items-start">
+              <div className="flex flex-col gap-y-1">
+                <h3 className="text-sm text-gray-500">Nomor Transaksi</h3>
+                <h3 className="font-bold text-secondary">{transaction_code}</h3>
+              </div>
+              <button
+                className="btn-plain text-primary font-semibold flex items-center gap-x-2"
+                onClick={onOpen}
+              >
+                <ZoomInIcon className="h-5" />
+                Perbesar Gambar
+              </button>
+            </div>
+            <div className="h-full flex flex-col gap-y-1">
+              <h3 className="text-sm text-gray-500">Tanggal Pengajuan</h3>
+              <h3 className="font-bold text-secondary">
+                {fullDateGenerator(date_requested)}
+              </h3>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="w-full h-full flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
         <h1 className="h-6 w-full font-bold text-secondary text-xl">
           Ringkasan Order
         </h1>
         <div className="w-full h-full flex flex-col items-center gap-y-4 border-t border-neutral-gray ">
-          {/* {loadingCart ? <Loading className="py-10" /> : printCartCard()} */}
+          {printCartCard()}
         </div>
       </div>
       <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
@@ -53,11 +118,7 @@ function MenungguPembayaran({ data }) {
           Pembayaran
         </h1>
       </div>
-      <div className="w-full h-72 flex flex-col items-start gap-y-3 rounded-lg p-5 bayangan border">
-        <h1 className="h-6 w-full font-bold text-secondary text-xl">
-          Bukti Pembayaran
-        </h1>
-      </div>
+
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
           className="h-full w-1/2 button-outline"

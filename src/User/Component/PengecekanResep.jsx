@@ -11,7 +11,7 @@ import Timer from "./Timer";
 function PengecekanResep({ data }) {
   const navigate = useNavigate();
   const [modalZoom, setModalZoom] = useState(false);
-  console.log(data);
+
   let {
     id,
     status,
@@ -72,8 +72,8 @@ function PengecekanResep({ data }) {
               Perbesar Gambar
             </button>
           </div>
-          <div className="w-1/3 h-full flex flex-col gap-y-3">
-            <h3 className="text-sm text-gray-500">
+          <div className="w-1/3 h-full flex flex-col gap-y-3 items-center">
+            <h3 className="text-sm text-gray-500 ">
               Mohon menunggu balasan dari apoteker max 1 hari
             </h3>
             <div>
@@ -102,7 +102,7 @@ function PengecekanResep({ data }) {
           Kembali Ke Beranda
         </button>
         <button className="h-full w-1/2 button-primary" onClick={() => {}}>
-          Cek Status Pembayaran
+          Cek Status Pembayaran Lainnya
         </button>
       </div>
     </>
