@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import API_URL from "../../Helpers/API_URL";
 import { HeartIcon } from "@heroicons/react/solid";
 import formatToCurrency from "../../Helpers/formatToCurrency";
@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import defaultProduct from "../../Assets/default-product.png";
 
 function Card({ data, imgStyling }) {
+  // console.log(data);
   const { isLogin } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const link = data.name.split(" ").join("_");
   // const [products, setProducts] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
   // const token = localStorage.getItem("token");
   const params = useParams();
   const productId = params.id;
@@ -27,7 +29,7 @@ function Card({ data, imgStyling }) {
         `${API_URL}/transaction/addtocart`,
         {
           productId: data.id,
-          quantity: quantity,
+          quantity: 1,
         },
         { headers: { authorization: token } }
       );
@@ -35,6 +37,10 @@ function Card({ data, imgStyling }) {
         theme: "colored",
         position: "top-center",
         style: { backgroundColor: "#009B90" },
+      });
+      dispatch({
+        type: "ADDTOCART",
+        payload: res.data.data,
       });
       console.log(res, ">>>>>>>>>>> RESPON DATA RES");
     } catch (error) {

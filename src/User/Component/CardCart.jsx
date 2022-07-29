@@ -12,6 +12,7 @@ function CardCart({ data }) {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const { cart, value } = useSelector((state) => state.user);
+  // console.log(cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -65,18 +66,21 @@ function CardCart({ data }) {
   }
 
   return (
-    <div className="h-47 w-full border border-green-900 flex gap-x-6">
-      <div className="flex-col w-full">
-        <div className="flex h-1/2 w-full justify-between">
+    <div className="h-47 w-full border rounded-lg flex gap-x-6 mb-5 border-teal-600">
+      <div className="flex-col w-full mx-3">
+        <div className="flex h-1/2 w-full justify-between pt-8">
           <input type="checkbox" className="" />
           <img
-            className="aspect-square border w-1/4"
+            className="aspect-square w-1/4"
             src={API_URL + data.photo}
             alt=""
           />
           {/* <div>{data.id}</div> */}
-          <div className="w-1/4 border">{data.name}</div>
-          <div className="w-1/4 border">{data.price}</div>
+          <div className="w-1/4 text-sm font-medium pt-5">{data.name}</div>
+          <div className="w-1/4 text-sm font-medium pt-5 flex justify-around">
+            <div className="line-through text-gray-400">{data.promo}</div>
+            <div>{data.price}</div>
+          </div>
         </div>
         <div className="flex h-1/2 w-full justify-between">
           <button className="w-1/3 text-xs h-9 mt-9 text-center text text-teal-600 hover:text-teal-700">
