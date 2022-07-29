@@ -243,8 +243,15 @@ function ResetPassword() {
                     </p>
                     <Button
                       type="submit"
-                      buttonText="Kirim Ulang Email Reset Password"
-                      className="bg-primary text-white disabled:bg-gray-600 text-sm leading-5"
+                      disabled={loadingEmail}
+                      buttonContent={
+                        loadingEmail
+                          ? "Sedang Mengirim ..."
+                          : "Kirim Ulang Email"
+                      }
+                      className={` btn-primary text-white disabled:bg-gray-600 h-full rounded-lg ${
+                        loadingEmail && "button-loading"
+                      }`}
                       onClick={() => forgotPasswordModalHandler(true)}
                     />
                   </div>

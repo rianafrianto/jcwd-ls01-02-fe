@@ -11,7 +11,6 @@ import Button from "../Component/Button";
 import emailIcon from "../../Assets/email-icon.png";
 import passwordIcon from "../../Assets/password-icon.png";
 import signupImage from "../../Assets/signup-image.png";
-import logoImage from "../../Assets/logo-1.png";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import ForgotPasswordModal from "../Component/ForgotPasswordModal";
 import googleIcon from "../../Assets/google-icon.png";
@@ -62,15 +61,18 @@ function LogIn() {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
       });
-      if (!res.data.data.verified) {
-        navigate("/unverified");
-      } else {
-        navigate("/");
-      }
+      setTimeout(() => {
+        navigate("/home");
+      });
     } catch (error) {
+      console.log(error.response.data.message);
       dispatch({
         type: "ERROR",
         payload: error.response.data.message || "Network Error",
+      });
+      toast.error(error.response.data.message, {
+        theme: "colored",
+        style: { backgroundColor: "#EB1D36" },
       });
     } finally {
       onSubmit.setSubmitting(false);
@@ -151,11 +153,6 @@ function LogIn() {
                         alt=""
                         className="h-5 w-5 absolute left-5 top-11"
                       />
-                      {message[0] && !changed && (
-                        <div className="absolute text-red-600 -bottom-6 right-0 text-sm">
-                          {message[0]}
-                        </div>
-                      )}
                     </div>
 
                     {/* Password */}
