@@ -24,6 +24,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         error: false,
         error_mes: "",
       };
+    case "ADDTOCART":
+      return {
+        ...state,
+        ...action.payload,
+      };
     case "LOGIN":
       return {
         ...state,

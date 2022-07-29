@@ -2,8 +2,9 @@ import React from "react";
 import API_URL from "../../Helpers/API_URL";
 import formatToCurrency from "../../Helpers/formatToCurrency";
 
-function CardCartCheckout({ data }) {
-  const { product_id, init_price, name, photo, price, qty, satuan } = data;
+function CardCartCheckout(props) {
+  const { product_id, init_price, name, photo, price, qty, satuan } =
+    props.data;
   return (
     <div className="h-32 w-full flex gap-x-6 mt-4">
       <div className="flex h-full w-full justify-between">
