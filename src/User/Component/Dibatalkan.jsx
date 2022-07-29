@@ -88,7 +88,7 @@ function Dibatalkan({ data }) {
         </button>
         <button
           className="h-full w-1/2 button-primary"
-          onClick={() => navigate(`/myaccount/orders`)}
+          onClick={() => navigate(`/myaccount/orders?status=all`)}
         >
           Cek Status Pembayaran Lainnya
         </button>

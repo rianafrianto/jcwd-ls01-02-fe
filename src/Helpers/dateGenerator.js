@@ -35,3 +35,14 @@ export const newDateGenerator = () => {
   const year = current.getFullYear().toString().substring(2);
   return `${year}/${month}/${date}`;
 };
+
+export const validDateGenerator = (data, type) => {
+  const current = new Date(data);
+  type
+    ? current.setDate(current.getDate() + 1)
+    : current.setDate(current.getDate() - 1);
+  const date = ("0" + current.getDate()).slice(-2);
+  const month = ("0" + (current.getMonth() + 1)).slice(-2);
+  const year = current.getFullYear().toString();
+  return `${year}-${month}-${date}`;
+};

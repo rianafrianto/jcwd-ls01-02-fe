@@ -32,7 +32,6 @@ function Orders() {
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [order, setOrder] = useState("ORDER BY o.id DESC");
-  console.log(status);
 
   const getOrders = async () => {
     try {
@@ -71,7 +70,6 @@ function Orders() {
     for (let i = 0; i < buttonsTotal; i++) {
       pages.push("");
     }
-    console.log({ buttonsTotal });
     return pages.map((val, i) => {
       return (
         <button
@@ -91,8 +89,10 @@ function Orders() {
     });
   };
 
+  console.log(sinceDate);
+
   useEffect(() => {
-    setSinceDate(""); //cb
+    setSinceDate("");
     setToDate("");
     setTerms("");
     getOrders();

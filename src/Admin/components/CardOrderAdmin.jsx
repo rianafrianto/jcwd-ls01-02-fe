@@ -19,7 +19,6 @@ function CardOrderAdmin({ data, getOrders }) {
     expired_at,
     username,
   } = data;
-  console.log(data);
 
   function closeModal() {
     setIsOpen(false);

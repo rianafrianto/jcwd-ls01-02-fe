@@ -54,9 +54,9 @@ function Dikirim({ data }) {
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
           className="h-full w-1/2 button-outline"
-          onClick={() => navigate("/myaccount")}
+          onClick={() => navigate("/myaccount/orders?status=all")}
         >
-          Cek Status Pembayaran
+          Cek Status Pembayaran Lainnya
         </button>
         <button
           className="h-full w-1/2 button-primary"

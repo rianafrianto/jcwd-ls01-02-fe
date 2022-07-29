@@ -12,21 +12,8 @@ function PengecekanResep({ data }) {
   const navigate = useNavigate();
   const [modalZoom, setModalZoom] = useState(false);
 
-  let {
-    id,
-    status,
-    selected_address,
-    payment_method,
-    total_price,
-    date_requested,
-    date_process,
-    prescription_photo,
-    payment_photo,
-    shipping_method,
-    transaction_code,
-    pesan,
-    expired_at,
-  } = data?.dataOrder;
+  let { date_requested, prescription_photo, transaction_code, expired_at } =
+    data?.dataOrder;
 
   const onClose = () => {
     setModalZoom(false);
@@ -77,7 +64,7 @@ function PengecekanResep({ data }) {
               Mohon menunggu balasan dari apoteker max 1 hari
             </h3>
             <div>
-              <Timer time={expired_at} style="admin" />
+              <Timer time={expired_at} type="admin" />
             </div>
           </div>
         </div>
@@ -103,7 +90,7 @@ function PengecekanResep({ data }) {
         </button>
         <button
           className="h-full w-1/2 button-primary"
-          onClick={() => navigate("/myaccount/orders")}
+          onClick={() => navigate("/myaccount/orders?status=all")}
         >
           Cek Status Pembayaran Lainnya
         </button>

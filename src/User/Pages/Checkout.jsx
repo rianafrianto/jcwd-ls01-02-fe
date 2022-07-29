@@ -22,9 +22,7 @@ function Checkout() {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const transaction_code = searchParams.get("id");
-  const { isLogin, address_id, isverified } = useSelector(
-    (state) => state.user
-  );
+  const { isLogin, address_id, verified } = useSelector((state) => state.user);
   const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(true);
   const [loadingCourier, setLoadingCourier] = useState(false);
   const [loadingCart, setLoadingCart] = useState(false);
@@ -88,7 +86,6 @@ function Checkout() {
       setLoadingPrimaryAddress(false);
     }
   };
-
   const getCartPrescription = async () => {
     try {
       setLoadingCart(true);
@@ -100,14 +97,19 @@ function Checkout() {
           params: { transaction_code },
         }
       );
-      if (res.data.data.status !== "Pesanan-Diterima") {
+      console.log(res.data.data);
+      const { status, id, cartData, checkoutCart, totalBerat } = res.data.data;
+      if (status !== "Pesanan-Diterima") {
         navigate("/");
       }
-      setDataCart(res.data.data.cartData);
-      setOrderId(res.data.data.id);
-      setCheckoutCart(res.data.data.checkoutCart);
+      setDataCart(cartData);
+      setOrderId(id);
+      setCheckoutCart(checkoutCart);
+      if (totalBerat > 1000) {
+        setWeight(totalBerat);
+      }
       let totalPrice = 0;
-      const carts = res.data.data.cartData;
+      const carts = cartData;
       for (const cart of carts) {
         totalPrice += cart.price * cart.qty;
       }
@@ -238,8 +240,8 @@ function Checkout() {
   };
 
   useEffect(() => {
-    if (!isLogin) navigate("/home");
-    if (isLogin && !isverified) return navigate("/unverified");
+    if (!isLogin) navigate("/");
+    if (isLogin && !verified) return navigate("/unverified");
     if (!selectedAddress) getPrimaryAddress(address_id);
 
     if (courier) {

@@ -160,7 +160,7 @@ function MenungguPembayaran({ data, getOrderDetails }) {
           <h3 className="text-sm text-gray-500">
             Mohon melakukan pembayaran dalam jangka waktu
           </h3>
-          <Timer time={expired_at} style="user" />
+          <Timer time={expired_at} type="user" />
         </div>
       </div>
       {prescription_photo ? (
@@ -251,7 +251,7 @@ function MenungguPembayaran({ data, getOrderDetails }) {
       <div className="w-full h-14 flex gap-x-4 mb-10">
         <button
           className="h-full w-1/2 button-outline"
-          onClick={() => navigate("/myaccount/orders")}
+          onClick={() => navigate("/myaccount/orders?status=all")}
         >
           Cek Status Pembayaran Lainnya
         </button>

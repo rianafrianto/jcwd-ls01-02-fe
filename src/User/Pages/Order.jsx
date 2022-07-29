@@ -29,7 +29,6 @@ function Order() {
         headers: { authorization: token },
         params: { transaction_code },
       });
-      console.log(res);
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -62,7 +61,6 @@ function Order() {
         );
       case "Diproses":
         return <Diproses data={data} />;
-      // return <PesananDiterima data={val} />;
       case "Dibatalkan":
         return <Dibatalkan data={data} />;
 

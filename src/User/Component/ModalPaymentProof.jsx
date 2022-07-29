@@ -17,6 +17,7 @@ function ModalPaymentProof(props) {
   const [selectedImage, setSelectedImage] = useState(initialStateImage);
   const [loading, setLoading] = useState(false);
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [errorType, setErrorType] = useState(false);
 
   const {
     isOpen,
@@ -31,9 +32,17 @@ function ModalPaymentProof(props) {
     closeModal();
     setSelectedImage(initialStateImage);
     setSubmitClicked(false);
+    setErrorType(false);
   };
 
   const onFileChange = (e) => {
+    const type = e.target.files[0].name.split(".");
+    if (
+      !["jpg", "jpeg", "JPG", "JPEG", "png"].includes(type[type.length - 1])
+    ) {
+      return setErrorType(true);
+    }
+    setErrorType(false);
     setSubmitClicked(false);
     if (e.target.files[0]) {
       setSelectedImage({
@@ -52,7 +61,7 @@ function ModalPaymentProof(props) {
       };
       console.log(insertData);
       setSubmitClicked(true);
-      if (!selectedImage.file) {
+      if (!selectedImage.file || errorType) {
         return;
       }
       setLoading(true);
@@ -141,7 +150,7 @@ function ModalPaymentProof(props) {
                     ref={photoRef}
                     className="hidden"
                     name="photo"
-                    accept=".gif,.jpg,.jpeg,.JPG,.JPEG,.png"
+                    accept=".jpg,.jpeg,.JPG,.JPEG,.png"
                     onClick={(e) => (e.target.value = null)}
                     onChange={onFileChange}
                   />
@@ -155,6 +164,11 @@ function ModalPaymentProof(props) {
                   {!selectedImage?.file && submitClicked ? (
                     <span className="text-red-600 absolute bottom-0">
                       Kamu belum memilih foto
+                    </span>
+                  ) : null}
+                  {errorType ? (
+                    <span className="text-red-600 absolute bottom-0">
+                      Format yang kamu pilih tidak terdukung
                     </span>
                   ) : null}
                 </div>

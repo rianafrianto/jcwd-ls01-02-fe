@@ -72,7 +72,7 @@ function Diproses({ data }) {
           <h3 className="text-sm text-gray-500">
             Mohon menunggu admin untuk memproses pesanan kamu
           </h3>
-          <Timer time={expired_at} style="admin" />
+          <Timer time={expired_at} type="admin" />
         </div>
       </div>
       {prescription_photo ? (
@@ -164,7 +164,7 @@ function Diproses({ data }) {
         </button>
         <button
           className="h-full w-1/2 button-primary"
-          onClick={() => navigate("/myaccount/orders")}
+          onClick={() => navigate("/myaccount/orders?status=all")}
         >
           Cek Status Pembayaran Lainnya
         </button>

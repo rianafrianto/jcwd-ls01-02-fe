@@ -194,7 +194,7 @@ function ModalAllAddress(props) {
                 </Dialog.Title>
                 <div
                   className={`${
-                    editAddress ? "h-[750px]" : "h-[500px]"
+                    editAddress ? "h-[750px]" : "max-h-[500px]"
                   } w-full overflow-y-scroll border border-neutral-gray duration-500`}
                 >
                   {editAddress && (

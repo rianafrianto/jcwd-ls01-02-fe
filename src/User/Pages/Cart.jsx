@@ -31,7 +31,7 @@ function Cart() {
   };
 
   useEffect(() => {
-    if (!isLogin) navigate("/home");
+    if (!isLogin) navigate("/");
     if (isLogin && !verified) return navigate("/unverified");
 
     getCart();

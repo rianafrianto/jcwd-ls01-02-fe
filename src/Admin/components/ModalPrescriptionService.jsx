@@ -18,7 +18,7 @@ import { XIcon } from "@heroicons/react/solid";
 function ModalPrescriptionService(props) {
   const { isOpen, closeModal, data, getOrders } = props;
   const initialTerms = "";
-  const initialQty = 1;
+  const initialQty = 0;
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [terms, setTerms] = useState(initialTerms);
   const [page, setPage] = useState(0);
@@ -120,7 +120,8 @@ function ModalPrescriptionService(props) {
 
   const onSubmit = () => {
     setDosisKlik(true);
-    if (dosis == "") return;
+    if (dosis === "") return;
+    if (qty === 0) return;
     const insertData = {
       name: selectedProduct.name,
       golongan: selectedProduct.golongan,
@@ -425,6 +426,11 @@ function ModalPrescriptionService(props) {
                                   <div className="w-full flex gap-x-4">
                                     <div className="w-1/5 flex flex-col gap-y-2 relative z-0">
                                       Kuantitas
+                                      {qty === 0 && dosisKlik && (
+                                        <div className="absolute text-red-600 -bottom-5 right-0 text-sm">
+                                          Min. 1
+                                        </div>
+                                      )}
                                       <div
                                         className={`w-full flex justify-center items-center outline-1 bg-primary/10 rounded-lg overflow-hidden outline ${
                                           errors.qty && touched.qty
@@ -436,7 +442,7 @@ function ModalPrescriptionService(props) {
                                           type="button"
                                           className="button-general h-full rounded-l-lg w-1/3 p-0 overflow-hidden flex justify-center items-center hover:bg-primary/20 focus:rounded-l-lg"
                                           onClick={() =>
-                                            qty === 1
+                                            qty === 0
                                               ? null
                                               : setQty((prev) => prev - 1)
                                           }
@@ -503,7 +509,11 @@ function ModalPrescriptionService(props) {
                                     </div>
                                   </div>
                                   <div className="w-full flex justify-between items-center mt-2">
-                                    <span>{`Sisa ${selectedProduct.stock} ${selectedProduct.satuan}`}</span>
+                                    <span>
+                                      {selectedProduct.stock == 0
+                                        ? "Stok habis"
+                                        : `Sisa ${selectedProduct.stock} ${selectedProduct.satuan}`}
+                                    </span>
                                     <button
                                       type="button"
                                       className={`button-primary px-2 text-xs ${

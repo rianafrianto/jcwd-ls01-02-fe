@@ -21,7 +21,6 @@ function AuthProvider({ children }) {
           },
         });
         dispatch({ type: "LOGIN", payload: res.data.data });
-        console.log(res.data.data);
       }
     } catch (error) {
       console.log(error);

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-function Timer({ time, style }) {
+function Timer({ time, type }) {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   let countDownDate = new Date(time).getTime();
 
-  const styleCountdown = (style) => {
-    switch (style) {
+  const styleCountdown = (type) => {
+    switch (type) {
       case "admin":
         return {
           countdown: "bg-primary",
@@ -25,7 +25,7 @@ function Timer({ time, style }) {
     }
   };
 
-  const styleType = styleCountdown(style);
+  const styleType = styleCountdown(type);
   // Update the count down every 1 second
 
   useEffect(() => {
@@ -68,9 +68,7 @@ function Timer({ time, style }) {
         hari
       </span>
       <div
-        className={`flex flex-col p-2 rounded-lg text-white ${
-          styleCountdown(style).countdown
-        }`}
+        className={`flex flex-col p-2 rounded-lg text-white ${styleType.countdown}`}
       >
         <span className="countdown font-mono text-xl">
           <span style={{ "--value": hours }}></span>
