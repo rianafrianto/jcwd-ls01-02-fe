@@ -41,7 +41,7 @@ function Cart() {
     }
     return (
       <div className="">
-        {products.map((val, i) => {
+        {cart.map((val, i) => {
           return <CardCart key={i} data={val} />;
         })}
       </div>
@@ -49,9 +49,9 @@ function Cart() {
   };
 
   return (
-    <div className="h-full w-full bg-green-200 flex justify-center pt-20 overflow-hidden">
+    <div className="h-full w-full bg-white flex justify-center pt-20 overflow-hidden">
       <div className="container h-full flex flex-col px-24 py-11">
-        Keranjang Saya
+        <div className="text-xl font-extrabold">Keranjang Saya</div>
         <div className="w-full mt-9 flex gap-x-16">
           <div className="flex flex-col px-10 w-4/6 bg-white rounded-md">
             <div className="h-20 w-full border-b-[.5px] border-black pt-7">
@@ -73,9 +73,9 @@ function Cart() {
             </div>
           </div>
         </div>
-        <div className="w-full border-t-[.5px] border-blackh-20 bg-white flex py-28 mt-28 relative">
-          <div className="absolute left-3 top-10 text-2xl">
-            Lorem, ipsum dolor.
+        <div className="w-full border-t-[.5px] border-blackh-20 bg-white rounded-xl flex py-28 mt-28 relative">
+          <div className="absolute left-3 top-10 text-xl font-extrabold">
+            Produk Terkait
           </div>
           {/* <Card /> */}
         </div>

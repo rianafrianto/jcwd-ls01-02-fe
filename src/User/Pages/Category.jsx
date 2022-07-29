@@ -45,6 +45,8 @@ function Category() {
         `${API_URL}/product/products/${category}?order=${order}&page=${page}&limit=${limit}`
       );
       const { products, total } = res.data.data;
+      // console.log(res.data.data);
+      // console.log(products);
       setTotal(total);
       setTotalPages(() => Math.ceil(res.data.data.total / limit));
       setProducts(products);

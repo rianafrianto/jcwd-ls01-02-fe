@@ -11,6 +11,7 @@ function PromoCarousel(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [scroll, setScroll] = useState(1);
+
   const fetchData = async () => {
     try {
       setLoading(true);
