@@ -12,7 +12,7 @@ import { newAddressAction } from "../../Redux/Reducers/Actions/UserActions";
 function Address() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, verified } = useSelector((state) => state.user);
   const [provinceId, setProvinceId] = useState(0);
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([
@@ -94,7 +94,8 @@ function Address() {
   };
 
   useEffect(() => {
-    if (!isLogin) navigate("/home");
+    if (!isLogin) navigate("/");
+    if (isLogin && !verified) navigate("/unverified");
     if (!provinces[0]) getProvince();
     if (provinceId) getCity();
 

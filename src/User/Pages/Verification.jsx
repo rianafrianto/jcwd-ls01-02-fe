@@ -42,7 +42,7 @@ function Verification() {
       console.log(error);
       toast.error(error.response.data.message, {
         theme: "colored",
-        style: { backgroundColor: "#DC2626" },
+        style: { backgroundColor: "#FF6B6B" },
       });
     } finally {
       setLoading(false);

@@ -31,7 +31,19 @@ function Profile() {
   //   useSelector((state) => state.user);
   const params = useParams();
   const { tab } = params;
-  const { isLogin } = useSelector((state) => state.user);
+  let {
+    profile_picture,
+    isLogin,
+    id,
+    verified,
+    username,
+    email,
+    fullname,
+    // gender,
+    // address,
+    // age,
+    error_mes,
+  } = useSelector((state) => state.user);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [changed, setChanged] = useState(false);
@@ -130,18 +142,7 @@ function Profile() {
   const modalImageCropperHandler = () => {
     setModalImageCropper(!modalImageCropper);
   };
-  let {
-    profile_picture,
-    id,
-    verified,
-    username,
-    email,
-    fullname,
-    // gender,
-    // address,
-    // age,
-    error_mes,
-  } = useSelector((state) => state.user);
+
   if (fullname == null) {
     fullname = "";
   }
@@ -171,7 +172,9 @@ function Profile() {
   });
 
   useEffect(() => {
-    if (!isLogin) navigate("/home");
+    if (!isLogin) navigate("/");
+    if (isLogin && !verified) return navigate("/unverified");
+    console.log("object");
     // eslint-disable-next-line
   }, [isLogin]);
 
@@ -623,7 +626,7 @@ function Profile() {
           modalImageCropperHandler={modalImageCropperHandler}
         />
       )}
-      <div className="h-full w-full bg-green-200 flex justify-center pt-20">
+      <div className="h-full w-full bg-white flex justify-center pt-20">
         <div className="container h-full flex px-24 py-14 gap-x-11">
           <div className="w-80 bg-white flex flex-col px-10">
             <div className="w-full h-20 flex items-center">Jane Doe</div>

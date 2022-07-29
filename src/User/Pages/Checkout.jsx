@@ -22,7 +22,9 @@ function Checkout() {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const transaction_code = searchParams.get("id");
-  const { isLogin, address_id } = useSelector((state) => state.user);
+  const { isLogin, address_id, isverified } = useSelector(
+    (state) => state.user
+  );
   const [loadingPrimaryAddress, setLoadingPrimaryAddress] = useState(true);
   const [loadingCourier, setLoadingCourier] = useState(false);
   const [loadingCart, setLoadingCart] = useState(false);
@@ -237,7 +239,9 @@ function Checkout() {
 
   useEffect(() => {
     if (!isLogin) navigate("/home");
+    if (isLogin && !isverified) return navigate("/unverified");
     if (!selectedAddress) getPrimaryAddress(address_id);
+
     if (courier) {
       getCost();
       if (courier === "jne") {

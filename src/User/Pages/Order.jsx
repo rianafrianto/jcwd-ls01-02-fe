@@ -8,7 +8,6 @@ import Diproses from "../Component/Diproses";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import Loading from "../Component/Loading";
 import Dibatalkan from "../Component/Dibatalkan";
 
@@ -16,7 +15,7 @@ function Order() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const transaction_code = searchParams.get("id");
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, verified } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
@@ -35,10 +34,10 @@ function Order() {
     } catch (error) {
       console.log(error);
       setError(true);
-      toast.error(error.response.data.message, {
-        theme: "colored",
-        style: { backgroundColor: "#DC2626" },
-      });
+      // toast.error(error.response.data.message, {
+      //   theme: "colored",
+      //   style: { backgroundColor: "#DC2626" },
+      // });
       setTimer(5);
     } finally {
       setLoading(false);
@@ -74,6 +73,7 @@ function Order() {
 
   useEffect(() => {
     if (!isLogin) navigate("/");
+    if (isLogin && !verified) return navigate("/unverified");
     if (isLogin && !error) getOrderDetails();
     let interval;
     if (timer > 0) {

@@ -20,16 +20,12 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { error_mes } = useSelector((state) => state.user);
+  const { error_mes, isLogin } = useSelector((state) => state.user);
 
   const [visible, setVisible] = useState(false);
   const [visibleConf, setVisibleConf] = useState(false);
   const [changed, setChanged] = useState(false);
-
-  let message = [];
-  if (error_mes) {
-    message = error_mes.split(",");
-  }
+  const [message, setMessage] = useState([]);
 
   const initialValues = {
     username: "",
@@ -51,8 +47,7 @@ function SignUp() {
     password: Yup.string()
       .min(8, "Password terlalu pendek - minimum 8 karakter")
       .matches(
-        //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^_-])[A-Za-z\d@$!%*?&]/,
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?\^\(\)\-\_\+\=])/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?^()\-_+=])/,
         "Harus menganduk huruf besar, angka, dan karakter spesial (e.g. !@#$)"
       )
       .required("Password wajib diisi"),
@@ -70,7 +65,7 @@ function SignUp() {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      message = [];
+      setMessage([]);
       setChanged(false);
       dispatch({ type: "LOADING" });
       await dispatch(registerAction(values));
@@ -84,11 +79,15 @@ function SignUp() {
   };
 
   useEffect(() => {
+    if (error_mes) {
+      setMessage(error_mes.split(","));
+    }
+    if (isLogin) return navigate("/");
     return () => {
-      message = [];
       dispatch({ type: "CLEARERROR" });
     };
-  }, []);
+    // eslint-disable-next-line
+  }, [error_mes]);
 
   return (
     <div className="w-screen min-h-screen flex bg-white">
@@ -206,7 +205,6 @@ function SignUp() {
               const {
                 handleChange,
                 isSubmitting,
-                isValid,
                 handleBlur,
                 errors,
                 touched,
@@ -394,7 +392,7 @@ function SignUp() {
                             <h1 className="w-full text-center">
                               Persyaratan dan Persetujuan
                             </h1>
-                            <div className="w-full h-4\5 overflow-y-scroll">
+                            <div className="w-full h-4/5 overflow-y-scroll">
                               <p className="text-sm text-justify">
                                 Lorem ipsum dolor, sit amet consectetur
                                 adipisicing elit. Veritatis ducimus facere

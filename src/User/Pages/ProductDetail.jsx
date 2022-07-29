@@ -23,9 +23,8 @@ function ProductDetail() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   let [tab, setTab] = useState("DESKRIPSI");
-
   const [qty, setQty] = useState(1);
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, verified } = useSelector((state) => state.user);
 
   const params = useParams();
   let { product_name, category } = params;
@@ -87,6 +86,7 @@ function ProductDetail() {
   };
 
   useEffect(() => {
+    if (isLogin && !verified) return navigate("/unverified");
     window.scrollTo(0, 0);
     fetchProductDetails();
     // eslint-disable-next-line

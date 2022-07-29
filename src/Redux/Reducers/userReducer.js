@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   id: null,
   username: "",
   email: "",
-  verified: "",
+  verified: 0,
   address_id: null,
   bod: null,
   fullname: "",

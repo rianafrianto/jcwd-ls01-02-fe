@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Card from "../Component/Card";
 import FilterLeftBar from "../Component/FilterLeftBar";
 import Loading from "../Component/Loading";
@@ -14,8 +14,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import SelectCustom from "../../Admin/components/SelectCustom";
 import FilterMobile from "../Component/FilterMobile";
 import NavbarProductsMobile from "../Component/NavbarProductsMobile";
+import { useSelector } from "react-redux";
 
 function Category() {
+  const navigate = useNavigate();
+  const { isLogin, verified } = useSelector((state) => state.user);
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [order, setOrder] = useState("ORDER BY name ASC");
@@ -114,6 +117,8 @@ function Category() {
   };
 
   useEffect(() => {
+    if (isLogin && !verified) return navigate("/unverified");
+
     window.scrollTo(0, 0);
     fetchProducts();
     return () => {

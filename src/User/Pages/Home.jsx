@@ -29,11 +29,13 @@ import JumbotronCarousel from "../Component/Carousel/Carousels/JumbotronCarousel
 
 function Home() {
   const navigate = useNavigate();
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, verified } = useSelector((state) => state.user);
   const [firstScroll, setFirstScroll] = useState(true);
 
   useEffect(() => {
+    if (isLogin && !verified) return navigate("/unverified");
     window.scrollTo(0, 0);
+    // eslint-disable-next-line
   }, []);
 
   return (

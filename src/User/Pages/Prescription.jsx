@@ -17,7 +17,7 @@ function Prescription() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, verified } = useSelector((state) => state.user);
   const [loadingSubmit, setloadingSubmit] = useState(false);
   const [succeed, setSucceed] = useState(false);
   const [selectedImage, setselectedImage] = useState({
@@ -89,6 +89,7 @@ function Prescription() {
   };
   useEffect(() => {
     if (!isLogin) navigate("/home");
+    if (isLogin && !verified) return navigate("/unverified");
   }, [isLogin]);
 
   if (uploadSuccess) {
