@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import API_URL from "../../Helpers/API_URL";
 import { toast } from "react-toastify";
-// import unknown from "../Assets/unknownpeople.png";
 import DefaultPicture from "../../Assets/default_pic.png";
 import ChangePassword from "../Component/ChangePassword";
 import Button from "../Component/Button";
@@ -13,14 +12,11 @@ import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import ModalImageCropper from "../Component/ModalImageCropper";
 import Loading from "../Component/Loading";
-import searchIcon from "../../Assets/search-icon.png";
-import CardOrderAdmin from "../../Admin/components/CardOrderAdmin";
 import CardOrderUser from "../Component/CardOrderUser";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  SearchIcon,
 } from "@heroicons/react/outline";
 import {
   ChevronDoubleLeftIcon,
@@ -41,7 +37,6 @@ function Profile() {
   const [changed, setChanged] = useState(false);
   const [modalImageCropper, setModalImageCropper] = useState(false);
   const [cropping, setCropping] = useState(null);
-  // const { status } = params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -53,48 +48,19 @@ function Profile() {
   const [terms, setTerms] = useState("");
   const [sinceDate, setSinceDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [order, setOrder] = useState("ORDER BY o.id ASC");
-  const [status, setStatus] = useState({
-    pengecekan_resep: "",
-    pesanan_diterima: "",
-    menunggu_pembayaran: "",
-    diproses: "",
-    dikirim: "",
-    selesai: "",
-    dibatalkan: "",
-  });
+  const [order, setOrder] = useState("ORDER BY o.id DESC");
+  const [searchParams] = useSearchParams();
+  const status = searchParams.get("status");
 
-  // const getOrders = async () => {
-  //   try {
-  //     setLoading(true);
-  //     let res = await axios.get(
-  //       `${API_URL}/admin/orders/${status}`,
-  //       {
-  //         params: { terms, sinceDate, toDate, page, limit, order },
-  //       }
-  //     );
-  //     console.log(res);
-  //     setData(res.data.data.orders);
-  //     setTotal(res.data.data.total);
-  //     setTotalPages(() => Math.ceil(res.data.data.total / limit));
-  //     setMinPage(0);
-  //     setMaxPage(() => {
-  //       if (totalPages > 5) return 4;
-  //       return totalPages - 1;
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const getOrders = async () => {
     try {
       setLoading(true);
+      let token = Cookies.get("token");
       let res = await axios.get(
-        `${API_URL}/admin/orders?pengecekan_resep=${status.pengecekan_resep}&pesanan_diterima=${status.pesanan_diterima}&menunggu_pembayaran=${status.menunggu_pembayaran}&diproses=${status.diproses}&dikirim=${status.dikirim}&selesai=${status.selesai}&dibatalkan=${status.dibatalkan}`,
+        `${API_URL}/transaction/orders/${searchParams.get("status")}`,
         {
-          params: { terms, sinceDate, toDate, page, limit, order },
+          headers: { authorization: token },
+          params: { sinceDate, toDate, page, limit, order },
         }
       );
       console.log(res);
@@ -146,9 +112,13 @@ function Profile() {
   };
 
   useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+    console.log(currentParams);
+  }, [searchParams]);
+
+  useEffect(() => {
     setSinceDate("");
     setToDate("");
-    setTerms("");
     getOrders();
     return () => {};
   }, [status, limit, page]);
@@ -417,7 +387,7 @@ function Profile() {
                             value={email}
                             disabled
                             placeholder="Jhondoe@mail.com"
-                            className={`field-input w-full h-10 bg-neutral-gray cursor-not-allowed`}
+                            className={`field-input w-full h-10 bg-neutral-gray`}
                           />
                           <div className={`text-gray text-xs mt-2`}>
                             Email cannot be changed.
@@ -448,22 +418,16 @@ function Profile() {
                               </select>
                             </div>
                           </div>
-                          {loadingSubmit ? (
-                            <Loading
-                              className={"animate-spin h-10 w-10 ml-5"}
-                            />
-                          ) : (
-                            <Button
-                              type="submit"
-                              buttonContent={
-                                isSubmitting ? "Loading.." : "Save Changes"
-                              }
-                              disabled={!isValid || isSubmitting}
-                              className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-48 mt-6  ${
-                                isSubmitting && "loading"
-                              }`}
-                            />
-                          )}
+                          <Button
+                            type="submit"
+                            buttonContent={
+                              isSubmitting ? "Loading.." : "Save Changes"
+                            }
+                            disabled={!isValid || isSubmitting}
+                            className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm font-bold w-1/3 h-11 rounded-lg mt-6 justify-between ${
+                              isSubmitting && "loading"
+                            }`}
+                          />
                         </div>
                       </Form>
                     </div>
@@ -476,43 +440,76 @@ function Profile() {
       case "orders":
         return (
           <div className="w-full px-10 py-7">
-            <div className="">Daftar Pemesanan</div>
-            <div className="w-full flex">
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0 ">
+            <div className="font-bold">Daftar Pemesanan</div>
+            <div className="w-full flex mt-3">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=all")}
+              >
                 Semua
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
-                Menunggu
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Pengecekan-Resep")
+                }
+              >
+                Pengecekan Resep
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5 rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Pesanan-Diterima")
+                }
+              >
+                Pesanan Diterima
+              </button>
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() =>
+                  navigate("/myaccount/orders?status=Menunggu-Pembayaran")
+                }
+              >
+                Menunggu Pembayaran
+              </button>
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Diproses")}
+              >
                 Diproses
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Dikirim")}
+              >
                 Dikirim
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 mr-4 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Selesai")}
+              >
                 Selesai
               </button>
-              <button className="w-1/6 button-outline rounded-none py-5 outline-0">
+              <button
+                className="w-1/6 h-10 button-outline py-5  rounded-full"
+                onClick={() => navigate("/myaccount/orders?status=Dibatalkan")}
+              >
                 Dibatalkan
               </button>
             </div>
-            <div className="w-full flex h-11 justify-between gap-x-48">
+            <div className="w-full flex h-11 justify-between gap-x-48 mt-4">
               <div className="flex gap-x-4 h-full w-full items-center">
-                <div className="font-bold w-28">Jenis Obat</div>
+                <div className="font-bold w-40 ">Jenis Transaksi</div>
                 <div className="w-full flex gap-x-3">
-                  <button className="button-outline w-full rounded-full">
-                    Semua Obat
+                  <button className="button-outline w-1/5 rounded-full">
+                    Transaksi Resep
                   </button>
-                  <button className="button-outline w-full rounded-full">
-                    Obat Resep
-                  </button>
-                  <button className="button-outline w-full rounded-full">
-                    Obat Bebas
+                  <button className="button-outline w-1/5 rounded-full">
+                    Transaksi Langsung
                   </button>
                 </div>
               </div>
-              <div className="hidden lg:flex gap-x-4 items-center">
+              {/* <div className="hidden lg:flex gap-x-4 items-center">
                 <span>Urutkan</span>
                 <select className="select select-primary h-25 w-44 border border-neutral-gray p-2 rounded-lg">
                   <option value="" className="hover:bg-primary">
@@ -520,10 +517,12 @@ function Profile() {
                   </option>
                   <option value="">Terakhir</option>
                 </select>
-              </div>
+              </div> */}
             </div>
-            <div className="w-full h-14 flex justify-between items-center px-4 py-3">
-              <span className="">Pilih Semua</span>
+            <div className="w-full flex flex-col gap-y-5 mt-4">
+              {loading ? <Loading className="pt-56" /> : printOrders(data)}
+            </div>
+            <div className="w-full h-14 flex justify-between items-center px-4 py-3 mt-4">
               <div className="w-59 flex h-full items-center gap-x-2">
                 Kartu per halaman
                 <div className="dropdown dropdown-top dropdown-end">
@@ -588,37 +587,6 @@ function Profile() {
                 </button>
               </div>
             </div>
-            <div className="w-full flex flex-col gap-y-5">
-              {loading ? <Loading className="pt-56" /> : printOrders(data)}
-            </div>
-            {/* <div className="w-full h-[200px] drop-shadow-lg justify-center rounded-xl border bg-white border-grey mt-5">
-              <div className="py-4 ml-6 text-xs flex items-stretch ">
-                Jumat, 5 April 2022, 15:45
-                <div className="ml-auto mr-5 h-25 w-30 border bg-danger p-2 rounded text-white  ">
-                  Menunggu Konfirmasi
-                </div>
-              </div>
-              <div className="w-full flex items-stretch">
-                <img src={DefaultPicture} className="w-28 h-24 ml-6 rounded" />
-                <div className="ml-2 text-xs">
-                  Nomor Resep
-                  <div className="text-base py-1">#123abc456def</div>
-                  <div className="text-xs gap-4 mt-8 text-primary">
-                    Tampilkan Detail
-                  </div>
-                </div>
-                <div className="ml-auto mr-5">
-                  <span className="countdown font-mono text-4xl text-red-400 border-red-400">
-                    <span className="--value:10;"></span>:
-                    <span className="--value:24;"></span>:
-                    <span className="--value:5;"></span>
-                  </span>
-                </div>
-              </div>
-              <div className="ml-6 py-6 text-xs text-primary ">
-                Costumer Chat Service
-              </div>
-            </div> */}
           </div>
         );
       case "payment-methods":
@@ -667,7 +635,7 @@ function Profile() {
             </button>
             <button
               className="w-full h-20 flex items-center border border-1 btn-plain"
-              onClick={() => navigate("/myaccount/orders")}
+              onClick={() => navigate("/myaccount/orders?status=all")}
             >
               Proses Pemesanan
             </button>
@@ -696,7 +664,7 @@ function Profile() {
               Pesan Bantuan
             </button>
           </div>
-          <div className="w-full h-[550px] bg-white">{tabPrint(tab)}</div>
+          <div className="w-full bg-white">{tabPrint(tab)}</div>
         </div>
       </div>
     </>

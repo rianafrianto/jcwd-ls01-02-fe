@@ -96,14 +96,14 @@ function Prescription() {
       <div className="h-full w-screen bg-white flex justify-center items-center pt-20">
         <div className="container h-[500px] w-[400px] flex flex-col justify-between items-center bg-white py-10">
           <img src={succesImage} alt="" />
-          <div className="font-bold text-xl">Unggah Resep Berhasil</div>
+          <div className="font-bold text-xl mt-4">Unggah Resep Berhasil</div>
           <div className="flex text-center text-sm">
             Kamu akan mendapat notifikasi apabila resep doktermu dikonfirmasi
             oleh admin.
           </div>
           <button
-            className="border border-green-800 hover:bg-green-800"
-            onClick={() => navigate("/myaccount/profile")}
+            className="bg-primary hover:bg-teal-500 text-white disabled:bg-gray-600 text-sm mt-4 w-1/2 h-1/4 rounded-lg"
+            onClick={() => navigate("/myaccount/orders?status=all")}
           >
             Lihat progres pemesanan
           </button>
@@ -167,7 +167,7 @@ function Prescription() {
                     />
                   ) : null}
                 </div>
-                <div>
+                <div className="">
                   {" "}
                   <input
                     className="hidden"
@@ -184,11 +184,11 @@ function Prescription() {
                   </label>
                 </div>
               </div>
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-4">
                 <Button
                   type="submit"
                   buttonContent={loadingSubmit ? "Loading.." : "Save Changes"}
-                  className={`bg-primary text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 ${"loading"}`}
+                  className={`bg-primary hover:bg-teal-500 text-white disabled:bg-gray-600 disabled:cursor-not-allowed text-sm w-1/5 h-11 rounded-md ${"loading"}`}
                   onClick={() => submitPhoto()}
                 />
               </div>

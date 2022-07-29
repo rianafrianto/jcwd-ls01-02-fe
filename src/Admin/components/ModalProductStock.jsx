@@ -17,7 +17,7 @@ function ModalProductStock(props) {
   const initialTerms = "";
   const [loading, setLoading] = useState(true);
   const [terms, setTerms] = useState(initialTerms);
-  const [order, setOrder] = useState("ORDER BY id ASC");
+  const [order, setOrder] = useState("ORDER BY product_id");
   let [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);

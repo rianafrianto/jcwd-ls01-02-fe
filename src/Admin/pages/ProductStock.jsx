@@ -105,6 +105,7 @@ function ProductStock() {
 
   useEffect(() => {
     getReport();
+    getProductStock();
     setSinceDate("");
     return () => {};
   }, [limit, page]);
