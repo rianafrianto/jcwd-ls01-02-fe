@@ -58,3 +58,34 @@ export const printCategory = (cat) => {
 export const printCategoryParams = (cat) => {
   return cat.split(" ").join("_");
 };
+
+export const golonganList = [
+  { content: "Obat Bebas", value: 1 },
+  {
+    content: "Obat Keras",
+    value: 2,
+  },
+  {
+    content: "Obat Bebas Terbatas",
+    value: 3,
+  },
+  {
+    content: "Medical Device & Consumable",
+    value: 4,
+  },
+  {
+    content: "Lain-lain",
+    value: 5,
+  },
+];
+
+export const satuanList = [
+  { content: "Botol", value: 1 },
+  { content: "Box", value: 2 },
+  { content: "Kaleng", value: 3 },
+  { content: "Kit", value: 4 },
+  { content: "Piece", value: 5 },
+  { content: "Sachet", value: 6 },
+  { content: "Strip", value: 7 },
+  { content: "Tube", value: 8 },
+];

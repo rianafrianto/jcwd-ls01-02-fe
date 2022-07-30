@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   id: null,
   username: "",
   email: "",
-  verified: "",
+  verified: 0,
   address_id: null,
   bod: null,
   fullname: "",
@@ -23,6 +23,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
         error_mes: "",
+      };
+    case "ADDTOCART":
+      return {
+        ...state,
+        ...action.payload,
       };
     case "LOGIN":
       return {
@@ -44,6 +49,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, error: false, error_mes: "" };
     case "CHANGEADDRESS":
       return { ...state, address_id: action.payload };
+    case "DELETECART":
+      return { ...state, cart: action.payload };
     default:
       return state;
   }

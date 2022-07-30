@@ -1,30 +1,38 @@
 import "./App.css";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import SignUp from "./Pages/SignUp";
-import LogIn from "./Pages/LogIn";
-import Home from "./Pages/Home";
-import Category from "./Pages/Category";
-import ProductDetail from "./Pages/ProductDetail";
-import Checkout from "./Pages/Checkout";
-import Address from "./Pages/Address";
-import Cart from "./Pages/Cart";
-import Confirmation from "./Pages/Confirmation";
-import Prescription from "./Pages/Prescription";
-import Profile from "./Pages/Profile";
-import Navbar from "./Component/Navbar";
-import Footer from "./Component/Footer";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import SignUp from "./User/Pages/SignUp";
+import LogIn from "./User/Pages/LogIn";
+import Home from "./User/Pages/Home";
+import Category from "./User/Pages/Category";
+import ProductDetail from "./User/Pages/ProductDetail";
+import Checkout from "./User/Pages/Checkout";
+import Address from "./User/Pages/Address";
+import Cart from "./User/Pages/Cart";
+import Prescription from "./User/Pages/Prescription";
+import Profile from "./User/Pages/Profile";
+import Navbar from "./User/Component/Navbar";
+import Footer from "./User/Component/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Verification from "./Pages/Verification";
-import ResetPassword from "./Pages/ResetPassword";
-
-import Admin from "./Pages/Admin";
-import Unverified from "./Pages/Unverified";
+import Verification from "./User/Pages/Verification";
+import ResetPassword from "./User/Pages/ResetPassword";
+import Admin from "./User/Pages/Admin";
+import Unverified from "./User/Pages/Unverified";
 import { useSelector } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gradientBg from "./Assets/gradient-bg.png";
+import NavbarMobile from "./User/Component/NavbarMobile";
+import Order from "./User/Pages/Order";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state.user);
   let noConnectionToast = useRef(null);
   const statusOnline = () => {
@@ -51,8 +59,21 @@ function App() {
   window.addEventListener("offline", statusOffline);
   window.addEventListener("online", statusOnline);
   //
+  useEffect(() => {
+    if (
+      location.pathname === "/myaccount" ||
+      location.pathname === "/myaccount/"
+    ) {
+      navigate("/myaccount/profile");
+    }
+  }, []);
+
   return (
-    <>
+    <div className="min-h-screen">
+      {/* <div className="fixed">
+        <img src={gradientBg} />{" "}
+      </div> */}
+
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/unverified" ||
@@ -61,6 +82,7 @@ function App() {
       location.pathname.match("/reset-password/") ? null : (
         <Navbar />
       )}
+
       <Routes>
         <Route path="/register" element={isLogin ? <Home /> : <SignUp />} />
         <Route path="/login" element={<LogIn />} />
@@ -73,11 +95,12 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/address" element={<Address />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/prescription" element={<Prescription />} />
-        <Route path="/myaccount" element={<Profile />} />
+        <Route path="/myaccount/:tab" element={<Profile />} />
         <Route path="/verification/:token" element={<Verification />} />
         <Route path="/unverified" element={<Unverified />} />
+        {/* <Route path="/search/:category" element={<Search />} /> */}
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Admin */}
         <Route path="/admin/*" element={<Admin />} />
@@ -91,13 +114,14 @@ function App() {
       location.pathname.match("/reset-password/") ? null : (
         <Footer />
       )}
+
       <ToastContainer
         pauseOnFocusLoss={false}
         autoClose={3000}
         hideProgressBar={true}
         newestOnTop={true}
       />
-    </>
+    </div>
   );
 }
 

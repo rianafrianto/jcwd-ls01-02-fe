@@ -9,6 +9,7 @@ import transaksiActiveIcon from "../../Assets/transaksi-admin-active.png";
 import salesIcon from "../../Assets/sales-admin.png";
 import salesActiveIcon from "../../Assets/sales-admin-active.png";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import logo from "../../Assets/logo.png";
 
 function Leftbar() {
   const navigate = useNavigate();
@@ -16,9 +17,9 @@ function Leftbar() {
   const [transaksiDisclosure, setTransaksiDisclosure] = useState(false);
   const [salesDisclosure, setSalesDisclosure] = useState(false);
   return (
-    <div className="h-screen flex flex-col w-64 fixed top-0 z-20 bg-white overflow-hidden shadow-xl shadow-black/50">
-      <div className="w-full h-16 flex justify-center items-center bg-white z-10">
-        <i>Logo</i>
+    <div className="h-full flex flex-col w-64 fixed top-0 z-50 bg-white overflow-hidden shadow-custom-lg">
+      <div className="w-full h-16 flex justify-center items-center bg-white z-10 p-10">
+        <img src={logo} alt="logo" className="w-full" />
       </div>
       <Link
         to="/admin/dashboard"
@@ -60,14 +61,16 @@ function Leftbar() {
       </Link>
       <div
         className={`w-full relative duration-300 ${
-          transaksiDisclosure ? "h-[434px]" : "h-24"
+          transaksiDisclosure ? "h-[465px]" : "h-20"
         }`}
       >
         <button
           className={`button-left-bar justify-between z-20 px-4 ${
             location.pathname.match("/admin/orders") ? "text-primary" : ""
           }`}
-          onClick={() => setTransaksiDisclosure(!transaksiDisclosure)}
+          onClick={() => {
+            setTransaksiDisclosure(!transaksiDisclosure);
+          }}
         >
           <div className="flex w-full gap-x z-20 justify-start items-center gap-x-2">
             <img
@@ -101,19 +104,29 @@ function Leftbar() {
             Semua
           </Link>
           <Link
-            to="/admin/orders/menunggu-pengecekan"
+            to="/admin/orders/pengecekan_resep"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/menunggu-pengecekan"
+              location.pathname === "/admin/orders/pengecekan_resep"
                 ? "text-primary"
                 : ""
             }`}
           >
-            Menunggu Pengecekan
+            Pengecekan Resep
           </Link>
           <Link
-            to="/admin/orders/menunggu-pembayaran"
+            to="/admin/orders/pesanan_diterima"
             className={`sub-button-left-bar ${
-              location.pathname === "/admin/orders/menunggu-pembayaran"
+              location.pathname === "/admin/orders/pesanan_diterima"
+                ? "text-primary"
+                : ""
+            }`}
+          >
+            Pesanan Diterima
+          </Link>
+          <Link
+            to="/admin/orders/menunggu_pembayaran"
+            className={`sub-button-left-bar ${
+              location.pathname === "/admin/orders/menunggu_pembayaran"
                 ? "text-primary"
                 : ""
             }`}
@@ -164,7 +177,7 @@ function Leftbar() {
       </div>
       <div
         className={`w-full relative duration-300 ${
-          salesDisclosure ? "h-[240px]" : "h-24"
+          salesDisclosure ? "h-[224px]" : "h-20"
         }`}
       >
         <button
@@ -175,7 +188,9 @@ function Leftbar() {
               ? "text-primary"
               : ""
           }`}
-          onClick={() => setSalesDisclosure(!salesDisclosure)}
+          onClick={() => {
+            setSalesDisclosure(!salesDisclosure);
+          }}
         >
           <div className="flex w-full gap-x justify-start items-center gap-x-2">
             <img
