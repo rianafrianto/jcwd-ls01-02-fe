@@ -60,8 +60,11 @@ function ModalPaymentProof(props) {
         transaction_code,
       };
       console.log(insertData);
+      if (errorType) {
+        return;
+      }
       setSubmitClicked(true);
-      if (!selectedImage.file || errorType) {
+      if (!selectedImage.file) {
         return;
       }
       setLoading(true);
