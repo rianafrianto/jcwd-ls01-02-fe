@@ -31,7 +31,7 @@ function CardOrderAdmin({ data, getOrders }) {
 
   const cancelOrder = async (id) => {
     try {
-      await axios.patch(`${API_URL}/transaction/order/reject?id=`);
+      await axios.patch(`${API_URL}/transaction/order/reject?id=${id}`);
       toast.success(`Pesanan Dibatalkan`, {
         theme: "colored",
         style: { backgroundColor: "#009B90" },
